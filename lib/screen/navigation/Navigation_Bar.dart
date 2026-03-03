@@ -71,7 +71,7 @@ class _Navigation_Bar extends State<Navigation_Bar> {
               children: [
                 _buildNavItem(
                   icon: Icons.home_rounded,
-                  label: 'Home',
+                  label: 'Accueil',
                   index: 0,
                   color: AppColors.blue,
                   iconSize: iconSize,
@@ -79,7 +79,7 @@ class _Navigation_Bar extends State<Navigation_Bar> {
                 ),
                 _buildNavItem(
                   icon: Icons.calendar_today_rounded,
-                  label: 'Appts',
+                  label: 'Rendez-vous',
                   index: 1,
                   color: AppColors.blue,
                   iconSize: iconSize,
@@ -87,7 +87,7 @@ class _Navigation_Bar extends State<Navigation_Bar> {
                 ),
                 _buildNavItem(
                   icon: Icons.search_rounded,
-                  label: 'Search',
+                  label: 'Recherche',
                   index: 2,
                   color: AppColors.blue,
                   iconSize: iconSize,
@@ -95,7 +95,7 @@ class _Navigation_Bar extends State<Navigation_Bar> {
                 ),
                 _buildNavItem(
                   icon: Icons.person,
-                  label: 'Profile',
+                  label: 'Profil',
                   index: 3,
                   color: AppColors.blue,
                   iconSize: iconSize,

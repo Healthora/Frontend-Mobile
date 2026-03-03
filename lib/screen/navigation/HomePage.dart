@@ -10,47 +10,90 @@ class Homepage extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: AppColors.grey[100],
       body: SafeArea(
         child: Column(
           children: [
-            // Fixed Header with Profile and Notification
+            // Header Section
             _buildHeader(context, screenWidth, screenHeight),
 
             // Scrollable Content
             Expanded(
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: screenHeight * 0.025),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: screenHeight * 0.02),
 
-                      // Upcoming Appointment Section
-                      _buildSectionHeader(
-                        "Upcoming Appointment",
-                        "View All",
-                        screenWidth,
+                    // Quick Stats Cards
+                    _buildQuickStats(screenWidth, screenHeight),
+
+                    SizedBox(height: screenHeight * 0.025),
+
+                    // Upcoming Appointment Section
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.05,
                       ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildSectionHeader(
+                            'Prochain Rendez-vous',
+                            'Voir tout',
+                            screenWidth,
+                          ),
+                          SizedBox(height: screenHeight * 0.015),
+                          _buildAppointmentCard(screenWidth, screenHeight),
+                        ],
+                      ),
+                    ),
 
-                      SizedBox(height: screenHeight * 0.015),
+                    SizedBox(height: screenHeight * 0.025),
 
-                      _buildAppointmentCard(screenWidth, screenHeight),
+                    // Recommended Doctors Section
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.05,
+                          ),
+                          child: _buildSectionHeader(
+                            'Médecins Recommandés',
+                            'Voir tout',
+                            screenWidth,
+                          ),
+                        ),
+                        SizedBox(height: screenHeight * 0.015),
+                        _buildRecommendedDoctors(screenWidth, screenHeight),
+                      ],
+                    ),
 
-                      SizedBox(height: screenHeight * 0.03),
+                    SizedBox(height: screenHeight * 0.025),
 
-                      // Map Section
-                      _buildSectionHeader("Nearby Cabinets", "", screenWidth),
+                    // Nearby Cabinets Section
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.05,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildSectionHeader(
+                            'Cabinets Proches',
+                            'Voir la carte',
+                            screenWidth,
+                          ),
+                          SizedBox(height: screenHeight * 0.015),
+                          _buildNearbyCabinets(screenWidth, screenHeight),
+                        ],
+                      ),
+                    ),
 
-                      SizedBox(height: screenHeight * 0.015),
-
-                      _buildMapContainer(context, screenWidth, screenHeight),
-
-                      SizedBox(height: screenHeight * 0.03),
-                    ],
-                  ),
+                    SizedBox(height: screenHeight * 0.03),
+                  ],
                 ),
               ),
             ),
@@ -60,61 +103,70 @@ class Homepage extends StatelessWidget {
     );
   }
 
+  // ============================================================================
+  // HEADER SECTION
+  // ============================================================================
+
   Widget _buildHeader(
     BuildContext context,
     double screenWidth,
     double screenHeight,
   ) {
     return Container(
-      margin: EdgeInsets.all(screenHeight * 0.01),
+      margin: EdgeInsets.all(screenWidth * 0.04),
       padding: EdgeInsets.symmetric(
-        horizontal: screenWidth * 0.05,
-        vertical: screenHeight * 0.02,
+        horizontal: screenWidth * 0.04,
+        vertical: screenHeight * 0.018,
       ),
       decoration: BoxDecoration(
-        color: AppColors.grey[100],
-        borderRadius: BorderRadius.circular(20),
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Row(
         children: [
-          // Profile Circle
+          // Profile Avatar
           Container(
-            width: screenWidth * 0.13,
-            height: screenWidth * 0.13,
+            width: screenWidth * 0.12,
+            height: screenWidth * 0.12,
             decoration: BoxDecoration(
+              color: AppColors.blue[50],
               shape: BoxShape.circle,
-
-              border: Border.all(color: AppColors.blue, width: 2),
             ),
             child: Icon(
               Icons.person,
               color: AppColors.blue,
-              size: screenWidth * 0.07,
+              size: screenWidth * 0.06,
             ),
           ),
 
           SizedBox(width: screenWidth * 0.03),
 
-          // Name and Greeting
+          // Greeting and Name
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'GOOD MORNING',
+                  'Bonjour',
                   style: TextStyle(
-                    fontSize: screenWidth * 0.028,
-                    color: Colors.grey[600],
+                    fontSize: screenWidth * 0.032,
+                    color: AppColors.grey[600],
                     fontWeight: FontWeight.w500,
-                    letterSpacing: 0.5,
                   ),
                 ),
-                SizedBox(height: screenHeight * 0.003),
+                SizedBox(height: screenHeight * 0.002),
                 Text(
                   'Medelci Aymen',
                   style: TextStyle(
-                    fontSize: screenWidth * 0.048,
+                    fontSize: screenWidth * 0.045,
                     fontWeight: FontWeight.bold,
                     color: AppColors.black,
                   ),
@@ -123,35 +175,32 @@ class Homepage extends StatelessWidget {
             ),
           ),
 
-          // Notification Button
+          // Notification Icon
           Container(
             width: screenWidth * 0.11,
             height: screenWidth * 0.11,
             decoration: BoxDecoration(
-              color: Colors.grey[100],
+              color: AppColors.grey[100],
               shape: BoxShape.circle,
             ),
             child: Stack(
               children: [
                 Center(
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.notifications_none,
-                      size: screenWidth * 0.06,
-                      color: Colors.grey[700],
-                    ),
+                  child: Icon(
+                    Icons.notifications_outlined,
+                    size: screenWidth * 0.055,
+                    color: AppColors.grey[700],
                   ),
                 ),
                 // Notification Badge
                 Positioned(
-                  top: screenWidth * 0.018,
-                  right: screenWidth * 0.018,
+                  top: screenWidth * 0.02,
+                  right: screenWidth * 0.02,
                   child: Container(
-                    width: screenWidth * 0.025,
-                    height: screenWidth * 0.025,
-                    decoration: BoxDecoration(
-                      color: Colors.red,
+                    width: screenWidth * 0.022,
+                    height: screenWidth * 0.022,
+                    decoration: const BoxDecoration(
+                      color: AppColors.red,
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -164,67 +213,171 @@ class Homepage extends StatelessWidget {
     );
   }
 
+  // ============================================================================
+  // QUICK STATS SECTION
+  // ============================================================================
+
+  Widget _buildQuickStats(double screenWidth, double screenHeight) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+      child: Row(
+        children: [
+          Expanded(
+            child: _buildStatCard(
+              icon: Icons.event_available,
+              title: 'Rendez-vous',
+              value: '12',
+              color: AppColors.blue,
+              screenWidth: screenWidth,
+              screenHeight: screenHeight,
+            ),
+          ),
+          SizedBox(width: screenWidth * 0.03),
+          Expanded(
+            child: _buildStatCard(
+              icon: Icons.medical_services_outlined,
+              title: 'Prescriptions',
+              value: '5',
+              color: AppColors.teal,
+              screenWidth: screenWidth,
+              screenHeight: screenHeight,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatCard({
+    required IconData icon,
+    required String title,
+    required String value,
+    required Color color,
+    required double screenWidth,
+    required double screenHeight,
+  }) {
+    return Container(
+      padding: EdgeInsets.all(screenWidth * 0.04),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.all(screenWidth * 0.025),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(icon, color: color, size: screenWidth * 0.055),
+          ),
+          SizedBox(height: screenHeight * 0.012),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: screenWidth * 0.065,
+              fontWeight: FontWeight.bold,
+              color: AppColors.black,
+            ),
+          ),
+          SizedBox(height: screenHeight * 0.002),
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: screenWidth * 0.032,
+              color: AppColors.grey[600],
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ============================================================================
+  // SECTION HEADER
+  // ============================================================================
+
   Widget _buildSectionHeader(String title, String action, double screenWidth) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           title,
-
           style: TextStyle(
             fontSize: screenWidth * 0.048,
             fontWeight: FontWeight.bold,
             color: AppColors.black,
           ),
         ),
-        TextButton(
-          onPressed: () {},
-          child: Text(
-            action,
-            style: TextStyle(
-              fontSize: screenWidth * 0.038,
-              color: Colors.blue,
-              fontWeight: FontWeight.w600,
+        if (action.isNotEmpty)
+          TextButton(
+            onPressed: () {},
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.symmetric(
+                horizontal: screenWidth * 0.02,
+                vertical: screenWidth * 0.01,
+              ),
+            ),
+            child: Text(
+              action,
+              style: TextStyle(
+                fontSize: screenWidth * 0.036,
+                color: AppColors.blue,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
-        ),
       ],
     );
   }
 
+  // ============================================================================
+  // APPOINTMENT CARD
+  // ============================================================================
+
   Widget _buildAppointmentCard(double screenWidth, double screenHeight) {
     return Container(
-      padding: EdgeInsets.all(screenWidth * 0.045),
+      padding: EdgeInsets.all(screenWidth * 0.04),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
-            blurRadius: 15,
-            offset: const Offset(0, 3),
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
       child: Column(
         children: [
+          // Doctor Info
           Row(
             children: [
-              // Doctor Image
               Container(
-                width: screenWidth * 0.15,
-                height: screenWidth * 0.15,
+                width: screenWidth * 0.14,
+                height: screenWidth * 0.14,
                 decoration: BoxDecoration(
+                  color: AppColors.blue[50],
                   shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.teal[100]!, width: 3),
                 ),
                 child: Icon(
                   Icons.person,
-                  color: AppColors.teal[300],
-                  size: screenWidth * 0.08,
+                  color: AppColors.blue,
+                  size: screenWidth * 0.07,
                 ),
               ),
-              SizedBox(width: screenWidth * 0.035),
+              SizedBox(width: screenWidth * 0.03),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -232,17 +385,17 @@ class Homepage extends StatelessWidget {
                     Text(
                       'Dr. Abdou Hadjou',
                       style: TextStyle(
-                        fontSize: screenWidth * 0.045,
+                        fontSize: screenWidth * 0.042,
                         fontWeight: FontWeight.bold,
                         color: AppColors.black,
                       ),
                     ),
                     SizedBox(height: screenHeight * 0.004),
                     Text(
-                      'cardiologue • Clinique Les Oliviers',
+                      'Cardiologue',
                       style: TextStyle(
                         fontSize: screenWidth * 0.034,
-                        color: Colors.grey[600],
+                        color: AppColors.grey[600],
                       ),
                     ),
                   ],
@@ -250,124 +403,282 @@ class Homepage extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: screenHeight * 0.018),
+
+          SizedBox(height: screenHeight * 0.015),
+
+          // Appointment Details
           Container(
             padding: EdgeInsets.all(screenWidth * 0.035),
             decoration: BoxDecoration(
               color: AppColors.blue[50],
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(14),
             ),
             child: Row(
               children: [
-                Container(
-                  padding: EdgeInsets.all(screenWidth * 0.022),
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Icon(
-                    Icons.calendar_today,
-                    size: screenWidth * 0.045,
-                    color: AppColors.blue,
-                  ),
+                Icon(
+                  Icons.calendar_today_outlined,
+                  size: screenWidth * 0.045,
+                  color: AppColors.blue,
                 ),
                 SizedBox(width: screenWidth * 0.025),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Today, 10:30 AM',
-                      style: TextStyle(
-                        fontSize: screenWidth * 0.038,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Aujourd\'hui, 10h30',
+                        style: TextStyle(
+                          fontSize: screenWidth * 0.036,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.black,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Consultation',
-                      style: TextStyle(
-                        fontSize: screenWidth * 0.032,
-                        color: Colors.grey[600],
+                      Text(
+                        'Consultation',
+                        style: TextStyle(
+                          fontSize: screenWidth * 0.03,
+                          color: AppColors.grey[600],
+                        ),
                       ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.03,
+                    vertical: screenHeight * 0.008,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.blue,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    'Détails',
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.032,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.white,
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),
-          ),
-          SizedBox(height: screenHeight * 0.018),
-          Row(
-            children: [
-              Expanded(
-                flex: 3,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.blue,
-                    foregroundColor: AppColors.white,
-                    padding: EdgeInsets.symmetric(
-                      vertical: screenHeight * 0.017,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    elevation: 0,
-                  ),
-                  child: Text(
-                    'Check your appointment',
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.034,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(width: screenWidth * 0.03),
-              Expanded(
-                flex: 2,
-                child: OutlinedButton(
-                  onPressed: () {},
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.red[500],
-                    padding: EdgeInsets.symmetric(
-                      vertical: screenHeight * 0.017,
-                    ),
-                    side: BorderSide(color: Colors.grey[300]!, width: 1.5),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                  ),
-                  child: Text(
-                    'annuler ',
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.04,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
-            ],
           ),
         ],
       ),
     );
   }
 
-  Widget _buildMapContainer(
-    BuildContext context,
-    double screenWidth,
-    double screenHeight,
-  ) {
+  // ============================================================================
+  // RECOMMENDED DOCTORS SECTION
+  // ============================================================================
+
+  Widget _buildRecommendedDoctors(double screenWidth, double screenHeight) {
+    final doctors = [
+      {
+        'name': 'Dr. Abdou Hadjou',
+        'specialty': 'Cardiologue',
+        'location': 'Kiffan',
+        'rating': 4.9,
+        'reviews': 120,
+        'distance': '1.2 km',
+        'availability': 'Disponible demain',
+        'availabilityColor': AppColors.teal,
+      },
+      {
+        'name': 'Dr. Sarah Mansour',
+        'specialty': 'Cardiologue',
+        'location': 'IMAMA',
+        'rating': 4.8,
+        'reviews': 84,
+        'distance': '0.8 km',
+        'availability': 'Disponible aujourd\'hui',
+        'availabilityColor': AppColors.teal,
+      },
+      {
+        'name': 'Dr. Marc Lefebvre',
+        'specialty': 'Cardiologue',
+        'location': 'Boulogne',
+        'rating': 5.0,
+        'reviews': 210,
+        'distance': '2.5 km',
+        'availability': 'Dispo le 24 Mai',
+        'availabilityColor': AppColors.grey[500]!,
+      },
+    ];
+
+    return SizedBox(
+      height: screenHeight * 0.25, // Compact height for square cards
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
+        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+        itemCount: doctors.length,
+        itemBuilder: (context, index) {
+          final doctor = doctors[index];
+          final isLast = index == doctors.length - 1;
+          return Container(
+            width: screenWidth * 0.52,
+            margin: EdgeInsets.only(right: isLast ? 0 : screenWidth * 0.03),
+            padding: EdgeInsets.all(screenWidth * 0.04),
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.04),
+                  blurRadius: 10,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Doctor Avatar + Rating
+                Row(
+                  children: [
+                    Container(
+                      width: screenWidth * 0.13,
+                      height: screenWidth * 0.13,
+                      decoration: BoxDecoration(
+                        color: AppColors.blue[50],
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.person,
+                        color: AppColors.blue,
+                        size: screenWidth * 0.065,
+                      ),
+                    ),
+                    const Spacer(),
+                    // Rating badge
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.02,
+                        vertical: screenWidth * 0.008,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.amber[50],
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.star_rounded,
+                            size: screenWidth * 0.035,
+                            color: Colors.amber[700],
+                          ),
+                          SizedBox(width: screenWidth * 0.01),
+                          Text(
+                            '${doctor['rating']}',
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.03,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.amber[800],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: screenHeight * 0.012),
+
+                // Doctor Name
+                Text(
+                  doctor['name'] as String,
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.038,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.black,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+
+                SizedBox(height: screenHeight * 0.003),
+
+                // Specialty
+                Text(
+                  doctor['specialty'] as String,
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.032,
+                    color: AppColors.grey[600],
+                  ),
+                ),
+
+                SizedBox(height: screenHeight * 0.006),
+
+                // Location + Distance
+                Row(
+                  children: [
+                    Icon(
+                      Icons.location_on_outlined,
+                      size: screenWidth * 0.033,
+                      color: AppColors.grey[400],
+                    ),
+                    SizedBox(width: screenWidth * 0.01),
+                    Expanded(
+                      child: Text(
+                        '${doctor['location']} • ${doctor['distance']}',
+                        style: TextStyle(
+                          fontSize: screenWidth * 0.029,
+                          color: AppColors.grey[500],
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const Spacer(),
+
+                // Availability Badge
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(vertical: screenHeight * 0.008),
+                  decoration: BoxDecoration(
+                    color: (doctor['availabilityColor'] as Color).withOpacity(
+                      0.1,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    doctor['availability'] as String,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.028,
+                      fontWeight: FontWeight.w600,
+                      color: doctor['availabilityColor'] as Color,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  // ============================================================================
+  // NEARBY CABINETS SECTION - MAP VIEW
+  // ============================================================================
+
+  Widget _buildNearbyCabinets(double screenWidth, double screenHeight) {
     return Container(
-      height: screenHeight * 0.35,
+      height: screenHeight * 0.28,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
-            blurRadius: 15,
-            offset: const Offset(0, 3),
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -375,68 +686,79 @@ class Homepage extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         child: Stack(
           children: [
-            // Map placeholder with gradient
+            // Map Background with Gradient
             Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
+                    AppColors.blue[50]!,
                     AppColors.blue[100]!,
-                    AppColors.blue[200]!,
-                    AppColors.teal[100]!,
-                  ],
-                ),
-              ),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.location_on,
-                      size: screenWidth * 0.15,
-                      color: Colors.blue[700],
-                    ),
-                    SizedBox(height: screenHeight * 0.01),
-                    Text(
-                      'Cabinet Map',
-                      style: TextStyle(
-                        fontSize: screenWidth * 0.045,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue[900],
-                      ),
-                    ),
-                    SizedBox(height: screenHeight * 0.005),
-                    Text(
-                      'View cabinets around you',
-                      style: TextStyle(
-                        fontSize: screenWidth * 0.035,
-                        color: Colors.blue[700],
-                      ),
-                    ),
+                    AppColors.teal[50]!,
                   ],
                 ),
               ),
             ),
 
-            // Location markers simulation
+            // Map Grid Pattern (optional, for visual effect)
+            Positioned.fill(child: CustomPaint(painter: _MapGridPainter())),
+
+            // Cabinet Markers
             Positioned(
-              top: screenHeight * 0.08,
+              top: screenHeight * 0.06,
               left: screenWidth * 0.15,
-              child: _buildMapMarker(screenWidth, AppColors.red),
+              child: _buildCabinetMarker(
+                'Clinique Les Oliviers',
+                '1.2 km',
+                screenWidth,
+                AppColors.blue,
+              ),
             ),
             Positioned(
-              top: screenHeight * 0.15,
-              right: screenWidth * 0.2,
-              child: _buildMapMarker(screenWidth, AppColors.blue),
+              top: screenHeight * 0.12,
+              right: screenWidth * 0.18,
+              child: _buildCabinetMarker(
+                'Cabinet Dr. Mansouri',
+                '2.5 km',
+                screenWidth,
+                AppColors.teal,
+              ),
             ),
             Positioned(
-              bottom: screenHeight * 0.1,
+              bottom: screenHeight * 0.08,
               left: screenWidth * 0.25,
-              child: _buildMapMarker(screenWidth, AppColors.teal),
+              child: _buildCabinetMarker(
+                'Centre Médical',
+                '3.1 km',
+                screenWidth,
+                AppColors.blue,
+              ),
             ),
 
-            // View All Button at bottom
+            // Current Location Marker
+            Positioned(
+              top: screenHeight * 0.09,
+              right: screenWidth * 0.35,
+              child: Container(
+                width: screenWidth * 0.06,
+                height: screenWidth * 0.06,
+                decoration: BoxDecoration(
+                  color: AppColors.red,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: AppColors.white, width: 3),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.red.withOpacity(0.4),
+                      blurRadius: 8,
+                      spreadRadius: 2,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // View Full Map Button
             Positioned(
               bottom: screenHeight * 0.02,
               left: screenWidth * 0.05,
@@ -446,24 +768,66 @@ class Homepage extends StatelessWidget {
                   // Navigate to full map page
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.white,
-                  foregroundColor: AppColors.blue,
-                  padding: EdgeInsets.symmetric(vertical: screenHeight * 0.015),
+                  backgroundColor: AppColors.blue,
+                  foregroundColor: AppColors.white,
+                  padding: EdgeInsets.symmetric(vertical: screenHeight * 0.014),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  elevation: 3,
+                  elevation: 2,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.map_outlined, size: screenWidth * 0.05),
+                    Icon(Icons.map_outlined, size: screenWidth * 0.045),
                     SizedBox(width: screenWidth * 0.02),
                     Text(
-                      'View Full Map',
+                      'Voir la carte complète',
                       style: TextStyle(
-                        fontSize: screenWidth * 0.04,
-                        fontWeight: FontWeight.bold,
+                        fontSize: screenWidth * 0.038,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // Info Badge at Top
+            Positioned(
+              top: screenHeight * 0.015,
+              left: screenWidth * 0.05,
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: screenWidth * 0.03,
+                  vertical: screenHeight * 0.008,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.08),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.location_on,
+                      size: screenWidth * 0.04,
+                      color: AppColors.blue,
+                    ),
+                    SizedBox(width: screenWidth * 0.015),
+                    Text(
+                      '3 Cabinets à proximité',
+                      style: TextStyle(
+                        fontSize: screenWidth * 0.032,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.black,
                       ),
                     ),
                   ],
@@ -476,27 +840,103 @@ class Homepage extends StatelessWidget {
     );
   }
 
-  Widget _buildMapMarker(double screenWidth, Color color) {
-    return Container(
-      width: screenWidth * 0.08,
-      height: screenWidth * 0.08,
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-        border: Border.all(color: Colors.white, width: 3),
-        boxShadow: [
-          BoxShadow(
-            color: color.withOpacity(0.4),
-            blurRadius: 8,
-            spreadRadius: 2,
+  // Cabinet Marker Widget
+  Widget _buildCabinetMarker(
+    String name,
+    String distance,
+    double screenWidth,
+    Color color,
+  ) {
+    return Column(
+      children: [
+        // Marker Pin
+        Container(
+          width: screenWidth * 0.08,
+          height: screenWidth * 0.08,
+          decoration: BoxDecoration(
+            color: color,
+            shape: BoxShape.circle,
+            border: Border.all(color: AppColors.white, width: 3),
+            boxShadow: [
+              BoxShadow(
+                color: color.withOpacity(0.4),
+                blurRadius: 8,
+                spreadRadius: 2,
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Icon(
-        Icons.local_hospital,
-        color: Colors.white,
-        size: screenWidth * 0.04,
-      ),
+          child: Icon(
+            Icons.local_hospital,
+            color: AppColors.white,
+            size: screenWidth * 0.04,
+          ),
+        ),
+        SizedBox(height: screenWidth * 0.01),
+        // Info Card
+        Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: screenWidth * 0.02,
+            vertical: screenWidth * 0.01,
+          ),
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 4,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Column(
+            children: [
+              Text(
+                name,
+                style: TextStyle(
+                  fontSize: screenWidth * 0.026,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.black,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                distance,
+                style: TextStyle(
+                  fontSize: screenWidth * 0.024,
+                  color: AppColors.grey[600],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
+}
+
+// ============================================================================
+// MAP GRID PAINTER (for visual effect)
+// ============================================================================
+
+class _MapGridPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.white.withOpacity(0.1)
+      ..strokeWidth = 1;
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += 40) {
+      canvas.drawLine(Offset(i, 0), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines
+    for (double i = 0; i < size.height; i += 40) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

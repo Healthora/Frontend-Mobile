@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medical/Static/AppColors.dart';
 
-
 class Forgotpasswordpage extends StatefulWidget {
   const Forgotpasswordpage({super.key});
 
@@ -13,7 +12,7 @@ class _ForgotpasswordpageState extends State<Forgotpasswordpage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    
+
     return Scaffold(
       backgroundColor: AppColors.grey[200],
       body: SafeArea(
@@ -47,7 +46,7 @@ class _ForgotpasswordpageState extends State<Forgotpasswordpage> {
                             bottom: size.width * 0.02,
                           ),
                           child: Text(
-                            'Forgot password',
+                            'Mot de passe oublié',
                             style: TextStyle(
                               fontSize: size.width * 0.06,
                               fontWeight: FontWeight.w600,
@@ -62,7 +61,7 @@ class _ForgotpasswordpageState extends State<Forgotpasswordpage> {
                             horizontal: size.width * 0.1,
                           ),
                           child: Text(
-                            'Enter your email so that we can send you password resent link.',
+                            'Entrez votre adresse email afin que nous puissions vous envoyer un lien de réinitialisation.',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: size.width * 0.035,
@@ -84,7 +83,7 @@ class _ForgotpasswordpageState extends State<Forgotpasswordpage> {
                           child: TextField(
                             style: TextStyle(fontSize: size.width * 0.04),
                             decoration: InputDecoration(
-                              hintText: "Email",
+                              hintText: "Adresse email",
                               hintStyle: TextStyle(
                                 color: AppColors.grey[400],
                                 fontSize: size.width * 0.04,
@@ -118,7 +117,7 @@ class _ForgotpasswordpageState extends State<Forgotpasswordpage> {
                               elevation: 0,
                             ),
                             child: Text(
-                              'Send reset link',
+                              'Envoyer le lien',
                               style: TextStyle(
                                 fontSize: size.width * 0.04,
                                 fontWeight: FontWeight.w600,
@@ -132,7 +131,7 @@ class _ForgotpasswordpageState extends State<Forgotpasswordpage> {
                             Navigator.pop(context);
                           },
                           child: Text(
-                            "<-- Back to login",
+                            "<-- Retour à la connexion",
                             style: TextStyle(
                               color: AppColors.blue[300],
                               decoration: TextDecoration.underline,

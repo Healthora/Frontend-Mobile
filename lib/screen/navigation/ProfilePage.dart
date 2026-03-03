@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medical/Static/AppColors.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -17,7 +18,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: AppColors.grey[100],
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -145,63 +146,19 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               // Profile Title
               Text(
-                'Profil',
+                'Profile',
                 style: TextStyle(
                   fontSize: screenWidth * 0.05,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: AppColors.white,
                 ),
               ),
 
               SizedBox(height: screenHeight * 0.025),
 
-              // Profile Image
-              Stack(
-                children: [
-                  Container(
-                    width: screenWidth * 0.28,
-                    height: screenWidth * 0.28,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 4),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                      image: const DecorationImage(
-                        image: NetworkImage('https://i.pravatar.cc/200?img=47'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      padding: EdgeInsets.all(screenWidth * 0.02),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.blue[600]!, width: 2),
-                      ),
-                      child: Icon(
-                        Icons.edit,
-                        color: Colors.blue[600],
-                        size: screenWidth * 0.045,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              SizedBox(height: screenHeight * 0.02),
-
               // Name
               Text(
-                'Marie Dupont',
+                'Medelci Aymen ',
                 style: TextStyle(
                   fontSize: screenWidth * 0.055,
                   fontWeight: FontWeight.bold,
@@ -213,7 +170,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
               // Email
               Text(
-                'marie.dupont@email.com',
+                'aymenmedelci@email.com',
                 style: TextStyle(
                   fontSize: screenWidth * 0.038,
                   color: Colors.white.withOpacity(0.9),

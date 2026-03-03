@@ -82,7 +82,7 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                               Expanded(
                                 child: Center(
                                   child: Text(
-                                    isLoginPage ? 'Sign In' : 'Sign Up',
+                                    isLoginPage ? 'Connexion' : 'Inscription',
                                     style: TextStyle(
                                       fontSize: size.width * 0.05,
                                       fontWeight: FontWeight.w600,
@@ -139,8 +139,8 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                   // Welcome text
                                   Text(
                                     isLoginPage
-                                        ? 'Welcome Back'
-                                        : 'Create Account',
+                                        ? 'Bon retour'
+                                        : 'Créer un compte',
                                     style: TextStyle(
                                       fontSize: size.width * 0.061,
                                       fontWeight: FontWeight.bold,
@@ -151,8 +151,8 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
 
                                   Text(
                                     isLoginPage
-                                        ? 'Your health, simplified and secure.'
-                                        : 'Join us for a healthier life.',
+                                        ? 'Votre santé, simplifiée et sécurisée.'
+                                        : 'Rejoignez-nous pour une vie plus saine.',
                                     style: TextStyle(
                                       fontSize: size.width * 0.032,
                                       color: AppColors.grey[600],
@@ -198,7 +198,7 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                               ),
                                               child: Center(
                                                 child: Text(
-                                                  'Login',
+                                                  'Connexion',
                                                   style: TextStyle(
                                                     fontSize: size.width * 0.04,
                                                     fontWeight: isLoginPage
@@ -242,7 +242,7 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                               ),
                                               child: Center(
                                                 child: Text(
-                                                  'Register',
+                                                  'Inscription',
                                                   style: TextStyle(
                                                     fontSize: size.width * 0.04,
                                                     fontWeight: !isLoginPage
@@ -267,7 +267,7 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                   if (!isLoginPage) ...[
                                     _buildTextField(
                                       controller: nameController,
-                                      hintText: 'Full Name',
+                                      hintText: 'Nom complet',
                                       icon: Icons.person_outline,
                                       size: size,
                                     ),
@@ -276,7 +276,7 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
 
                                   _buildTextField(
                                     controller: emailController,
-                                    hintText: 'Email or Phone Number',
+                                    hintText: 'Email ou numéro de téléphone',
                                     icon: Icons.alternate_email,
                                     size: size,
                                   ),
@@ -285,7 +285,7 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
 
                                   _buildTextField(
                                     controller: passwordController,
-                                    hintText: 'Password',
+                                    hintText: 'Mot de passe',
                                     icon: Icons.lock_outline,
                                     isPassword: true,
                                     isPasswordVisible: isPasswordVisible,
@@ -301,7 +301,7 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                     SizedBox(height: size.height * 0.02),
                                     _buildTextField(
                                       controller: confirmPasswordController,
-                                      hintText: 'Confirm Password',
+                                      hintText: 'Confirmer le mot de passe',
                                       icon: Icons.lock_outline,
                                       isPassword: true,
                                       isPasswordVisible:
@@ -331,7 +331,7 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                           );
                                         },
                                         child: Text(
-                                          'Forgot Password?',
+                                          'Mot de passe oublié ?',
                                           style: TextStyle(
                                             color: AppColors.blue,
                                             fontSize: size.width * 0.035,
@@ -370,7 +370,9 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                         elevation: 0,
                                       ),
                                       child: Text(
-                                        isLoginPage ? 'Login' : 'Register',
+                                        isLoginPage
+                                            ? 'Connexion'
+                                            : 'Inscription',
                                         style: TextStyle(
                                           fontSize: size.width * 0.045,
                                           fontWeight: FontWeight.w600,
@@ -393,7 +395,7 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                           size: size.width * 0.05,
                                         ),
                                         label: Text(
-                                          'Login with OTP',
+                                          'Se connecter avec OTP',
                                           style: TextStyle(
                                             fontSize: size.width * 0.04,
                                             fontWeight: FontWeight.w600,
