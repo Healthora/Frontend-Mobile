@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:medical/Static/AppColors.dart';
 import 'package:medical/screen/details/BookingPage.dart';
 
 class DoctorDetailPage extends StatefulWidget {
