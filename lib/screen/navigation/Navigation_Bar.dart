@@ -42,7 +42,11 @@ class _Navigation_Bar extends State<Navigation_Bar> {
     final iconSize = screenWidth * 0.06; // 6.5% of screen width
     final fontSize = screenWidth * 0.03; // 3% of screen width
 
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor, // Set scaffold background
       body: _pages[_selectedIndex],
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(
@@ -53,11 +57,11 @@ class _Navigation_Bar extends State<Navigation_Bar> {
         child: Container(
           height: navBarHeight.clamp(60.0, 85.0), // Min 60, max 85
           decoration: BoxDecoration(
-            color: AppColors.grey[200],
+            color: theme.colorScheme.surface,
             borderRadius: BorderRadius.circular(borderRadius.clamp(30.0, 42.5)),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.15),
+                color: Colors.black.withOpacity(isDark ? 0.3 : 0.15),
                 blurRadius: 15,
                 spreadRadius: 1,
                 offset: const Offset(0, 5),
@@ -117,8 +121,13 @@ class _Navigation_Bar extends State<Navigation_Bar> {
     required double iconSize,
     required double fontSize,
   }) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     final bool isSelected = _selectedIndex == index;
-    final Color itemColor = isSelected ? color : AppColors.grey[600]!;
+    final Color itemColor = isSelected
+        ? theme.primaryColor
+        : (isDark ? Colors.grey[400]! : AppColors.grey[600]!);
 
     // Responsive padding
     final horizontalPadding = MediaQuery.of(context).size.width * 0.03;
@@ -134,7 +143,9 @@ class _Navigation_Bar extends State<Navigation_Bar> {
             vertical: verticalPadding.clamp(6.0, 10.0),
           ),
           decoration: BoxDecoration(
-            color: isSelected ? color.withOpacity(0.1) : Colors.transparent,
+            color: isSelected
+                ? theme.primaryColor.withOpacity(0.1)
+                : Colors.transparent,
             borderRadius: BorderRadius.circular(30),
           ),
           child: Column(

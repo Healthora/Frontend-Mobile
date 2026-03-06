@@ -12,9 +12,11 @@ class _ForgotpasswordpageState extends State<Forgotpasswordpage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: AppColors.grey[200],
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -27,11 +29,13 @@ class _ForgotpasswordpageState extends State<Forgotpasswordpage> {
                   bottom: size.height * 0.02,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: AppColors.white,
+                      color: theme.colorScheme.surface,
                       borderRadius: BorderRadius.circular(30),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.black.withOpacity(0.1),
+                          color: AppColors.black.withOpacity(
+                            isDark ? 0.3 : 0.1,
+                          ),
                           blurRadius: 20,
                           offset: const Offset(0, 10),
                         ),
@@ -50,6 +54,7 @@ class _ForgotpasswordpageState extends State<Forgotpasswordpage> {
                             style: TextStyle(
                               fontSize: size.width * 0.06,
                               fontWeight: FontWeight.w600,
+                              color: theme.textTheme.bodyLarge?.color,
                             ),
                           ),
                         ),
@@ -65,7 +70,9 @@ class _ForgotpasswordpageState extends State<Forgotpasswordpage> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: size.width * 0.035,
-                              color: AppColors.grey[600],
+                              color: isDark
+                                  ? AppColors.grey[400]
+                                  : AppColors.grey[600],
                               height: size.height * 0.0015,
                             ),
                           ),
@@ -76,12 +83,21 @@ class _ForgotpasswordpageState extends State<Forgotpasswordpage> {
                           margin: EdgeInsets.all(size.width * 0.05),
                           height: size.height * 0.065,
                           decoration: BoxDecoration(
-                            color: AppColors.grey[50],
+                            color: isDark
+                                ? Colors.grey[800]
+                                : AppColors.grey[50],
                             borderRadius: BorderRadius.circular(15),
-                            border: Border.all(color: Colors.grey[200]!),
+                            border: Border.all(
+                              color: isDark
+                                  ? Colors.grey[700]!
+                                  : Colors.grey[200]!,
+                            ),
                           ),
                           child: TextField(
-                            style: TextStyle(fontSize: size.width * 0.04),
+                            style: TextStyle(
+                              fontSize: size.width * 0.04,
+                              color: theme.textTheme.bodyLarge?.color,
+                            ),
                             decoration: InputDecoration(
                               hintText: "Adresse email",
                               hintStyle: TextStyle(
@@ -133,9 +149,13 @@ class _ForgotpasswordpageState extends State<Forgotpasswordpage> {
                           child: Text(
                             "<-- Retour à la connexion",
                             style: TextStyle(
-                              color: AppColors.blue[300],
+                              color: isDark
+                                  ? AppColors.blue[200]
+                                  : AppColors.blue[300],
                               decoration: TextDecoration.underline,
-                              decorationColor: AppColors.blue,
+                              decorationColor: isDark
+                                  ? AppColors.blue[200]
+                                  : AppColors.blue,
                               decorationThickness: 1,
                               fontSize: size.width * 0.04,
                             ),

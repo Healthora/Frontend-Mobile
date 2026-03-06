@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medical/Static/AppColors.dart';
+import 'package:medical/screen/details/DoctorDetailPage.dart';
 
 class Searchpage extends StatefulWidget {
   const Searchpage({super.key});
@@ -26,20 +27,22 @@ class _SearchpageState extends State<Searchpage> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
+    final theme = Theme.of(context);
+
     return Scaffold(
-      backgroundColor: AppColors.grey[50],
+      backgroundColor: theme.scaffoldBackgroundColor,
 
       body: SafeArea(
         child: Column(
           children: [
             // Search Bar and Filters
             Container(
-              color: AppColors.white,
+              color: theme.colorScheme.surface,
               padding: EdgeInsets.all(screenWidth * 0.04),
               child: Column(
                 children: [
                   // Search Bar
-                  _buildSearchBar(screenWidth, screenHeight),
+                  _buildSearchBar(context, screenWidth, screenHeight),
                   SizedBox(height: screenHeight * 0.05),
                   // Filters
                   _buildFilters(context, screenWidth, screenHeight),
@@ -63,7 +66,9 @@ class _SearchpageState extends State<Searchpage> {
             ),
 
             // Doctors List
-            Expanded(child: _buildDoctorsList(screenWidth, screenHeight)),
+            Expanded(
+              child: _buildDoctorsList(context, screenWidth, screenHeight),
+            ),
           ],
         ),
       ),
@@ -74,14 +79,26 @@ class _SearchpageState extends State<Searchpage> {
   // SEARCH BAR
   // ============================================================================
 
-  Widget _buildSearchBar(double screenWidth, double screenHeight) {
+  Widget _buildSearchBar(
+    BuildContext context,
+    double screenWidth,
+    double screenHeight,
+  ) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.grey[200]!, width: 2),
+        color: isDark ? const Color(0xFF2C3E50) : AppColors.white,
+        border: Border.all(
+          color: isDark ? Colors.grey[700]! : AppColors.grey[200]!,
+          width: 2,
+        ),
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
         controller: _searchController,
+        style: TextStyle(color: theme.textTheme.bodyLarge?.color),
         decoration: InputDecoration(
           hintText: 'rechercher un médecin',
           hintStyle: TextStyle(
@@ -135,6 +152,7 @@ class _SearchpageState extends State<Searchpage> {
         children: [
           // Location Filter
           _buildFilterChip(
+            context: context,
             icon: Icons.location_on,
             label: _selectedLocation,
             color: AppColors.blue,
@@ -144,6 +162,7 @@ class _SearchpageState extends State<Searchpage> {
           SizedBox(width: screenWidth * 0.02),
           // Date Filter
           _buildFilterChip(
+            context: context,
             icon: null,
             label: _selectedDate,
             color: AppColors.grey[700]!,
@@ -153,6 +172,7 @@ class _SearchpageState extends State<Searchpage> {
           SizedBox(width: screenWidth * 0.02),
           // Price Filter
           _buildFilterChip(
+            context: context,
             icon: null,
             label: _selectedPrice,
             color: AppColors.grey[700]!,
@@ -162,6 +182,7 @@ class _SearchpageState extends State<Searchpage> {
           SizedBox(width: screenWidth * 0.02),
           // Rating Filter
           _buildFilterChip(
+            context: context,
             icon: null,
             label: _selectedRating,
             color: AppColors.grey[700]!,
@@ -174,12 +195,15 @@ class _SearchpageState extends State<Searchpage> {
   }
 
   Widget _buildFilterChip({
+    required BuildContext context,
     required IconData? icon,
     required String label,
     required Color color,
     required double screenWidth,
     required VoidCallback onTap,
   }) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -188,7 +212,9 @@ class _SearchpageState extends State<Searchpage> {
           vertical: screenWidth * 0.02,
         ),
         decoration: BoxDecoration(
-          color: icon != null ? color : AppColors.grey[200],
+          color: icon != null
+              ? color
+              : (isDark ? const Color(0xFF2C3E50) : AppColors.grey[200]),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
@@ -201,7 +227,9 @@ class _SearchpageState extends State<Searchpage> {
             Text(
               label,
               style: TextStyle(
-                color: icon != null ? AppColors.white : AppColors.black,
+                color: icon != null
+                    ? AppColors.white
+                    : theme.textTheme.bodyLarge?.color,
                 fontSize: screenWidth * 0.034,
                 fontWeight: FontWeight.w500,
               ),
@@ -209,7 +237,7 @@ class _SearchpageState extends State<Searchpage> {
             SizedBox(width: screenWidth * 0.01),
             Icon(
               Icons.keyboard_arrow_down,
-              color: icon != null ? AppColors.white : AppColors.black,
+              color: icon != null ? AppColors.white : theme.iconTheme.color,
               size: screenWidth * 0.045,
             ),
           ],
@@ -222,7 +250,11 @@ class _SearchpageState extends State<Searchpage> {
   // DOCTORS LIST
   // ============================================================================
 
-  Widget _buildDoctorsList(double screenWidth, double screenHeight) {
+  Widget _buildDoctorsList(
+    BuildContext context,
+    double screenWidth,
+    double screenHeight,
+  ) {
     final doctors = [
       {
         'name': 'Dr. Jean Dupont',
@@ -272,6 +304,7 @@ class _SearchpageState extends State<Searchpage> {
       itemBuilder: (context, index) {
         final doctor = doctors[index];
         return _buildDoctorCard(
+          context,
           doctor as Map<String, dynamic>,
           screenWidth,
           screenHeight,
@@ -285,183 +318,196 @@ class _SearchpageState extends State<Searchpage> {
   // ============================================================================
 
   Widget _buildDoctorCard(
+    BuildContext context,
     Map<String, dynamic> doctor,
     double screenWidth,
     double screenHeight,
   ) {
-    return Container(
-      margin: EdgeInsets.only(bottom: screenHeight * 0.015),
-      padding: EdgeInsets.all(screenWidth * 0.04),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DoctorDetailPage(doctor: doctor),
           ),
-        ],
-      ),
-      child: Column(
-        children: [
-          // Doctor Info Row
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Doctor Avatar
-              Container(
-                width: screenWidth * 0.18,
-                height: screenWidth * 0.18,
-                decoration: BoxDecoration(
-                  color: AppColors.teal,
-                  borderRadius: BorderRadius.circular(12),
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.only(bottom: screenHeight * 0.015),
+        padding: EdgeInsets.all(screenWidth * 0.04),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surface,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(isDark ? 0.3 : 0.04),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            // Doctor Info Row
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Doctor Avatar
+                Container(
+                  width: screenWidth * 0.18,
+                  height: screenWidth * 0.18,
+                  decoration: BoxDecoration(
+                    color: AppColors.teal,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    Icons.person,
+                    color: AppColors.white,
+                    size: screenWidth * 0.1,
+                  ),
                 ),
-                child: Icon(
-                  Icons.person,
-                  color: AppColors.white,
-                  size: screenWidth * 0.1,
-                ),
-              ),
 
-              SizedBox(width: screenWidth * 0.03),
+                SizedBox(width: screenWidth * 0.03),
 
-              // Doctor Details
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            doctor['name'] as String,
-                            style: TextStyle(
-                              fontSize: screenWidth * 0.042,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.black,
+                // Doctor Details
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              doctor['name'] as String,
+                              style: TextStyle(
+                                fontSize: screenWidth * 0.042,
+                                fontWeight: FontWeight.bold,
+                                color: theme.textTheme.bodyLarge?.color,
+                              ),
                             ),
                           ),
-                        ),
-                        Text(
-                          doctor['distance'] as String,
-                          style: TextStyle(
-                            fontSize: screenWidth * 0.032,
-                            color: AppColors.grey[500],
+                          Text(
+                            doctor['distance'] as String,
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.032,
+                              color: AppColors.grey[500],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: screenHeight * 0.004),
-                    Text(
-                      '${doctor['specialty']} • ${doctor['location']}',
-                      style: TextStyle(
-                        fontSize: screenWidth * 0.034,
-                        color: AppColors.grey[600],
+                        ],
                       ),
-                    ),
-                    SizedBox(height: screenHeight * 0.006),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.star,
-                          color: Colors.amber[700],
-                          size: screenWidth * 0.04,
+                      SizedBox(height: screenHeight * 0.004),
+                      Text(
+                        '${doctor['specialty']} • ${doctor['location']}',
+                        style: TextStyle(
+                          fontSize: screenWidth * 0.034,
+                          color: AppColors.grey[600],
                         ),
-                        SizedBox(width: screenWidth * 0.01),
-                        Text(
-                          '${doctor['rating']}',
-                          style: TextStyle(
-                            fontSize: screenWidth * 0.034,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.black,
+                      ),
+                      SizedBox(height: screenHeight * 0.006),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.star,
+                            color: Colors.amber[700],
+                            size: screenWidth * 0.04,
                           ),
-                        ),
-                        SizedBox(width: screenWidth * 0.01),
-                        Text(
-                          '(${doctor['reviews']} avis)',
-                          style: TextStyle(
-                            fontSize: screenWidth * 0.032,
-                            color: AppColors.grey[600],
+                          SizedBox(width: screenWidth * 0.01),
+                          Text(
+                            '${doctor['rating']}',
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.034,
+                              fontWeight: FontWeight.w600,
+                              color: theme.textTheme.bodyLarge?.color,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-
-          SizedBox(height: screenHeight * 0.015),
-
-          // Availability and Button Row
-          Row(
-            children: [
-              // Availability Badge
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: screenWidth * 0.025,
-                  vertical: screenHeight * 0.006,
-                ),
-                decoration: BoxDecoration(
-                  color: (doctor['availabilityColor'] as Color).withOpacity(
-                    0.1,
+                          SizedBox(width: screenWidth * 0.01),
+                          Text(
+                            '(${doctor['reviews']} avis)',
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.032,
+                              color: AppColors.grey[600],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  borderRadius: BorderRadius.circular(6),
                 ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.check_circle,
-                      color: doctor['availabilityColor'] as Color,
-                      size: screenWidth * 0.035,
-                    ),
-                    SizedBox(width: screenWidth * 0.01),
-                    Text(
-                      doctor['availability'] as String,
-                      style: TextStyle(
-                        fontSize: screenWidth * 0.032,
-                        fontWeight: FontWeight.w600,
-                        color: doctor['availabilityColor'] as Color,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              ],
+            ),
 
-              const Spacer(),
+            SizedBox(height: screenHeight * 0.015),
 
-              // Book Appointment Button
-              ElevatedButton(
-                onPressed: () {
-                  _showBookingDialog(context, doctor['name'] as String);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.blue,
-                  foregroundColor: AppColors.white,
+            // Availability and Button Row
+            Row(
+              children: [
+                // Availability Badge
+                Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: screenWidth * 0.06,
-                    vertical: screenHeight * 0.012,
+                    horizontal: screenWidth * 0.025,
+                    vertical: screenHeight * 0.006,
                   ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                  decoration: BoxDecoration(
+                    color: (doctor['availabilityColor'] as Color).withOpacity(
+                      0.1,
+                    ),
+                    borderRadius: BorderRadius.circular(6),
                   ),
-                  elevation: 0,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.check_circle,
+                        color: doctor['availabilityColor'] as Color,
+                        size: screenWidth * 0.035,
+                      ),
+                      SizedBox(width: screenWidth * 0.01),
+                      Text(
+                        doctor['availability'] as String,
+                        style: TextStyle(
+                          fontSize: screenWidth * 0.032,
+                          fontWeight: FontWeight.w600,
+                          color: doctor['availabilityColor'] as Color,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                child: Text(
-                  'Prendre RDV',
-                  style: TextStyle(
-                    fontSize: screenWidth * 0.036,
-                    fontWeight: FontWeight.w600,
+
+                const Spacer(),
+
+                // Book Appointment Button
+                ElevatedButton(
+                  onPressed: () {
+                    _showBookingDialog(context, doctor['name'] as String);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.blue,
+                    foregroundColor: AppColors.white,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.06,
+                      vertical: screenHeight * 0.012,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: Text(
+                    'Prendre RDV',
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.036,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

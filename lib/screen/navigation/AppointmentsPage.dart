@@ -35,17 +35,20 @@ class _AppointmentspageState extends State<Appointmentspage>
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: AppColors.grey[50],
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: AppColors.white,
+        backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
 
         title: Text(
           'Mes Rendez-vous',
           style: TextStyle(
-            color: AppColors.black,
+            color: isDark ? AppColors.white : AppColors.black,
             fontSize: screenWidth * 0.048,
             fontWeight: FontWeight.w600,
           ),
@@ -55,18 +58,18 @@ class _AppointmentspageState extends State<Appointmentspage>
         children: [
           // Tabs
           Container(
-            color: AppColors.white,
+            color: theme.colorScheme.surface,
             padding: EdgeInsets.symmetric(
               horizontal: screenWidth * 0.05,
               vertical: screenHeight * 0.015,
             ),
             child: Row(
               children: [
-                _buildTab('À venir', 0, screenWidth),
+                _buildTab('À venir', 0, screenWidth, isDark),
                 SizedBox(width: screenWidth * 0.03),
-                _buildTab('Passés', 1, screenWidth),
+                _buildTab('Passés', 1, screenWidth, isDark),
                 SizedBox(width: screenWidth * 0.03),
-                _buildTab('Annulés', 2, screenWidth),
+                _buildTab('Annulés', 2, screenWidth, isDark),
               ],
             ),
           ),
@@ -76,9 +79,9 @@ class _AppointmentspageState extends State<Appointmentspage>
             child: TabBarView(
               controller: _tabController,
               children: [
-                _buildUpcomingAppointments(screenWidth, screenHeight),
-                _buildPastAppointments(screenWidth, screenHeight),
-                _buildCancelledAppointments(screenWidth, screenHeight),
+                _buildUpcomingAppointments(context, screenWidth, screenHeight),
+                _buildPastAppointments(context, screenWidth, screenHeight),
+                _buildCancelledAppointments(context, screenWidth, screenHeight),
               ],
             ),
           ),
@@ -91,7 +94,7 @@ class _AppointmentspageState extends State<Appointmentspage>
   // TAB BUTTON
   // ============================================================================
 
-  Widget _buildTab(String title, int index, double screenWidth) {
+  Widget _buildTab(String title, int index, double screenWidth, bool isDark) {
     final isSelected = _selectedTab == index;
 
     return Expanded(
@@ -111,7 +114,9 @@ class _AppointmentspageState extends State<Appointmentspage>
             style: TextStyle(
               fontSize: screenWidth * 0.036,
               fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-              color: isSelected ? AppColors.blue : AppColors.grey[600],
+              color: isSelected
+                  ? AppColors.blue
+                  : (isDark ? AppColors.grey[400] : AppColors.grey[600]),
             ),
           ),
         ),
@@ -123,7 +128,11 @@ class _AppointmentspageState extends State<Appointmentspage>
   // UPCOMING APPOINTMENTS
   // ============================================================================
 
-  Widget _buildUpcomingAppointments(double screenWidth, double screenHeight) {
+  Widget _buildUpcomingAppointments(
+    BuildContext context,
+    double screenWidth,
+    double screenHeight,
+  ) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,6 +157,7 @@ class _AppointmentspageState extends State<Appointmentspage>
           ),
 
           _buildAppointmentCard(
+            context: context,
             doctorName: 'Dr. Jean Dupont',
             specialty: 'Cardiologue',
             date: '12 Oct. 2023',
@@ -159,6 +169,7 @@ class _AppointmentspageState extends State<Appointmentspage>
           ),
 
           _buildAppointmentCard(
+            context: context,
             doctorName: 'Dr. Sarah Lavoie',
             specialty: 'Généraliste',
             date: '13 Oct. 2023',
@@ -189,6 +200,7 @@ class _AppointmentspageState extends State<Appointmentspage>
           ),
 
           _buildAppointmentCard(
+            context: context,
             doctorName: 'Dr. Marc Morel',
             specialty: 'Ophtalmologue',
             date: '19 Oct. 2023',
@@ -209,7 +221,11 @@ class _AppointmentspageState extends State<Appointmentspage>
   // PAST APPOINTMENTS
   // ============================================================================
 
-  Widget _buildPastAppointments(double screenWidth, double screenHeight) {
+  Widget _buildPastAppointments(
+    BuildContext context,
+    double screenWidth,
+    double screenHeight,
+  ) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -233,6 +249,7 @@ class _AppointmentspageState extends State<Appointmentspage>
           ),
 
           _buildAppointmentCard(
+            context: context,
             doctorName: 'Dr. Ahmed Benali',
             specialty: 'Pédiatre',
             date: '05 Oct. 2023',
@@ -245,6 +262,7 @@ class _AppointmentspageState extends State<Appointmentspage>
           ),
 
           _buildAppointmentCard(
+            context: context,
             doctorName: 'Dr. Emma Wilson',
             specialty: 'Dermatologue',
             date: '02 Oct. 2023',
@@ -266,7 +284,14 @@ class _AppointmentspageState extends State<Appointmentspage>
   // CANCELLED APPOINTMENTS
   // ============================================================================
 
-  Widget _buildCancelledAppointments(double screenWidth, double screenHeight) {
+  Widget _buildCancelledAppointments(
+    BuildContext context,
+    double screenWidth,
+    double screenHeight,
+  ) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Center(
       child: Padding(
         padding: EdgeInsets.all(screenWidth * 0.1),
@@ -284,7 +309,7 @@ class _AppointmentspageState extends State<Appointmentspage>
               style: TextStyle(
                 fontSize: screenWidth * 0.042,
                 fontWeight: FontWeight.w600,
-                color: AppColors.grey[600],
+                color: theme.textTheme.bodyLarge?.color,
               ),
             ),
             SizedBox(height: screenHeight * 0.01),
@@ -292,7 +317,7 @@ class _AppointmentspageState extends State<Appointmentspage>
               'Vos rendez-vous annulés apparaîtront ici',
               style: TextStyle(
                 fontSize: screenWidth * 0.035,
-                color: AppColors.grey[500],
+                color: isDark ? AppColors.grey[400] : AppColors.grey[500],
               ),
               textAlign: TextAlign.center,
             ),
@@ -307,6 +332,7 @@ class _AppointmentspageState extends State<Appointmentspage>
   // ============================================================================
 
   Widget _buildAppointmentCard({
+    required BuildContext context,
     required String doctorName,
     required String specialty,
     required String date,
@@ -317,6 +343,9 @@ class _AppointmentspageState extends State<Appointmentspage>
     required double screenHeight,
     bool isPast = false,
   }) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Container(
       margin: EdgeInsets.symmetric(
         horizontal: screenWidth * 0.05,
@@ -324,11 +353,11 @@ class _AppointmentspageState extends State<Appointmentspage>
       ),
       padding: EdgeInsets.all(screenWidth * 0.04),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withOpacity(isDark ? 0.3 : 0.04),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -344,14 +373,14 @@ class _AppointmentspageState extends State<Appointmentspage>
                 width: screenWidth * 0.12,
                 height: screenWidth * 0.12,
                 decoration: BoxDecoration(
-                  color: AppColors.grey[200],
+                  color: isDark ? Colors.grey[800] : AppColors.grey[200],
                   shape: BoxShape.circle,
                 ),
                 child: ClipOval(
                   child: Icon(
                     Icons.person,
                     size: screenWidth * 0.06,
-                    color: AppColors.grey[400],
+                    color: isDark ? AppColors.grey[300] : AppColors.grey[400],
                   ),
                 ),
               ),
@@ -368,7 +397,7 @@ class _AppointmentspageState extends State<Appointmentspage>
                       style: TextStyle(
                         fontSize: screenWidth * 0.042,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.black,
+                        color: theme.textTheme.bodyLarge?.color,
                       ),
                     ),
                     SizedBox(height: screenHeight * 0.003),
@@ -376,7 +405,9 @@ class _AppointmentspageState extends State<Appointmentspage>
                       specialty,
                       style: TextStyle(
                         fontSize: screenWidth * 0.035,
-                        color: AppColors.grey[600],
+                        color: isDark
+                            ? AppColors.grey[400]
+                            : AppColors.grey[600],
                       ),
                     ),
                   ],
@@ -421,7 +452,7 @@ class _AppointmentspageState extends State<Appointmentspage>
                 date,
                 style: TextStyle(
                   fontSize: screenWidth * 0.035,
-                  color: AppColors.grey[700],
+                  color: isDark ? AppColors.grey[300] : AppColors.grey[700],
                 ),
               ),
               SizedBox(width: screenWidth * 0.04),
@@ -435,7 +466,7 @@ class _AppointmentspageState extends State<Appointmentspage>
                 time,
                 style: TextStyle(
                   fontSize: screenWidth * 0.035,
-                  color: AppColors.grey[700],
+                  color: isDark ? AppColors.grey[300] : AppColors.grey[700],
                 ),
               ),
             ],
@@ -453,8 +484,13 @@ class _AppointmentspageState extends State<Appointmentspage>
                     _showCancelDialog(context, doctorName);
                   },
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.grey[700],
-                    side: BorderSide(color: AppColors.grey[300]!, width: 1.5),
+                    foregroundColor: isDark
+                        ? AppColors.grey[300]
+                        : AppColors.grey[700],
+                    side: BorderSide(
+                      color: isDark ? Colors.grey[700]! : AppColors.grey[300]!,
+                      width: 1.5,
+                    ),
                     padding: EdgeInsets.symmetric(
                       vertical: screenHeight * 0.014,
                     ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medical/Static/AppColors.dart';
+import 'package:provider/provider.dart';
+import 'package:medical/Providers/ThemeProvider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -10,15 +12,17 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   bool notificationsEnabled = true;
-  bool darkModeEnabled = false;
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final theme = Theme.of(context);
+    final isDark = themeProvider.isDarkMode;
 
     return Scaffold(
-      backgroundColor: AppColors.grey[100],
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -82,13 +86,12 @@ class _ProfilePageState extends State<ProfilePage> {
             _buildMenuItemWithSwitch(
               icon: Icons.dark_mode_outlined,
               title: 'Mode sombre',
-              value: darkModeEnabled,
+              value: isDark,
               screenWidth: screenWidth,
               screenHeight: screenHeight,
+              theme: theme,
               onChanged: (value) {
-                setState(() {
-                  darkModeEnabled = value;
-                });
+                themeProvider.toggleTheme(value);
               },
             ),
             _buildMenuItem(
@@ -123,13 +126,21 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildProfileHeader(double screenWidth, double screenHeight) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [Colors.blue[600]!, Colors.blue[400]!],
+          colors: isDark
+              ? [
+                  const Color(0xFF1E3A8A),
+                  const Color(0xFF1E40AF),
+                ] // Dark mode blue gradient
+              : [Colors.blue[600]!, Colors.blue[400]!],
         ),
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(30),
@@ -247,7 +258,7 @@ class _ProfilePageState extends State<ProfilePage> {
         style: TextStyle(
           fontSize: screenWidth * 0.032,
           fontWeight: FontWeight.w600,
-          color: Colors.grey[600],
+          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
           letterSpacing: 0.5,
         ),
       ),
@@ -261,17 +272,20 @@ class _ProfilePageState extends State<ProfilePage> {
     required double screenHeight,
     required VoidCallback onTap,
   }) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Container(
       margin: EdgeInsets.symmetric(
         horizontal: screenWidth * 0.05,
         vertical: screenHeight * 0.005,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: Colors.black.withOpacity(isDark ? 0.3 : 0.03),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -292,12 +306,16 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(
                   padding: EdgeInsets.all(screenWidth * 0.025),
                   decoration: BoxDecoration(
-                    color: Colors.blue[50],
+                    color: isDark
+                        ? const Color(0xFF2C3E50)
+                        : Colors.blue[50], // Icon background adaptive
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(
                     icon,
-                    color: Colors.blue[600],
+                    color: isDark
+                        ? theme.primaryColor
+                        : Colors.blue[600], // Icon color
                     size: screenWidth * 0.055,
                   ),
                 ),
@@ -308,13 +326,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     style: TextStyle(
                       fontSize: screenWidth * 0.04,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black87,
+                      color: theme.textTheme.bodyLarge?.color,
                     ),
                   ),
                 ),
                 Icon(
                   Icons.chevron_right,
-                  color: Colors.grey[400],
+                  color: isDark ? Colors.grey[600] : Colors.grey[400],
                   size: screenWidth * 0.06,
                 ),
               ],
@@ -331,19 +349,24 @@ class _ProfilePageState extends State<ProfilePage> {
     required bool value,
     required double screenWidth,
     required double screenHeight,
+    ThemeData?
+    theme, // Added theme as parameter slightly optionally or forced in this use case
     required ValueChanged<bool> onChanged,
   }) {
+    theme ??= Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Container(
       margin: EdgeInsets.symmetric(
         horizontal: screenWidth * 0.05,
         vertical: screenHeight * 0.005,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: Colors.black.withOpacity(isDark ? 0.3 : 0.03),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -359,12 +382,14 @@ class _ProfilePageState extends State<ProfilePage> {
             Container(
               padding: EdgeInsets.all(screenWidth * 0.025),
               decoration: BoxDecoration(
-                color: Colors.blue[50],
+                color: isDark
+                    ? const Color(0xFF2C3E50)
+                    : Colors.blue[50], // Fix background
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
                 icon,
-                color: Colors.blue[600],
+                color: isDark ? theme.primaryColor : Colors.blue[600],
                 size: screenWidth * 0.055,
               ),
             ),
@@ -375,14 +400,15 @@ class _ProfilePageState extends State<ProfilePage> {
                 style: TextStyle(
                   fontSize: screenWidth * 0.04,
                   fontWeight: FontWeight.w500,
-                  color: Colors.black87,
+                  color: theme.textTheme.bodyLarge?.color,
                 ),
               ),
             ),
             Switch(
               value: value,
               onChanged: onChanged,
-              activeColor: Colors.blue[600],
+              activeThumbColor: Colors.white,
+              activeTrackColor: theme.primaryColor,
             ),
           ],
         ),

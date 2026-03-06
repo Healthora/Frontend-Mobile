@@ -1,0 +1,70 @@
+Analyzing Frontend-Mobile...                                    
+
+   info - The file name 'ThemeProvider.dart' isn't a lower_case_with_underscores identifier - lib\Providers\ThemeProvider.dart:1:1 - file_names
+   info - Missing type annotation - lib\Providers\ThemeProvider.dart:14:3 - strict_top_level_inference
+   info - Missing type annotation - lib\Providers\ThemeProvider.dart:22:3 - strict_top_level_inference
+   info - The file name 'AppColors.dart' isn't a lower_case_with_underscores identifier - lib\Static\AppColors.dart:1:1 - file_names
+   info - The file name 'ForgotPasswordPage.dart' isn't a lower_case_with_underscores identifier - lib\screen\auth\ForgotPasswordPage.dart:1:1 - file_names
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\auth\ForgotPasswordPage.dart:36:50 - deprecated_member_use
+   info - The file name 'LoginRegistrationPage.dart' isn't a lower_case_with_underscores identifier - lib\screen\auth\LoginRegistrationPage.dart:1:1 - file_names
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\auth\LoginRegistrationPage.dart:72:50 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\auth\LoginRegistrationPage.dart:204:64 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\auth\LoginRegistrationPage.dart:262:64 - deprecated_member_use
+   info - The file name 'OtpPage.dart' isn't a lower_case_with_underscores identifier - lib\screen\auth\OtpPage.dart:1:1 - file_names
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\auth\OtpPage.dart:63:50 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\auth\OtpPage.dart:264:62 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\auth\OtpPage.dart:268:35 - deprecated_member_use
+   info - The file name 'BookingConfirmationPage.dart' isn't a lower_case_with_underscores identifier - lib\screen\details\BookingConfirmationPage.dart:1:1 - file_names
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\details\BookingConfirmationPage.dart:75:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\details\BookingConfirmationPage.dart:127:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\details\BookingConfirmationPage.dart:399:29 - deprecated_member_use
+   info - The file name 'BookingPage.dart' isn't a lower_case_with_underscores identifier - lib\screen\details\BookingPage.dart:1:1 - file_names
+warning - The value of the local variable 'docName' isn't used - lib\screen\details\BookingPage.dart:56:11 - unused_local_variable
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\details\BookingPage.dart:75:39 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\details\BookingPage.dart:110:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\details\BookingPage.dart:181:59 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\details\BookingPage.dart:188:57 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\details\BookingPage.dart:204:55 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\details\BookingPage.dart:303:43 - deprecated_member_use
+   info - The file name 'DoctorDetailPage.dart' isn't a lower_case_with_underscores identifier - lib\screen\details\DoctorDetailPage.dart:1:1 - file_names
+warning - The value of the local variable 'reviews' isn't used - lib\screen\details\DoctorDetailPage.dart:40:11 - unused_local_variable
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\details\DoctorDetailPage.dart:282:59 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\details\DoctorDetailPage.dart:406:35 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\details\DoctorDetailPage.dart:459:32 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\details\DoctorDetailPage.dart:488:35 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\details\DoctorDetailPage.dart:493:35 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\details\DoctorDetailPage.dart:533:29 - deprecated_member_use
+   info - The file name 'AppointmentsPage.dart' isn't a lower_case_with_underscores identifier - lib\screen\navigation\AppointmentsPage.dart:1:1 - file_names
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\AppointmentsPage.dart:360:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\AppointmentsPage.dart:425:40 - deprecated_member_use
+   info - The file name 'HomePage.dart' isn't a lower_case_with_underscores identifier - lib\screen\navigation\HomePage.dart:1:1 - file_names
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\HomePage.dart:146:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\HomePage.dart:296:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\HomePage.dart:308:28 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\HomePage.dart:398:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\HomePage.dart:587:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\HomePage.dart:704:69 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\HomePage.dart:747:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\HomePage.dart:823:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\HomePage.dart:881:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\HomePage.dart:937:30 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\HomePage.dart:961:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\HomePage.dart:1000:30 - deprecated_member_use
+   info - The file name 'Navigation_Bar.dart' isn't a lower_case_with_underscores identifier - lib\screen\navigation\Navigation_Bar.dart:1:1 - file_names
+   info - The type name 'Navigation_Bar' isn't an UpperCamelCase identifier - lib\screen\navigation\Navigation_Bar.dart:8:7 - camel_case_types
+   info - The type name '_Navigation_Bar' isn't an UpperCamelCase identifier - lib\screen\navigation\Navigation_Bar.dart:15:7 - camel_case_types
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\Navigation_Bar.dart:64:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\Navigation_Bar.dart:147:38 - deprecated_member_use
+   info - The file name 'ProfilePage.dart' isn't a lower_case_with_underscores identifier - lib\screen\navigation\ProfilePage.dart:1:1 - file_names
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\ProfilePage.dart:187:39 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\ProfilePage.dart:200:39 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\ProfilePage.dart:210:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\ProfilePage.dart:240:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\ProfilePage.dart:261:58 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\ProfilePage.dart:288:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\ProfilePage.dart:369:33 - deprecated_member_use
+   info - 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre - lib\screen\navigation\ProfilePage.dart:410:15 - deprecated_member_use
+   info - The file name 'SearchPage.dart' isn't a lower_case_with_underscores identifier - lib\screen\navigation\SearchPage.dart:1:1 - file_names
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\SearchPage.dart:345:35 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screen\navigation\SearchPage.dart:454:67 - deprecated_member_use
+

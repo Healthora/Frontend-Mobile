@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medical/Static/AppColors.dart';
+import 'package:medical/screen/details/DoctorDetailPage.dart';
 
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
@@ -8,9 +9,10 @@ class Homepage extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: AppColors.grey[100],
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -40,12 +42,17 @@ class Homepage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildSectionHeader(
+                            context,
                             'Prochain Rendez-vous',
                             'Voir tout',
                             screenWidth,
                           ),
                           SizedBox(height: screenHeight * 0.015),
-                          _buildAppointmentCard(screenWidth, screenHeight),
+                          _buildAppointmentCard(
+                            context,
+                            screenWidth,
+                            screenHeight,
+                          ),
                         ],
                       ),
                     ),
@@ -61,13 +68,18 @@ class Homepage extends StatelessWidget {
                             horizontal: screenWidth * 0.05,
                           ),
                           child: _buildSectionHeader(
+                            context,
                             'Médecins Recommandés',
                             'Voir tout',
                             screenWidth,
                           ),
                         ),
                         SizedBox(height: screenHeight * 0.015),
-                        _buildRecommendedDoctors(screenWidth, screenHeight),
+                        _buildRecommendedDoctors(
+                          context,
+                          screenWidth,
+                          screenHeight,
+                        ),
                       ],
                     ),
 
@@ -82,12 +94,17 @@ class Homepage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildSectionHeader(
+                            context,
                             'Cabinets Proches',
                             'Voir la carte',
                             screenWidth,
                           ),
                           SizedBox(height: screenHeight * 0.015),
-                          _buildNearbyCabinets(screenWidth, screenHeight),
+                          _buildNearbyCabinets(
+                            context,
+                            screenWidth,
+                            screenHeight,
+                          ),
                         ],
                       ),
                     ),
@@ -112,6 +129,9 @@ class Homepage extends StatelessWidget {
     double screenWidth,
     double screenHeight,
   ) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Container(
       margin: EdgeInsets.all(screenWidth * 0.04),
       padding: EdgeInsets.symmetric(
@@ -119,11 +139,11 @@ class Homepage extends StatelessWidget {
         vertical: screenHeight * 0.018,
       ),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withOpacity(isDark ? 0.3 : 0.04),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -168,7 +188,7 @@ class Homepage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: screenWidth * 0.045,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.black,
+                    color: theme.textTheme.bodyLarge?.color,
                   ),
                 ),
               ],
@@ -180,7 +200,7 @@ class Homepage extends StatelessWidget {
             width: screenWidth * 0.11,
             height: screenWidth * 0.11,
             decoration: BoxDecoration(
-              color: AppColors.grey[100],
+              color: isDark ? const Color(0xFF2C3E50) : AppColors.grey[100],
               shape: BoxShape.circle,
             ),
             child: Stack(
@@ -218,37 +238,44 @@ class Homepage extends StatelessWidget {
   // ============================================================================
 
   Widget _buildQuickStats(double screenWidth, double screenHeight) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-      child: Row(
-        children: [
-          Expanded(
-            child: _buildStatCard(
-              icon: Icons.event_available,
-              title: 'Rendez-vous',
-              value: '12',
-              color: AppColors.blue,
-              screenWidth: screenWidth,
-              screenHeight: screenHeight,
-            ),
+    return Builder(
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+          child: Row(
+            children: [
+              Expanded(
+                child: _buildStatCard(
+                  context: context,
+                  icon: Icons.event_available,
+                  title: 'Rendez-vous',
+                  value: '12',
+                  color: AppColors.blue,
+                  screenWidth: screenWidth,
+                  screenHeight: screenHeight,
+                ),
+              ),
+              SizedBox(width: screenWidth * 0.03),
+              Expanded(
+                child: _buildStatCard(
+                  context: context,
+                  icon: Icons.medical_services_outlined,
+                  title: 'Prescriptions',
+                  value: '5',
+                  color: AppColors.teal,
+                  screenWidth: screenWidth,
+                  screenHeight: screenHeight,
+                ),
+              ),
+            ],
           ),
-          SizedBox(width: screenWidth * 0.03),
-          Expanded(
-            child: _buildStatCard(
-              icon: Icons.medical_services_outlined,
-              title: 'Prescriptions',
-              value: '5',
-              color: AppColors.teal,
-              screenWidth: screenWidth,
-              screenHeight: screenHeight,
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
   Widget _buildStatCard({
+    required BuildContext context,
     required IconData icon,
     required String title,
     required String value,
@@ -256,14 +283,17 @@ class Homepage extends StatelessWidget {
     required double screenWidth,
     required double screenHeight,
   }) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Container(
       padding: EdgeInsets.all(screenWidth * 0.04),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withOpacity(isDark ? 0.3 : 0.04),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -286,7 +316,7 @@ class Homepage extends StatelessWidget {
             style: TextStyle(
               fontSize: screenWidth * 0.065,
               fontWeight: FontWeight.bold,
-              color: AppColors.black,
+              color: theme.textTheme.bodyLarge?.color,
             ),
           ),
           SizedBox(height: screenHeight * 0.002),
@@ -307,7 +337,12 @@ class Homepage extends StatelessWidget {
   // SECTION HEADER
   // ============================================================================
 
-  Widget _buildSectionHeader(String title, String action, double screenWidth) {
+  Widget _buildSectionHeader(
+    BuildContext context,
+    String title,
+    String action,
+    double screenWidth,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -316,7 +351,7 @@ class Homepage extends StatelessWidget {
           style: TextStyle(
             fontSize: screenWidth * 0.048,
             fontWeight: FontWeight.bold,
-            color: AppColors.black,
+            color: Theme.of(context).textTheme.bodyLarge?.color,
           ),
         ),
         if (action.isNotEmpty)
@@ -345,15 +380,22 @@ class Homepage extends StatelessWidget {
   // APPOINTMENT CARD
   // ============================================================================
 
-  Widget _buildAppointmentCard(double screenWidth, double screenHeight) {
+  Widget _buildAppointmentCard(
+    BuildContext context,
+    double screenWidth,
+    double screenHeight,
+  ) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Container(
       padding: EdgeInsets.all(screenWidth * 0.04),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withOpacity(isDark ? 0.3 : 0.04),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -387,7 +429,7 @@ class Homepage extends StatelessWidget {
                       style: TextStyle(
                         fontSize: screenWidth * 0.042,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.black,
+                        color: theme.textTheme.bodyLarge?.color,
                       ),
                     ),
                     SizedBox(height: screenHeight * 0.004),
@@ -430,7 +472,7 @@ class Homepage extends StatelessWidget {
                         style: TextStyle(
                           fontSize: screenWidth * 0.036,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.black,
+                          color: theme.textTheme.bodyLarge?.color,
                         ),
                       ),
                       Text(
@@ -473,7 +515,14 @@ class Homepage extends StatelessWidget {
   // RECOMMENDED DOCTORS SECTION
   // ============================================================================
 
-  Widget _buildRecommendedDoctors(double screenWidth, double screenHeight) {
+  Widget _buildRecommendedDoctors(
+    BuildContext context,
+    double screenWidth,
+    double screenHeight,
+  ) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     final doctors = [
       {
         'name': 'Dr. Abdou Hadjou',
@@ -517,146 +566,158 @@ class Homepage extends StatelessWidget {
         itemBuilder: (context, index) {
           final doctor = doctors[index];
           final isLast = index == doctors.length - 1;
-          return Container(
-            width: screenWidth * 0.52,
-            margin: EdgeInsets.only(right: isLast ? 0 : screenWidth * 0.03),
-            padding: EdgeInsets.all(screenWidth * 0.04),
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.04),
-                  blurRadius: 10,
-                  offset: const Offset(0, 2),
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DoctorDetailPage(doctor: doctor),
                 ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Doctor Avatar + Rating
-                Row(
-                  children: [
-                    Container(
-                      width: screenWidth * 0.13,
-                      height: screenWidth * 0.13,
-                      decoration: BoxDecoration(
-                        color: AppColors.blue[50],
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.person,
-                        color: AppColors.blue,
-                        size: screenWidth * 0.065,
-                      ),
-                    ),
-                    const Spacer(),
-                    // Rating badge
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: screenWidth * 0.02,
-                        vertical: screenWidth * 0.008,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.amber[50],
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.star_rounded,
-                            size: screenWidth * 0.035,
-                            color: Colors.amber[700],
-                          ),
-                          SizedBox(width: screenWidth * 0.01),
-                          Text(
-                            '${doctor['rating']}',
-                            style: TextStyle(
-                              fontSize: screenWidth * 0.03,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.amber[800],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-
-                SizedBox(height: screenHeight * 0.012),
-
-                // Doctor Name
-                Text(
-                  doctor['name'] as String,
-                  style: TextStyle(
-                    fontSize: screenWidth * 0.038,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.black,
+              );
+            },
+            child: Container(
+              width: screenWidth * 0.52,
+              margin: EdgeInsets.only(right: isLast ? 0 : screenWidth * 0.03),
+              padding: EdgeInsets.all(screenWidth * 0.04),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surface,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(isDark ? 0.3 : 0.04),
+                    blurRadius: 10,
+                    offset: const Offset(0, 2),
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-
-                SizedBox(height: screenHeight * 0.003),
-
-                // Specialty
-                Text(
-                  doctor['specialty'] as String,
-                  style: TextStyle(
-                    fontSize: screenWidth * 0.032,
-                    color: AppColors.grey[600],
-                  ),
-                ),
-
-                SizedBox(height: screenHeight * 0.006),
-
-                // Location + Distance
-                Row(
-                  children: [
-                    Icon(
-                      Icons.location_on_outlined,
-                      size: screenWidth * 0.033,
-                      color: AppColors.grey[400],
-                    ),
-                    SizedBox(width: screenWidth * 0.01),
-                    Expanded(
-                      child: Text(
-                        '${doctor['location']} • ${doctor['distance']}',
-                        style: TextStyle(
-                          fontSize: screenWidth * 0.029,
-                          color: AppColors.grey[500],
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Doctor Avatar + Rating
+                  Row(
+                    children: [
+                      Container(
+                        width: screenWidth * 0.13,
+                        height: screenWidth * 0.13,
+                        decoration: BoxDecoration(
+                          color: AppColors.blue[50],
+                          shape: BoxShape.circle,
                         ),
-                        overflow: TextOverflow.ellipsis,
+                        child: Icon(
+                          Icons.person,
+                          color: AppColors.blue,
+                          size: screenWidth * 0.065,
+                        ),
+                      ),
+                      const Spacer(),
+                      // Rating badge
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: screenWidth * 0.02,
+                          vertical: screenWidth * 0.008,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.amber[50],
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.star_rounded,
+                              size: screenWidth * 0.035,
+                              color: Colors.amber[700],
+                            ),
+                            SizedBox(width: screenWidth * 0.01),
+                            Text(
+                              '${doctor['rating']}',
+                              style: TextStyle(
+                                fontSize: screenWidth * 0.03,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.amber[800],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(height: screenHeight * 0.012),
+
+                  // Doctor Name
+                  Text(
+                    doctor['name'] as String,
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.038,
+                      fontWeight: FontWeight.bold,
+                      color: theme.textTheme.bodyLarge?.color,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+
+                  SizedBox(height: screenHeight * 0.003),
+
+                  // Specialty
+                  Text(
+                    doctor['specialty'] as String,
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.032,
+                      color: AppColors.grey[600],
+                    ),
+                  ),
+
+                  SizedBox(height: screenHeight * 0.006),
+
+                  // Location + Distance
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.location_on_outlined,
+                        size: screenWidth * 0.033,
+                        color: AppColors.grey[400],
+                      ),
+                      SizedBox(width: screenWidth * 0.01),
+                      Expanded(
+                        child: Text(
+                          '${doctor['location']} • ${doctor['distance']}',
+                          style: TextStyle(
+                            fontSize: screenWidth * 0.029,
+                            color: AppColors.grey[500],
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const Spacer(),
+
+                  // Availability Badge
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                      vertical: screenHeight * 0.008,
+                    ),
+                    decoration: BoxDecoration(
+                      color: (doctor['availabilityColor'] as Color).withOpacity(
+                        0.1,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      doctor['availability'] as String,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: screenWidth * 0.028,
+                        fontWeight: FontWeight.w600,
+                        color: doctor['availabilityColor'] as Color,
                       ),
                     ),
-                  ],
-                ),
-
-                const Spacer(),
-
-                // Availability Badge
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(vertical: screenHeight * 0.008),
-                  decoration: BoxDecoration(
-                    color: (doctor['availabilityColor'] as Color).withOpacity(
-                      0.1,
-                    ),
-                    borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Text(
-                    doctor['availability'] as String,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.028,
-                      fontWeight: FontWeight.w600,
-                      color: doctor['availabilityColor'] as Color,
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },
@@ -668,15 +729,22 @@ class Homepage extends StatelessWidget {
   // NEARBY CABINETS SECTION - MAP VIEW
   // ============================================================================
 
-  Widget _buildNearbyCabinets(double screenWidth, double screenHeight) {
+  Widget _buildNearbyCabinets(
+    BuildContext context,
+    double screenWidth,
+    double screenHeight,
+  ) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Container(
       height: screenHeight * 0.28,
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withOpacity(isDark ? 0.3 : 0.04),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -693,9 +761,9 @@ class Homepage extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    AppColors.blue[50]!,
-                    AppColors.blue[100]!,
-                    AppColors.teal[50]!,
+                    isDark ? AppColors.blue[900]! : AppColors.blue[50]!,
+                    isDark ? AppColors.blue[800]! : AppColors.blue[100]!,
+                    isDark ? AppColors.teal[900]! : AppColors.teal[50]!,
                   ],
                 ),
               ),
@@ -709,6 +777,7 @@ class Homepage extends StatelessWidget {
               top: screenHeight * 0.06,
               left: screenWidth * 0.15,
               child: _buildCabinetMarker(
+                context,
                 'Clinique Les Oliviers',
                 '1.2 km',
                 screenWidth,
@@ -719,6 +788,7 @@ class Homepage extends StatelessWidget {
               top: screenHeight * 0.12,
               right: screenWidth * 0.18,
               child: _buildCabinetMarker(
+                context,
                 'Cabinet Dr. Mansouri',
                 '2.5 km',
                 screenWidth,
@@ -729,6 +799,7 @@ class Homepage extends StatelessWidget {
               bottom: screenHeight * 0.08,
               left: screenWidth * 0.25,
               child: _buildCabinetMarker(
+                context,
                 'Centre Médical',
                 '3.1 km',
                 screenWidth,
@@ -803,11 +874,11 @@ class Homepage extends StatelessWidget {
                   vertical: screenHeight * 0.008,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.white,
+                  color: isDark ? const Color(0xFF2C3E50) : AppColors.white,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.08),
+                      color: Colors.black.withOpacity(isDark ? 0.3 : 0.08),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),
@@ -819,7 +890,7 @@ class Homepage extends StatelessWidget {
                     Icon(
                       Icons.location_on,
                       size: screenWidth * 0.04,
-                      color: AppColors.blue,
+                      color: isDark ? AppColors.white : AppColors.blue,
                     ),
                     SizedBox(width: screenWidth * 0.015),
                     Text(
@@ -827,7 +898,7 @@ class Homepage extends StatelessWidget {
                       style: TextStyle(
                         fontSize: screenWidth * 0.032,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.black,
+                        color: theme.textTheme.bodyLarge?.color,
                       ),
                     ),
                   ],
@@ -842,11 +913,15 @@ class Homepage extends StatelessWidget {
 
   // Cabinet Marker Widget
   Widget _buildCabinetMarker(
+    BuildContext context,
     String name,
     String distance,
     double screenWidth,
     Color color,
   ) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Column(
       children: [
         // Marker Pin
@@ -856,7 +931,7 @@ class Homepage extends StatelessWidget {
           decoration: BoxDecoration(
             color: color,
             shape: BoxShape.circle,
-            border: Border.all(color: AppColors.white, width: 3),
+            border: Border.all(color: Colors.white, width: 3),
             boxShadow: [
               BoxShadow(
                 color: color.withOpacity(0.4),
@@ -867,7 +942,7 @@ class Homepage extends StatelessWidget {
           ),
           child: Icon(
             Icons.local_hospital,
-            color: AppColors.white,
+            color: Colors.white,
             size: screenWidth * 0.04,
           ),
         ),
@@ -879,11 +954,11 @@ class Homepage extends StatelessWidget {
             vertical: screenWidth * 0.01,
           ),
           decoration: BoxDecoration(
-            color: AppColors.white,
+            color: isDark ? const Color(0xFF2C3E50) : Colors.white,
             borderRadius: BorderRadius.circular(8),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withOpacity(isDark ? 0.3 : 0.1),
                 blurRadius: 4,
                 offset: const Offset(0, 2),
               ),
@@ -896,9 +971,8 @@ class Homepage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: screenWidth * 0.026,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.black,
+                  color: theme.textTheme.bodyLarge?.color,
                 ),
-                textAlign: TextAlign.center,
               ),
               Text(
                 distance,

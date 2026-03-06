@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medical/Static/AppColors.dart';
 import 'package:medical/screen/auth/ForgotPasswordPage.dart';
+import 'package:medical/screen/auth/OtpPage.dart';
 import 'package:medical/screen/navigation/Navigation_Bar.dart';
 
 class LoginRegistrationPage extends StatefulWidget {
@@ -46,9 +47,11 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: AppColors.grey[200],
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -62,11 +65,13 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                   bottom: size.height * 0.02,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: AppColors.white,
+                      color: theme.colorScheme.surface,
                       borderRadius: BorderRadius.circular(30),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.black.withOpacity(0.1),
+                          color: AppColors.black.withOpacity(
+                            isDark ? 0.3 : 0.1,
+                          ),
                           blurRadius: 20,
                           offset: const Offset(0, 10),
                         ),
@@ -86,6 +91,7 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                     style: TextStyle(
                                       fontSize: size.width * 0.05,
                                       fontWeight: FontWeight.w600,
+                                      color: theme.textTheme.bodyLarge?.color,
                                     ),
                                   ),
                                 ),
@@ -144,6 +150,7 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                     style: TextStyle(
                                       fontSize: size.width * 0.061,
                                       fontWeight: FontWeight.bold,
+                                      color: theme.textTheme.bodyLarge?.color,
                                     ),
                                   ),
 
@@ -155,7 +162,9 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                         : 'Rejoignez-nous pour une vie plus saine.',
                                     style: TextStyle(
                                       fontSize: size.width * 0.032,
-                                      color: AppColors.grey[600],
+                                      color: isDark
+                                          ? AppColors.grey[400]
+                                          : AppColors.grey[600],
                                     ),
                                   ),
 
@@ -165,7 +174,9 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                   Container(
                                     height: size.height * 0.05,
                                     decoration: BoxDecoration(
-                                      color: AppColors.grey[100],
+                                      color: isDark
+                                          ? Colors.grey[800]
+                                          : AppColors.grey[100],
                                       borderRadius: BorderRadius.circular(25),
                                     ),
                                     child: Row(
@@ -178,7 +189,11 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                             child: Container(
                                               decoration: BoxDecoration(
                                                 color: isLoginPage
-                                                    ? AppColors.white
+                                                    ? (isDark
+                                                          ? const Color(
+                                                              0xFF2C3E50,
+                                                            )
+                                                          : AppColors.white)
                                                     : Colors.transparent,
                                                 borderRadius:
                                                     BorderRadius.circular(25),
@@ -186,7 +201,11 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                                     ? [
                                                         BoxShadow(
                                                           color: AppColors.black
-                                                              .withOpacity(0.1),
+                                                              .withOpacity(
+                                                                isDark
+                                                                    ? 0.3
+                                                                    : 0.1,
+                                                              ),
                                                           blurRadius: 8,
                                                           offset: const Offset(
                                                             0,
@@ -205,8 +224,14 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                                         ? FontWeight.w600
                                                         : FontWeight.w500,
                                                     color: isLoginPage
-                                                        ? AppColors.blue
-                                                        : AppColors.grey[600],
+                                                        ? (isDark
+                                                              ? AppColors.white
+                                                              : AppColors.blue)
+                                                        : (isDark
+                                                              ? AppColors
+                                                                    .grey[400]
+                                                              : AppColors
+                                                                    .grey[600]),
                                                   ),
                                                 ),
                                               ),
@@ -222,7 +247,11 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                             child: Container(
                                               decoration: BoxDecoration(
                                                 color: !isLoginPage
-                                                    ? AppColors.white
+                                                    ? (isDark
+                                                          ? const Color(
+                                                              0xFF2C3E50,
+                                                            )
+                                                          : AppColors.white)
                                                     : Colors.transparent,
                                                 borderRadius:
                                                     BorderRadius.circular(25),
@@ -230,7 +259,11 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                                     ? [
                                                         BoxShadow(
                                                           color: AppColors.black
-                                                              .withOpacity(0.1),
+                                                              .withOpacity(
+                                                                isDark
+                                                                    ? 0.3
+                                                                    : 0.1,
+                                                              ),
                                                           blurRadius: 8,
                                                           offset: const Offset(
                                                             0,
@@ -249,8 +282,14 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                                         ? FontWeight.w600
                                                         : FontWeight.w500,
                                                     color: !isLoginPage
-                                                        ? AppColors.blue
-                                                        : AppColors.grey[600],
+                                                        ? (isDark
+                                                              ? AppColors.white
+                                                              : AppColors.blue)
+                                                        : (isDark
+                                                              ? AppColors
+                                                                    .grey[400]
+                                                              : AppColors
+                                                                    .grey[600]),
                                                   ),
                                                 ),
                                               ),
@@ -266,6 +305,7 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                   // Input fields
                                   if (!isLoginPage) ...[
                                     _buildTextField(
+                                      context: context,
                                       controller: nameController,
                                       hintText: 'Nom complet',
                                       icon: Icons.person_outline,
@@ -275,6 +315,7 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                   ],
 
                                   _buildTextField(
+                                    context: context,
                                     controller: emailController,
                                     hintText: 'Email ou numéro de téléphone',
                                     icon: Icons.alternate_email,
@@ -284,6 +325,7 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                   SizedBox(height: size.height * 0.02),
 
                                   _buildTextField(
+                                    context: context,
                                     controller: passwordController,
                                     hintText: 'Mot de passe',
                                     icon: Icons.lock_outline,
@@ -300,6 +342,7 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                   if (!isLoginPage) ...[
                                     SizedBox(height: size.height * 0.02),
                                     _buildTextField(
+                                      context: context,
                                       controller: confirmPasswordController,
                                       hintText: 'Confirmer le mot de passe',
                                       icon: Icons.lock_outline,
@@ -389,7 +432,15 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                       width: double.infinity,
                                       height: size.height * 0.065,
                                       child: OutlinedButton.icon(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const OtpPage(),
+                                            ),
+                                          );
+                                        },
                                         icon: Icon(
                                           Icons.message_outlined,
                                           size: size.width * 0.05,
@@ -433,6 +484,7 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
   }
 
   Widget _buildTextField({
+    required BuildContext context,
     required TextEditingController controller,
     required String hintText,
     required IconData icon,
@@ -441,17 +493,25 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
     bool isPasswordVisible = false,
     VoidCallback? onTogglePassword,
   }) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Container(
       height: size.height * 0.065,
       decoration: BoxDecoration(
-        color: AppColors.grey[50],
+        color: isDark ? Colors.grey[800] : AppColors.grey[50],
         borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: AppColors.grey[200]!),
+        border: Border.all(
+          color: isDark ? Colors.grey[700]! : AppColors.grey[200]!,
+        ),
       ),
       child: TextField(
         controller: controller,
         obscureText: isPassword && !isPasswordVisible,
-        style: TextStyle(fontSize: size.width * 0.04),
+        style: TextStyle(
+          fontSize: size.width * 0.04,
+          color: theme.textTheme.bodyLarge?.color,
+        ),
         decoration: InputDecoration(
           hintText: hintText,
           hintStyle: TextStyle(
