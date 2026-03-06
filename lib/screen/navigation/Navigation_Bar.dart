@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:medical/Static/AppColors.dart';
 import 'package:medical/screen/navigation/AppointmentsPage.dart';
 import 'package:medical/screen/navigation/Homepage.dart';
 import 'package:medical/screen/navigation/ProfilePage.dart';
@@ -77,7 +76,6 @@ class _Navigation_Bar extends State<Navigation_Bar> {
                   icon: Icons.home_rounded,
                   label: 'Accueil',
                   index: 0,
-                  color: AppColors.blue,
                   iconSize: iconSize,
                   fontSize: fontSize,
                 ),
@@ -85,7 +83,6 @@ class _Navigation_Bar extends State<Navigation_Bar> {
                   icon: Icons.calendar_today_rounded,
                   label: 'Rendez-vous',
                   index: 1,
-                  color: AppColors.blue,
                   iconSize: iconSize,
                   fontSize: fontSize,
                 ),
@@ -93,7 +90,6 @@ class _Navigation_Bar extends State<Navigation_Bar> {
                   icon: Icons.search_rounded,
                   label: 'Recherche',
                   index: 2,
-                  color: AppColors.blue,
                   iconSize: iconSize,
                   fontSize: fontSize,
                 ),
@@ -101,7 +97,6 @@ class _Navigation_Bar extends State<Navigation_Bar> {
                   icon: Icons.person,
                   label: 'Profil',
                   index: 3,
-                  color: AppColors.blue,
                   iconSize: iconSize,
                   fontSize: fontSize,
                 ),
@@ -117,17 +112,15 @@ class _Navigation_Bar extends State<Navigation_Bar> {
     required IconData icon,
     required String label,
     required int index,
-    required Color color,
     required double iconSize,
     required double fontSize,
   }) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
 
     final bool isSelected = _selectedIndex == index;
     final Color itemColor = isSelected
-        ? theme.primaryColor
-        : (isDark ? Colors.grey[400]! : AppColors.grey[600]!);
+        ? theme.colorScheme.primary
+        : theme.textTheme.bodySmall?.color?.withOpacity(0.5) ?? Colors.grey;
 
     // Responsive padding
     final horizontalPadding = MediaQuery.of(context).size.width * 0.03;

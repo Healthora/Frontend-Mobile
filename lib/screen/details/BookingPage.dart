@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:medical/Static/AppColors.dart';
 import 'package:medical/screen/details/BookingConfirmationPage.dart';
 
 class BookingPage extends StatefulWidget {
@@ -12,8 +11,8 @@ class BookingPage extends StatefulWidget {
 }
 
 class _BookingPageState extends State<BookingPage> {
-  int _selectedDateIndex = 1; // "Mar 15" selectionné par défaut par exemple
-  int _selectedTimeIndex = 2; // "09:00" selectionné par défaut par exemple
+  int _selectedDateIndex = 1;
+  int _selectedTimeIndex = 2;
 
   final List<Map<String, String>> _dates = [
     {'day': 'Lun', 'date': '14'},
@@ -35,7 +34,6 @@ class _BookingPageState extends State<BookingPage> {
     '11:00',
     '11:30',
   ];
-
   final List<String> _afternoonTimes = [
     '14:00',
     '14:30',
@@ -46,8 +44,6 @@ class _BookingPageState extends State<BookingPage> {
     '17:00',
     '17:30',
   ];
-
-  // Simulation d'horaires indisponibles
   final List<String> _unavailableTimes = ['10:30', '15:30'];
 
   @override
@@ -68,11 +64,11 @@ class _BookingPageState extends State<BookingPage> {
           child: Container(
             margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: AppColors.white,
+              color: theme.colorScheme.surface,
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
+                  color: Colors.black.withOpacity(0.05),
                   blurRadius: 5,
                   offset: const Offset(0, 2),
                 ),
@@ -81,7 +77,7 @@ class _BookingPageState extends State<BookingPage> {
             child: IconButton(
               icon: Icon(
                 Icons.arrow_back,
-                color: AppColors.black,
+                color: theme.iconTheme.color,
                 size: screenWidth * 0.05,
               ),
               onPressed: () => Navigator.pop(context),
@@ -91,7 +87,7 @@ class _BookingPageState extends State<BookingPage> {
         title: Text(
           docName,
           style: TextStyle(
-            color: isDark ? AppColors.white : AppColors.black,
+            color: theme.textTheme.bodyLarge?.color,
             fontSize: screenWidth * 0.045,
             fontWeight: FontWeight.bold,
           ),
@@ -103,11 +99,11 @@ class _BookingPageState extends State<BookingPage> {
             child: Container(
               margin: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: AppColors.white,
+                color: theme.colorScheme.surface,
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.05),
+                    color: Colors.black.withOpacity(0.05),
                     blurRadius: 5,
                     offset: const Offset(0, 2),
                   ),
@@ -116,7 +112,7 @@ class _BookingPageState extends State<BookingPage> {
               child: IconButton(
                 icon: Icon(
                   Icons.more_horiz,
-                  color: AppColors.black,
+                  color: theme.iconTheme.color,
                   size: screenWidth * 0.05,
                 ),
                 onPressed: () {},
@@ -131,9 +127,6 @@ class _BookingPageState extends State<BookingPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              //==============================================
-              // DATE SELECTOR
-              //==============================================
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -147,13 +140,12 @@ class _BookingPageState extends State<BookingPage> {
                   ),
                   Icon(
                     Icons.calendar_month,
-                    color: AppColors.blue,
+                    color: theme.colorScheme.primary,
                     size: screenWidth * 0.055,
                   ),
                 ],
               ),
               SizedBox(height: screenHeight * 0.02),
-
               SizedBox(
                 height: screenHeight * 0.1,
                 child: ListView.builder(
@@ -162,23 +154,20 @@ class _BookingPageState extends State<BookingPage> {
                   itemBuilder: (context, index) {
                     final isSelected = _selectedDateIndex == index;
                     return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _selectedDateIndex = index;
-                        });
-                      },
+                      onTap: () => setState(() => _selectedDateIndex = index),
                       child: Container(
                         margin: EdgeInsets.only(right: screenWidth * 0.03),
                         width: screenWidth * 0.16,
                         decoration: BoxDecoration(
                           color: isSelected
-                              ? AppColors.blue
+                              ? theme.colorScheme.primary
                               : theme.colorScheme.surface,
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: isSelected
                               ? [
                                   BoxShadow(
-                                    color: AppColors.blue.withOpacity(0.3),
+                                    color: theme.colorScheme.primary
+                                        .withOpacity(0.3),
                                     blurRadius: 10,
                                     offset: const Offset(0, 5),
                                   ),
@@ -201,9 +190,10 @@ class _BookingPageState extends State<BookingPage> {
                               style: TextStyle(
                                 fontSize: screenWidth * 0.035,
                                 color: isSelected
-                                    ? AppColors.white.withOpacity(0.8)
-                                    : AppColors.grey[500],
-                                fontWeight: FontWeight.normal,
+                                    ? theme.colorScheme.onPrimary.withOpacity(
+                                        0.8,
+                                      )
+                                    : theme.textTheme.bodySmall?.color,
                               ),
                             ),
                             SizedBox(height: screenHeight * 0.005),
@@ -212,7 +202,7 @@ class _BookingPageState extends State<BookingPage> {
                               style: TextStyle(
                                 fontSize: screenWidth * 0.045,
                                 color: isSelected
-                                    ? AppColors.white
+                                    ? theme.colorScheme.onPrimary
                                     : theme.textTheme.bodyLarge?.color,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -224,52 +214,23 @@ class _BookingPageState extends State<BookingPage> {
                   },
                 ),
               ),
-
               SizedBox(height: screenHeight * 0.04),
-
-              //==============================================
-              // TIME SELECTOR
-              //==============================================
-              Row(
-                children: [
-                  Icon(
-                    Icons.wb_sunny_outlined,
-                    color: Colors.orange,
-                    size: screenWidth * 0.05,
-                  ),
-                  SizedBox(width: screenWidth * 0.02),
-                  Text(
-                    'Matin',
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.04,
-                      fontWeight: FontWeight.bold,
-                      color: theme.textTheme.bodyLarge?.color,
-                    ),
-                  ),
-                ],
+              _buildSectionTitle(
+                Icons.wb_sunny_outlined,
+                Colors.orange,
+                'Matin',
+                theme,
+                screenWidth,
               ),
               SizedBox(height: screenHeight * 0.015),
               _buildTimeGrid(_morningTimes, 0, screenWidth, isDark, theme),
-
               SizedBox(height: screenHeight * 0.03),
-
-              Row(
-                children: [
-                  Icon(
-                    Icons.wb_cloudy_outlined,
-                    color: AppColors.blue,
-                    size: screenWidth * 0.05,
-                  ),
-                  SizedBox(width: screenWidth * 0.02),
-                  Text(
-                    'Après-midi',
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.04,
-                      fontWeight: FontWeight.bold,
-                      color: theme.textTheme.bodyLarge?.color,
-                    ),
-                  ),
-                ],
+              _buildSectionTitle(
+                Icons.wb_cloudy_outlined,
+                theme.colorScheme.primary,
+                'Après-midi',
+                theme,
+                screenWidth,
               ),
               SizedBox(height: screenHeight * 0.015),
               _buildTimeGrid(
@@ -279,12 +240,7 @@ class _BookingPageState extends State<BookingPage> {
                 isDark,
                 theme,
               ),
-
               SizedBox(height: screenHeight * 0.04),
-
-              //==============================================
-              // NOTES ADDITIONNELLES
-              //==============================================
               Text(
                 'Notes additionnelles',
                 style: TextStyle(
@@ -294,146 +250,172 @@ class _BookingPageState extends State<BookingPage> {
                 ),
               ),
               SizedBox(height: screenHeight * 0.015),
-              Container(
-                decoration: BoxDecoration(
-                  color: isDark ? const Color(0xFF2C3E50) : AppColors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(isDark ? 0.3 : 0.03),
-                      blurRadius: 10,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: TextField(
-                  maxLines: 4,
-                  style: TextStyle(color: theme.textTheme.bodyLarge?.color),
-                  decoration: InputDecoration(
-                    hintText:
-                        'Ajouter une note pour le médecin (symptômes, antécédents...)',
-                    hintStyle: TextStyle(
-                      color: AppColors.grey[400],
-                      fontSize: screenWidth * 0.035,
-                    ),
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.all(screenWidth * 0.04),
-                  ),
-                ),
-              ),
-
-              SizedBox(
-                height: screenHeight * 0.1,
-              ), // Espacement pour le bouttom bar
+              _buildNoteField(theme, isDark, screenWidth),
+              SizedBox(height: screenHeight * 0.1),
             ],
           ),
         ),
       ),
+      bottomNavigationBar: _buildBottomBar(
+        theme,
+        isDark,
+        screenWidth,
+        screenHeight,
+      ),
+    );
+  }
 
-      //==============================================
-      // BOTTOM BAR CONFIRMATION
-      //==============================================
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: screenWidth * 0.05,
-          vertical: screenHeight * 0.02,
-        ),
-        decoration: BoxDecoration(
-          color: theme.colorScheme.surface,
-          border: Border(
-            top: BorderSide(
-              color: isDark ? Colors.grey[800]! : AppColors.grey[200]!,
-              width: 1.5,
-            ),
+  Widget _buildSectionTitle(
+    IconData icon,
+    Color color,
+    String title,
+    ThemeData theme,
+    double screenWidth,
+  ) {
+    return Row(
+      children: [
+        Icon(icon, color: color, size: screenWidth * 0.05),
+        SizedBox(width: screenWidth * 0.02),
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: screenWidth * 0.04,
+            fontWeight: FontWeight.bold,
+            color: theme.textTheme.bodyLarge?.color,
           ),
         ),
-        child: SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Date & Heure',
-                        style: TextStyle(
-                          fontSize: screenWidth * 0.03,
-                          color: AppColors.grey[500],
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      SizedBox(height: screenHeight * 0.005),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.access_time,
-                            color: AppColors.blue,
-                            size: screenWidth * 0.04,
-                          ),
-                          SizedBox(width: screenWidth * 0.01),
-                          Text(
-                            '${_dates[_selectedDateIndex]['day']} ${_dates[_selectedDateIndex]['date']} Fév. à ${_getAllTimes()[_selectedTimeIndex]}',
-                            style: TextStyle(
-                              fontSize: screenWidth * 0.035,
-                              fontWeight: FontWeight.bold,
-                              color: theme.textTheme.bodyLarge?.color,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: screenHeight * 0.02),
-              SizedBox(
-                width: double.infinity,
-                height: screenHeight * 0.065,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Aller à la page de confirmation
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => BookingConfirmationPage(
-                          doctor: widget.doctor,
-                          date:
-                              '${_dates[_selectedDateIndex]['date']} Fév 2026',
-                          time: _getAllTimes()[_selectedTimeIndex],
-                        ),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.blue,
-                    foregroundColor: AppColors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    elevation: 0,
-                  ),
-                  child: Text(
-                    'Confirmer le rendez-vous',
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.04,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ],
+      ],
+    );
+  }
+
+  Widget _buildNoteField(ThemeData theme, bool isDark, double screenWidth) {
+    return Container(
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(isDark ? 0.3 : 0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
           ),
+        ],
+        border: Border.all(color: theme.dividerColor),
+      ),
+      child: TextField(
+        maxLines: 4,
+        style: TextStyle(color: theme.textTheme.bodyLarge?.color),
+        decoration: InputDecoration(
+          hintText:
+              'Ajouter une note pour le médecin (symptômes, antécédents...)',
+          hintStyle: TextStyle(
+            color: theme.textTheme.bodySmall?.color?.withOpacity(0.5),
+            fontSize: screenWidth * 0.035,
+          ),
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(screenWidth * 0.04),
         ),
       ),
     );
   }
 
-  List<String> _getAllTimes() {
-    return [..._morningTimes, ..._afternoonTimes];
+  Widget _buildBottomBar(
+    ThemeData theme,
+    bool isDark,
+    double screenWidth,
+    double screenHeight,
+  ) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: screenWidth * 0.05,
+        vertical: screenHeight * 0.02,
+      ),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        border: Border(top: BorderSide(color: theme.dividerColor, width: 1.5)),
+      ),
+      child: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Date & Heure',
+                      style: TextStyle(
+                        fontSize: screenWidth * 0.03,
+                        color: theme.textTheme.bodySmall?.color,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: screenHeight * 0.005),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.access_time,
+                          color: theme.colorScheme.primary,
+                          size: screenWidth * 0.04,
+                        ),
+                        SizedBox(width: screenWidth * 0.01),
+                        Text(
+                          '${_dates[_selectedDateIndex]['day']} ${_dates[_selectedDateIndex]['date']} Fév. à ${_getAllTimes()[_selectedTimeIndex]}',
+                          style: TextStyle(
+                            fontSize: screenWidth * 0.035,
+                            fontWeight: FontWeight.bold,
+                            color: theme.textTheme.bodyLarge?.color,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: screenHeight * 0.02),
+            SizedBox(
+              width: double.infinity,
+              height: screenHeight * 0.065,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BookingConfirmationPage(
+                        doctor: widget.doctor,
+                        date: '${_dates[_selectedDateIndex]['date']} Fév 2026',
+                        time: _getAllTimes()[_selectedTimeIndex],
+                      ),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: theme.colorScheme.primary,
+                  foregroundColor: theme.colorScheme.onPrimary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  elevation: 0,
+                ),
+                child: Text(
+                  'Confirmer le rendez-vous',
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.04,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
+
+  List<String> _getAllTimes() => [..._morningTimes, ..._afternoonTimes];
 
   Widget _buildTimeGrid(
     List<String> times,
@@ -460,28 +442,21 @@ class _BookingPageState extends State<BookingPage> {
 
         return GestureDetector(
           onTap: () {
-            if (!isUnavailable) {
-              setState(() {
-                _selectedTimeIndex = globalIndex;
-              });
-            }
+            if (!isUnavailable)
+              setState(() => _selectedTimeIndex = globalIndex);
           },
           child: Container(
             decoration: BoxDecoration(
               color: isSelected
-                  ? AppColors.blue
+                  ? theme.colorScheme.primary
                   : (isUnavailable
-                        ? (isDark ? Colors.grey[800] : AppColors.grey[100])
+                        ? (isDark ? Colors.grey[800] : Colors.grey[100])
                         : theme.colorScheme.surface),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: isSelected
-                    ? AppColors.blue
-                    : (isUnavailable
-                          ? Colors.transparent
-                          : (isDark
-                                ? Colors.grey[700]!
-                                : AppColors.grey[200]!)),
+                    ? theme.colorScheme.primary
+                    : theme.dividerColor,
               ),
             ),
             alignment: Alignment.center,
@@ -491,9 +466,9 @@ class _BookingPageState extends State<BookingPage> {
                 fontSize: screenWidth * 0.032,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
                 color: isSelected
-                    ? AppColors.white
+                    ? theme.colorScheme.onPrimary
                     : (isUnavailable
-                          ? AppColors.grey[500]
+                          ? theme.textTheme.bodySmall?.color?.withOpacity(0.5)
                           : theme.textTheme.bodyLarge?.color),
               ),
             ),

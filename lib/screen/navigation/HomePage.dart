@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:medical/Static/AppColors.dart';
 import 'package:medical/screen/details/DoctorDetailPage.dart';
 
 class Homepage extends StatelessWidget {
@@ -16,10 +15,7 @@ class Homepage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // Header Section
             _buildHeader(context, screenWidth, screenHeight),
-
-            // Scrollable Content
             Expanded(
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
@@ -27,13 +23,8 @@ class Homepage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: screenHeight * 0.02),
-
-                    // Quick Stats Cards
                     _buildQuickStats(screenWidth, screenHeight),
-
                     SizedBox(height: screenHeight * 0.025),
-
-                    // Upcoming Appointment Section
                     Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: screenWidth * 0.05,
@@ -56,10 +47,7 @@ class Homepage extends StatelessWidget {
                         ],
                       ),
                     ),
-
                     SizedBox(height: screenHeight * 0.025),
-
-                    // Recommended Doctors Section
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -82,10 +70,7 @@ class Homepage extends StatelessWidget {
                         ),
                       ],
                     ),
-
                     SizedBox(height: screenHeight * 0.025),
-
-                    // Nearby Cabinets Section
                     Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: screenWidth * 0.05,
@@ -108,7 +93,6 @@ class Homepage extends StatelessWidget {
                         ],
                       ),
                     ),
-
                     SizedBox(height: screenHeight * 0.03),
                   ],
                 ),
@@ -119,10 +103,6 @@ class Homepage extends StatelessWidget {
       ),
     );
   }
-
-  // ============================================================================
-  // HEADER SECTION
-  // ============================================================================
 
   Widget _buildHeader(
     BuildContext context,
@@ -151,24 +131,20 @@ class Homepage extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Profile Avatar
           Container(
             width: screenWidth * 0.12,
             height: screenWidth * 0.12,
             decoration: BoxDecoration(
-              color: AppColors.blue[50],
+              color: theme.colorScheme.primary.withOpacity(0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.person,
-              color: AppColors.blue,
+              color: theme.colorScheme.primary,
               size: screenWidth * 0.06,
             ),
           ),
-
           SizedBox(width: screenWidth * 0.03),
-
-          // Greeting and Name
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,7 +154,7 @@ class Homepage extends StatelessWidget {
                   'Bonjour',
                   style: TextStyle(
                     fontSize: screenWidth * 0.032,
-                    color: AppColors.grey[600],
+                    color: theme.textTheme.bodySmall?.color?.withOpacity(0.6),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -194,13 +170,11 @@ class Homepage extends StatelessWidget {
               ],
             ),
           ),
-
-          // Notification Icon
           Container(
             width: screenWidth * 0.11,
             height: screenWidth * 0.11,
             decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF2C3E50) : AppColors.grey[100],
+              color: theme.colorScheme.primary.withOpacity(0.1),
               shape: BoxShape.circle,
             ),
             child: Stack(
@@ -209,10 +183,9 @@ class Homepage extends StatelessWidget {
                   child: Icon(
                     Icons.notifications_outlined,
                     size: screenWidth * 0.055,
-                    color: AppColors.grey[700],
+                    color: theme.colorScheme.primary,
                   ),
                 ),
-                // Notification Badge
                 Positioned(
                   top: screenWidth * 0.02,
                   right: screenWidth * 0.02,
@@ -220,7 +193,7 @@ class Homepage extends StatelessWidget {
                     width: screenWidth * 0.022,
                     height: screenWidth * 0.022,
                     decoration: const BoxDecoration(
-                      color: AppColors.red,
+                      color: Colors.red,
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -233,13 +206,10 @@ class Homepage extends StatelessWidget {
     );
   }
 
-  // ============================================================================
-  // QUICK STATS SECTION
-  // ============================================================================
-
   Widget _buildQuickStats(double screenWidth, double screenHeight) {
     return Builder(
       builder: (context) {
+        final theme = Theme.of(context);
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
           child: Row(
@@ -250,7 +220,7 @@ class Homepage extends StatelessWidget {
                   icon: Icons.event_available,
                   title: 'Rendez-vous',
                   value: '12',
-                  color: AppColors.blue,
+                  color: theme.colorScheme.primary,
                   screenWidth: screenWidth,
                   screenHeight: screenHeight,
                 ),
@@ -262,7 +232,7 @@ class Homepage extends StatelessWidget {
                   icon: Icons.medical_services_outlined,
                   title: 'Prescriptions',
                   value: '5',
-                  color: AppColors.teal,
+                  color: Colors.teal,
                   screenWidth: screenWidth,
                   screenHeight: screenHeight,
                 ),
@@ -324,7 +294,7 @@ class Homepage extends StatelessWidget {
             title,
             style: TextStyle(
               fontSize: screenWidth * 0.032,
-              color: AppColors.grey[600],
+              color: theme.textTheme.bodySmall?.color?.withOpacity(0.7),
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -333,16 +303,13 @@ class Homepage extends StatelessWidget {
     );
   }
 
-  // ============================================================================
-  // SECTION HEADER
-  // ============================================================================
-
   Widget _buildSectionHeader(
     BuildContext context,
     String title,
     String action,
     double screenWidth,
   ) {
+    final theme = Theme.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -351,23 +318,17 @@ class Homepage extends StatelessWidget {
           style: TextStyle(
             fontSize: screenWidth * 0.048,
             fontWeight: FontWeight.bold,
-            color: Theme.of(context).textTheme.bodyLarge?.color,
+            color: theme.textTheme.bodyLarge?.color,
           ),
         ),
         if (action.isNotEmpty)
           TextButton(
             onPressed: () {},
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.symmetric(
-                horizontal: screenWidth * 0.02,
-                vertical: screenWidth * 0.01,
-              ),
-            ),
             child: Text(
               action,
               style: TextStyle(
                 fontSize: screenWidth * 0.036,
-                color: AppColors.blue,
+                color: theme.colorScheme.primary,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -375,10 +336,6 @@ class Homepage extends StatelessWidget {
       ],
     );
   }
-
-  // ============================================================================
-  // APPOINTMENT CARD
-  // ============================================================================
 
   Widget _buildAppointmentCard(
     BuildContext context,
@@ -403,19 +360,18 @@ class Homepage extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // Doctor Info
           Row(
             children: [
               Container(
                 width: screenWidth * 0.14,
                 height: screenWidth * 0.14,
                 decoration: BoxDecoration(
-                  color: AppColors.blue[50],
+                  color: theme.colorScheme.primary.withOpacity(0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   Icons.person,
-                  color: AppColors.blue,
+                  color: theme.colorScheme.primary,
                   size: screenWidth * 0.07,
                 ),
               ),
@@ -437,7 +393,9 @@ class Homepage extends StatelessWidget {
                       'Cardiologue',
                       style: TextStyle(
                         fontSize: screenWidth * 0.034,
-                        color: AppColors.grey[600],
+                        color: theme.textTheme.bodySmall?.color?.withOpacity(
+                          0.7,
+                        ),
                       ),
                     ),
                   ],
@@ -445,14 +403,11 @@ class Homepage extends StatelessWidget {
               ),
             ],
           ),
-
           SizedBox(height: screenHeight * 0.015),
-
-          // Appointment Details
           Container(
             padding: EdgeInsets.all(screenWidth * 0.035),
             decoration: BoxDecoration(
-              color: AppColors.blue[50],
+              color: theme.colorScheme.primary.withOpacity(0.1),
               borderRadius: BorderRadius.circular(14),
             ),
             child: Row(
@@ -460,7 +415,7 @@ class Homepage extends StatelessWidget {
                 Icon(
                   Icons.calendar_today_outlined,
                   size: screenWidth * 0.045,
-                  color: AppColors.blue,
+                  color: theme.colorScheme.primary,
                 ),
                 SizedBox(width: screenWidth * 0.025),
                 Expanded(
@@ -479,7 +434,9 @@ class Homepage extends StatelessWidget {
                         'Consultation',
                         style: TextStyle(
                           fontSize: screenWidth * 0.03,
-                          color: AppColors.grey[600],
+                          color: theme.textTheme.bodySmall?.color?.withOpacity(
+                            0.7,
+                          ),
                         ),
                       ),
                     ],
@@ -491,7 +448,7 @@ class Homepage extends StatelessWidget {
                     vertical: screenHeight * 0.008,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.blue,
+                    color: theme.colorScheme.primary,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
@@ -499,7 +456,7 @@ class Homepage extends StatelessWidget {
                     style: TextStyle(
                       fontSize: screenWidth * 0.032,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.white,
+                      color: theme.colorScheme.onPrimary,
                     ),
                   ),
                 ),
@@ -510,10 +467,6 @@ class Homepage extends StatelessWidget {
       ),
     );
   }
-
-  // ============================================================================
-  // RECOMMENDED DOCTORS SECTION
-  // ============================================================================
 
   Widget _buildRecommendedDoctors(
     BuildContext context,
@@ -532,7 +485,7 @@ class Homepage extends StatelessWidget {
         'reviews': 120,
         'distance': '1.2 km',
         'availability': 'Disponible demain',
-        'availabilityColor': AppColors.teal,
+        'availabilityColor': Colors.teal,
       },
       {
         'name': 'Dr. Sarah Mansour',
@@ -542,7 +495,7 @@ class Homepage extends StatelessWidget {
         'reviews': 84,
         'distance': '0.8 km',
         'availability': 'Disponible aujourd\'hui',
-        'availabilityColor': AppColors.teal,
+        'availabilityColor': Colors.teal,
       },
       {
         'name': 'Dr. Marc Lefebvre',
@@ -552,12 +505,12 @@ class Homepage extends StatelessWidget {
         'reviews': 210,
         'distance': '2.5 km',
         'availability': 'Dispo le 24 Mai',
-        'availabilityColor': AppColors.grey[500]!,
+        'availabilityColor': Colors.grey,
       },
     ];
 
     return SizedBox(
-      height: screenHeight * 0.25, // Compact height for square cards
+      height: screenHeight * 0.25,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
@@ -566,6 +519,8 @@ class Homepage extends StatelessWidget {
         itemBuilder: (context, index) {
           final doctor = doctors[index];
           final isLast = index == doctors.length - 1;
+          final availColor = doctor['availabilityColor'] as Color;
+
           return GestureDetector(
             onTap: () {
               Navigator.push(
@@ -593,31 +548,29 @@ class Homepage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Doctor Avatar + Rating
                   Row(
                     children: [
                       Container(
                         width: screenWidth * 0.13,
                         height: screenWidth * 0.13,
                         decoration: BoxDecoration(
-                          color: AppColors.blue[50],
+                          color: theme.colorScheme.primary.withOpacity(0.1),
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
                           Icons.person,
-                          color: AppColors.blue,
+                          color: theme.colorScheme.primary,
                           size: screenWidth * 0.065,
                         ),
                       ),
                       const Spacer(),
-                      // Rating badge
                       Container(
                         padding: EdgeInsets.symmetric(
                           horizontal: screenWidth * 0.02,
                           vertical: screenWidth * 0.008,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.amber[50],
+                          color: Colors.amber.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Row(
@@ -642,10 +595,7 @@ class Homepage extends StatelessWidget {
                       ),
                     ],
                   ),
-
                   SizedBox(height: screenHeight * 0.012),
-
-                  // Doctor Name
                   Text(
                     doctor['name'] as String,
                     style: TextStyle(
@@ -656,27 +606,21 @@ class Homepage extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-
                   SizedBox(height: screenHeight * 0.003),
-
-                  // Specialty
                   Text(
                     doctor['specialty'] as String,
                     style: TextStyle(
                       fontSize: screenWidth * 0.032,
-                      color: AppColors.grey[600],
+                      color: theme.textTheme.bodySmall?.color?.withOpacity(0.7),
                     ),
                   ),
-
                   SizedBox(height: screenHeight * 0.006),
-
-                  // Location + Distance
                   Row(
                     children: [
                       Icon(
                         Icons.location_on_outlined,
                         size: screenWidth * 0.033,
-                        color: AppColors.grey[400],
+                        color: theme.iconTheme.color?.withOpacity(0.4),
                       ),
                       SizedBox(width: screenWidth * 0.01),
                       Expanded(
@@ -684,26 +628,22 @@ class Homepage extends StatelessWidget {
                           '${doctor['location']} • ${doctor['distance']}',
                           style: TextStyle(
                             fontSize: screenWidth * 0.029,
-                            color: AppColors.grey[500],
+                            color: theme.textTheme.bodySmall?.color
+                                ?.withOpacity(0.6),
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
-
                   const Spacer(),
-
-                  // Availability Badge
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(
                       vertical: screenHeight * 0.008,
                     ),
                     decoration: BoxDecoration(
-                      color: (doctor['availabilityColor'] as Color).withOpacity(
-                        0.1,
-                      ),
+                      color: availColor.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
@@ -712,7 +652,7 @@ class Homepage extends StatelessWidget {
                       style: TextStyle(
                         fontSize: screenWidth * 0.028,
                         fontWeight: FontWeight.w600,
-                        color: doctor['availabilityColor'] as Color,
+                        color: availColor,
                       ),
                     ),
                   ),
@@ -724,10 +664,6 @@ class Homepage extends StatelessWidget {
       ),
     );
   }
-
-  // ============================================================================
-  // NEARBY CABINETS SECTION - MAP VIEW
-  // ============================================================================
 
   Widget _buildNearbyCabinets(
     BuildContext context,
@@ -754,25 +690,26 @@ class Homepage extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         child: Stack(
           children: [
-            // Map Background with Gradient
             Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    isDark ? AppColors.blue[900]! : AppColors.blue[50]!,
-                    isDark ? AppColors.blue[800]! : AppColors.blue[100]!,
-                    isDark ? AppColors.teal[900]! : AppColors.teal[50]!,
+                    theme.colorScheme.primary.withOpacity(isDark ? 0.2 : 0.05),
+                    theme.colorScheme.primary.withOpacity(isDark ? 0.3 : 0.1),
+                    Colors.teal.withOpacity(isDark ? 0.2 : 0.05),
                   ],
                 ),
               ),
             ),
-
-            // Map Grid Pattern (optional, for visual effect)
-            Positioned.fill(child: CustomPaint(painter: _MapGridPainter())),
-
-            // Cabinet Markers
+            Positioned.fill(
+              child: CustomPaint(
+                painter: _MapGridPainter(
+                  color: theme.colorScheme.primary.withOpacity(0.05),
+                ),
+              ),
+            ),
             Positioned(
               top: screenHeight * 0.06,
               left: screenWidth * 0.15,
@@ -781,7 +718,7 @@ class Homepage extends StatelessWidget {
                 'Clinique Les Oliviers',
                 '1.2 km',
                 screenWidth,
-                AppColors.blue,
+                theme.colorScheme.primary,
               ),
             ),
             Positioned(
@@ -792,7 +729,7 @@ class Homepage extends StatelessWidget {
                 'Cabinet Dr. Mansouri',
                 '2.5 km',
                 screenWidth,
-                AppColors.teal,
+                Colors.teal,
               ),
             ),
             Positioned(
@@ -803,11 +740,9 @@ class Homepage extends StatelessWidget {
                 'Centre Médical',
                 '3.1 km',
                 screenWidth,
-                AppColors.blue,
+                theme.colorScheme.primary,
               ),
             ),
-
-            // Current Location Marker
             Positioned(
               top: screenHeight * 0.09,
               right: screenWidth * 0.35,
@@ -815,12 +750,12 @@ class Homepage extends StatelessWidget {
                 width: screenWidth * 0.06,
                 height: screenWidth * 0.06,
                 decoration: BoxDecoration(
-                  color: AppColors.red,
+                  color: Colors.red,
                   shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.white, width: 3),
+                  border: Border.all(color: Colors.white, width: 3),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.red.withOpacity(0.4),
+                      color: Colors.red.withOpacity(0.4),
                       blurRadius: 8,
                       spreadRadius: 2,
                     ),
@@ -828,19 +763,15 @@ class Homepage extends StatelessWidget {
                 ),
               ),
             ),
-
-            // View Full Map Button
             Positioned(
               bottom: screenHeight * 0.02,
               left: screenWidth * 0.05,
               right: screenWidth * 0.05,
               child: ElevatedButton(
-                onPressed: () {
-                  // Navigate to full map page
-                },
+                onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.blue,
-                  foregroundColor: AppColors.white,
+                  backgroundColor: theme.colorScheme.primary,
+                  foregroundColor: theme.colorScheme.onPrimary,
                   padding: EdgeInsets.symmetric(vertical: screenHeight * 0.014),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -863,8 +794,6 @@ class Homepage extends StatelessWidget {
                 ),
               ),
             ),
-
-            // Info Badge at Top
             Positioned(
               top: screenHeight * 0.015,
               left: screenWidth * 0.05,
@@ -874,7 +803,7 @@ class Homepage extends StatelessWidget {
                   vertical: screenHeight * 0.008,
                 ),
                 decoration: BoxDecoration(
-                  color: isDark ? const Color(0xFF2C3E50) : AppColors.white,
+                  color: theme.colorScheme.surface,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
@@ -890,7 +819,7 @@ class Homepage extends StatelessWidget {
                     Icon(
                       Icons.location_on,
                       size: screenWidth * 0.04,
-                      color: isDark ? AppColors.white : AppColors.blue,
+                      color: theme.colorScheme.primary,
                     ),
                     SizedBox(width: screenWidth * 0.015),
                     Text(
@@ -911,7 +840,6 @@ class Homepage extends StatelessWidget {
     );
   }
 
-  // Cabinet Marker Widget
   Widget _buildCabinetMarker(
     BuildContext context,
     String name,
@@ -924,7 +852,6 @@ class Homepage extends StatelessWidget {
 
     return Column(
       children: [
-        // Marker Pin
         Container(
           width: screenWidth * 0.08,
           height: screenWidth * 0.08,
@@ -947,14 +874,13 @@ class Homepage extends StatelessWidget {
           ),
         ),
         SizedBox(height: screenWidth * 0.01),
-        // Info Card
         Container(
           padding: EdgeInsets.symmetric(
             horizontal: screenWidth * 0.02,
             vertical: screenWidth * 0.01,
           ),
           decoration: BoxDecoration(
-            color: isDark ? const Color(0xFF2C3E50) : Colors.white,
+            color: theme.colorScheme.surface,
             borderRadius: BorderRadius.circular(8),
             boxShadow: [
               BoxShadow(
@@ -978,7 +904,7 @@ class Homepage extends StatelessWidget {
                 distance,
                 style: TextStyle(
                   fontSize: screenWidth * 0.024,
-                  color: AppColors.grey[600],
+                  color: theme.textTheme.bodySmall?.color?.withOpacity(0.7),
                 ),
               ),
             ],
@@ -989,23 +915,19 @@ class Homepage extends StatelessWidget {
   }
 }
 
-// ============================================================================
-// MAP GRID PAINTER (for visual effect)
-// ============================================================================
-
 class _MapGridPainter extends CustomPainter {
+  final Color color;
+  _MapGridPainter({required this.color});
+
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.white.withOpacity(0.1)
+      ..color = color
       ..strokeWidth = 1;
 
-    // Draw vertical lines
     for (double i = 0; i < size.width; i += 40) {
       canvas.drawLine(Offset(i, 0), Offset(i, size.height), paint);
     }
-
-    // Draw horizontal lines
     for (double i = 0; i < size.height; i += 40) {
       canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
     }

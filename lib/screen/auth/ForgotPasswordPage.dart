@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:medical/Static/AppColors.dart';
 
 class Forgotpasswordpage extends StatefulWidget {
   const Forgotpasswordpage({super.key});
@@ -33,9 +32,7 @@ class _ForgotpasswordpageState extends State<Forgotpasswordpage> {
                       borderRadius: BorderRadius.circular(30),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.black.withOpacity(
-                            isDark ? 0.3 : 0.1,
-                          ),
+                          color: Colors.black.withOpacity(isDark ? 0.3 : 0.1),
                           blurRadius: 20,
                           offset: const Offset(0, 10),
                         ),
@@ -43,7 +40,6 @@ class _ForgotpasswordpageState extends State<Forgotpasswordpage> {
                     ),
                     child: Column(
                       children: [
-                        // Back button and title
                         Padding(
                           padding: EdgeInsets.only(
                             top: size.height * 0.08,
@@ -59,8 +55,6 @@ class _ForgotpasswordpageState extends State<Forgotpasswordpage> {
                           ),
                         ),
                         SizedBox(height: size.height * 0.01),
-
-                        // Subtitle
                         Padding(
                           padding: EdgeInsets.symmetric(
                             horizontal: size.width * 0.1,
@@ -70,28 +64,20 @@ class _ForgotpasswordpageState extends State<Forgotpasswordpage> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: size.width * 0.035,
-                              color: isDark
-                                  ? AppColors.grey[400]
-                                  : AppColors.grey[600],
-                              height: size.height * 0.0015,
+                              color: theme.textTheme.bodySmall?.color
+                                  ?.withOpacity(0.6),
+                              height: 1.5,
                             ),
                           ),
                         ),
                         SizedBox(height: size.height * 0.04),
-
                         Container(
                           margin: EdgeInsets.all(size.width * 0.05),
                           height: size.height * 0.065,
                           decoration: BoxDecoration(
-                            color: isDark
-                                ? Colors.grey[800]
-                                : AppColors.grey[50],
+                            color: isDark ? Colors.grey[800] : Colors.grey[50],
                             borderRadius: BorderRadius.circular(15),
-                            border: Border.all(
-                              color: isDark
-                                  ? Colors.grey[700]!
-                                  : Colors.grey[200]!,
-                            ),
+                            border: Border.all(color: theme.dividerColor),
                           ),
                           child: TextField(
                             style: TextStyle(
@@ -101,32 +87,31 @@ class _ForgotpasswordpageState extends State<Forgotpasswordpage> {
                             decoration: InputDecoration(
                               hintText: "Adresse email",
                               hintStyle: TextStyle(
-                                color: AppColors.grey[400],
+                                color: theme.textTheme.bodySmall?.color
+                                    ?.withOpacity(0.4),
                                 fontSize: size.width * 0.04,
                               ),
                               prefixIcon: Icon(
                                 Icons.email_outlined,
-                                color: AppColors.grey[400],
+                                color: theme.iconTheme.color?.withOpacity(0.4),
                                 size: size.width * 0.055,
                               ),
-
                               border: InputBorder.none,
                               contentPadding: EdgeInsets.symmetric(
                                 horizontal: size.width * 0.04,
-                                vertical: size.height * 0.02,
+                                vertical: size.height * 0.015,
                               ),
                             ),
                           ),
                         ),
-
                         SizedBox(
                           width: size.width * 0.7,
                           height: size.height * 0.065,
                           child: ElevatedButton(
                             onPressed: () {},
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.blue,
-                              foregroundColor: AppColors.white,
+                              backgroundColor: theme.colorScheme.primary,
+                              foregroundColor: theme.colorScheme.onPrimary,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30),
                               ),
@@ -143,20 +128,13 @@ class _ForgotpasswordpageState extends State<Forgotpasswordpage> {
                         ),
                         SizedBox(height: size.height * 0.02),
                         TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
+                          onPressed: () => Navigator.pop(context),
                           child: Text(
                             "<-- Retour à la connexion",
                             style: TextStyle(
-                              color: isDark
-                                  ? AppColors.blue[200]
-                                  : AppColors.blue[300],
+                              color: theme.colorScheme.primary,
                               decoration: TextDecoration.underline,
-                              decorationColor: isDark
-                                  ? AppColors.blue[200]
-                                  : AppColors.blue,
-                              decorationThickness: 1,
+                              decorationColor: theme.colorScheme.primary,
                               fontSize: size.width * 0.04,
                             ),
                           ),

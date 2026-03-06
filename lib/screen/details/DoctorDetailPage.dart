@@ -31,8 +31,9 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
 
-    // Default data if doctor is null
     final nom = widget.doctor?['name'] ?? 'Dr. Jean Martin';
     final specialite = widget.doctor?['specialty'] ?? 'Cardiologue Spécialisé';
     final location = widget.doctor?['location'] ?? 'Paris, France';
@@ -40,31 +41,22 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
     final experience = widget.doctor?['experience']?.toString() ?? '10+ Ans';
     final patients = widget.doctor?['patients']?.toString() ?? '5k+';
 
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            // ==========================================
-            // BLUE HEADER BACKGROUND
-            // ==========================================
+            // Blue Header Background
             Container(
               height: screenHeight * 0.22,
               width: double.infinity,
-              color: AppColors.blue,
+              color: theme.colorScheme.primary,
             ),
 
-            // ==========================================
-            // MAIN CONTENT CARD
-            // ==========================================
+            // Main Content Card
             Container(
               margin: EdgeInsets.only(top: screenHeight * 0.16),
-              padding: EdgeInsets.only(
-                top: screenHeight * 0.08,
-              ), // Space for the avatar
+              padding: EdgeInsets.only(top: screenHeight * 0.08),
               decoration: BoxDecoration(
                 color: theme.scaffoldBackgroundColor,
                 borderRadius: const BorderRadius.only(
@@ -74,7 +66,6 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
               ),
               child: Column(
                 children: [
-                  // Doctor Name
                   Text(
                     nom,
                     style: TextStyle(
@@ -84,25 +75,21 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
                     ),
                   ),
                   SizedBox(height: screenHeight * 0.005),
-
-                  // Specialty
                   Text(
                     specialite,
                     style: TextStyle(
                       fontSize: screenWidth * 0.038,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.blue,
+                      color: theme.colorScheme.primary,
                     ),
                   ),
                   SizedBox(height: screenHeight * 0.01),
-
-                  // Location Pin
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
                         Icons.location_on,
-                        color: AppColors.grey[400],
+                        color: theme.iconTheme.color?.withOpacity(0.5),
                         size: screenWidth * 0.04,
                       ),
                       SizedBox(width: screenWidth * 0.01),
@@ -110,18 +97,15 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
                         location,
                         style: TextStyle(
                           fontSize: screenWidth * 0.032,
-                          color: AppColors.grey[500],
+                          color: theme.textTheme.bodySmall?.color?.withOpacity(
+                            0.7,
+                          ),
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     ],
                   ),
-
                   SizedBox(height: screenHeight * 0.03),
-
-                  // ==========================================
-                  // STATS CARDS
-                  // ==========================================
                   Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: screenWidth * 0.05,
@@ -133,7 +117,7 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
                           'EXPÉRIENCE',
                           experience,
                           Icons.business_center,
-                          AppColors.blue,
+                          theme.colorScheme.primary,
                           screenWidth,
                           isDark,
                           theme,
@@ -142,7 +126,7 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
                           'PATIENTS',
                           patients,
                           Icons.people,
-                          AppColors.blue,
+                          theme.colorScheme.primary,
                           screenWidth,
                           isDark,
                           theme,
@@ -151,7 +135,7 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
                           'AVIS',
                           '$rating/5',
                           Icons.star,
-                          AppColors.blue,
+                          theme.colorScheme.primary,
                           screenWidth,
                           isDark,
                           theme,
@@ -159,22 +143,12 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
                       ],
                     ),
                   ),
-
                   SizedBox(height: screenHeight * 0.03),
-
-                  // ==========================================
-                  // TABS (À propos, Avis, Disponibilités)
-                  // ==========================================
-
-                  // ==========================================
-                  // BIO & LOCATION (Static content for mock)
-                  // ==========================================
                   Padding(
                     padding: EdgeInsets.all(screenWidth * 0.05),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Bio Title
                         Text(
                           'Bio',
                           style: TextStyle(
@@ -184,13 +158,12 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
                           ),
                         ),
                         SizedBox(height: screenHeight * 0.015),
-
-                        // Bio Text with "Lire plus"
                         RichText(
                           text: TextSpan(
                             style: TextStyle(
                               fontSize: screenWidth * 0.033,
-                              color: AppColors.grey[600],
+                              color: theme.textTheme.bodySmall?.color
+                                  ?.withOpacity(0.8),
                               height: 1.6,
                             ),
                             children: [
@@ -201,17 +174,14 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
                               TextSpan(
                                 text: 'Lire plus',
                                 style: TextStyle(
-                                  color: AppColors.blue,
+                                  color: theme.colorScheme.primary,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ],
                           ),
                         ),
-
                         SizedBox(height: screenHeight * 0.04),
-
-                        // Localisation Header
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -228,14 +198,12 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
                               style: TextStyle(
                                 fontSize: screenWidth * 0.03,
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.blue,
+                                color: theme.colorScheme.primary,
                               ),
                             ),
                           ],
                         ),
                         SizedBox(height: screenHeight * 0.015),
-
-                        // Address text
                         Text(
                           '15 Avenue de la République, 75011 Paris',
                           style: TextStyle(
@@ -249,21 +217,18 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
                           'Cabinet Médical - 2ème étage avec ascenseur',
                           style: TextStyle(
                             fontSize: screenWidth * 0.03,
-                            color: AppColors.grey[500],
+                            color: theme.textTheme.bodySmall?.color
+                                ?.withOpacity(0.5),
                           ),
                         ),
-
                         SizedBox(height: screenHeight * 0.02),
-
-                        // Map Placeholder
                         Container(
                           width: double.infinity,
                           height: screenHeight * 0.2,
                           decoration: BoxDecoration(
-                            color: isDark
-                                ? const Color(0xFF2C3E50)
-                                : AppColors.grey[100],
+                            color: theme.colorScheme.surface,
                             borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: theme.dividerColor),
                           ),
                           child: Stack(
                             children: [
@@ -278,12 +243,13 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
                                 child: Container(
                                   padding: EdgeInsets.all(screenWidth * 0.02),
                                   decoration: BoxDecoration(
-                                    color: AppColors.blue.withOpacity(0.2),
+                                    color: theme.colorScheme.primary
+                                        .withOpacity(0.2),
                                     shape: BoxShape.circle,
                                   ),
                                   child: Icon(
                                     Icons.location_on,
-                                    color: AppColors.blue,
+                                    color: theme.colorScheme.primary,
                                     size: screenWidth * 0.08,
                                   ),
                                 ),
@@ -291,8 +257,6 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
                             ],
                           ),
                         ),
-
-                        // Bottom Padding
                         SizedBox(height: screenHeight * 0.04),
                       ],
                     ),
@@ -301,13 +265,9 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
               ),
             ),
 
-            // ==========================================
-            // DOCTOR AVATAR (Overlaps blue header)
-            // ==========================================
+            // Doctor Avatar
             Positioned(
-              top:
-                  screenHeight * 0.16 -
-                  (screenWidth * 0.14), // Center vertically on the border
+              top: screenHeight * 0.16 - (screenWidth * 0.14),
               left: 0,
               right: 0,
               child: Center(
@@ -322,31 +282,28 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
                           color: theme.scaffoldBackgroundColor,
                           width: 4,
                         ),
-                        color: AppColors.blue[50], // If no image, looks nice
+                        color: theme.colorScheme.primary.withOpacity(0.6),
                       ),
                       child: ClipOval(
                         child: Icon(
                           Icons.person,
                           size: screenWidth * 0.16,
-                          color: AppColors.blue[200],
+                          color: theme.colorScheme.onPrimary,
                         ),
                       ),
                     ),
-                    // Verified Badge
                     Positioned(
                       bottom: screenWidth * 0.01,
                       right: screenWidth * 0.01,
                       child: Container(
                         padding: EdgeInsets.all(screenWidth * 0.005),
                         decoration: BoxDecoration(
-                          color: isDark
-                              ? const Color(0xFF1E1E1E)
-                              : AppColors.white,
+                          color: theme.scaffoldBackgroundColor,
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
                           Icons.verified,
-                          color: AppColors.blue,
+                          color: theme.colorScheme.primary,
                           size: screenWidth * 0.065,
                         ),
                       ),
@@ -356,30 +313,26 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
               ),
             ),
 
-            // ==========================================
-            // TOP APP BAR BUTTONS
-            // ==========================================
+            // Top App Bar Buttons
             SafeArea(
               child: Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: screenWidth * 0.04,
-                  vertical:
-                      screenHeight *
-                      0.01, // Reduce vertical padding to lift buttons
+                  vertical: screenHeight * 0.01,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _buildIconButton(
+                    _buildTopBarButton(
                       Icons.arrow_back,
                       () => Navigator.pop(context),
                       screenWidth,
                     ),
                     Row(
                       children: [
-                        _buildIconButton(Icons.share, () {}, screenWidth),
+                        _buildTopBarButton(Icons.share, () {}, screenWidth),
                         SizedBox(width: screenWidth * 0.03),
-                        _buildIconButton(Icons.favorite, () {}, screenWidth),
+                        _buildTopBarButton(Icons.favorite, () {}, screenWidth),
                       ],
                     ),
                   ],
@@ -389,10 +342,6 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
           ],
         ),
       ),
-
-      // ==========================================
-      // STICKY BOTTOM RESERVATION BUTTON
-      // ==========================================
       bottomNavigationBar: Container(
         padding: EdgeInsets.symmetric(
           horizontal: screenWidth * 0.05,
@@ -419,8 +368,8 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.blue,
-              foregroundColor: AppColors.white,
+              backgroundColor: theme.colorScheme.primary,
+              foregroundColor: theme.colorScheme.onPrimary,
               padding: EdgeInsets.symmetric(vertical: screenHeight * 0.02),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
@@ -447,25 +396,23 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
     );
   }
 
-  // Helper Widget: App Bar Circular Buttons
-  Widget _buildIconButton(
+  Widget _buildTopBarButton(
     IconData icon,
     VoidCallback onPressed,
     double screenWidth,
   ) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white.withOpacity(0.2),
+        color: Colors.white.withOpacity(0.2),
         shape: BoxShape.circle,
       ),
       child: IconButton(
-        icon: Icon(icon, color: AppColors.white, size: screenWidth * 0.055),
+        icon: Icon(icon, color: Colors.white, size: screenWidth * 0.055),
         onPressed: onPressed,
       ),
     );
   }
 
-  // Helper Widget: Stats Cards (Experience, Patients, Rating)
   Widget _buildStatCardExpanded(
     String label,
     String value,
@@ -488,11 +435,6 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
               blurRadius: 10,
               offset: const Offset(0, 2),
             ),
-            BoxShadow(
-              color: Colors.black.withOpacity(0.01),
-              blurRadius: 2,
-              offset: const Offset(0, 0),
-            ),
           ],
         ),
         child: Column(
@@ -504,7 +446,7 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
               style: TextStyle(
                 fontSize: screenWidth * 0.025,
                 fontWeight: FontWeight.w700,
-                color: AppColors.grey[500],
+                color: theme.textTheme.bodySmall?.color?.withOpacity(0.5),
                 letterSpacing: 0.5,
               ),
             ),
@@ -524,14 +466,12 @@ class _DoctorDetailPageState extends State<DoctorDetailPage>
   }
 }
 
-// Class for the Map Background placeholder
 class _DetailMapGridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..color = Colors.blue.withOpacity(0.1)
       ..strokeWidth = 1.5;
-
     for (var i = 0.0; i < size.width; i += 20) {
       canvas.drawLine(Offset(i, 0), Offset(i, size.height), paint);
     }

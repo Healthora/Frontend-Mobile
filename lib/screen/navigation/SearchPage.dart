@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:medical/Static/AppColors.dart';
 import 'package:medical/screen/details/DoctorDetailPage.dart';
 
 class Searchpage extends StatefulWidget {
@@ -13,8 +12,8 @@ class _SearchpageState extends State<Searchpage> {
   final TextEditingController _searchController = TextEditingController();
   String _selectedLocation = 'Tlemcen';
   String _selectedDate = 'Aujourd\'hui';
-  String _selectedPrice = 'reviews';
-  String _selectedRating = 'specialité';
+  String _selectedPrice = 'Prix';
+  String _selectedRating = 'Avis';
 
   @override
   void dispose() {
@@ -26,12 +25,10 @@ class _SearchpageState extends State<Searchpage> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-
     final theme = Theme.of(context);
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-
       body: SafeArea(
         child: Column(
           children: [
@@ -41,10 +38,8 @@ class _SearchpageState extends State<Searchpage> {
               padding: EdgeInsets.all(screenWidth * 0.04),
               child: Column(
                 children: [
-                  // Search Bar
                   _buildSearchBar(context, screenWidth, screenHeight),
-                  SizedBox(height: screenHeight * 0.05),
-                  // Filters
+                  SizedBox(height: screenHeight * 0.02),
                   _buildFilters(context, screenWidth, screenHeight),
                 ],
               ),
@@ -59,7 +54,7 @@ class _SearchpageState extends State<Searchpage> {
                   '24 médecins trouvés',
                   style: TextStyle(
                     fontSize: screenWidth * 0.036,
-                    color: AppColors.grey[600],
+                    color: theme.textTheme.bodySmall?.color?.withOpacity(0.6),
                   ),
                 ),
               ),
@@ -75,25 +70,16 @@ class _SearchpageState extends State<Searchpage> {
     );
   }
 
-  // ============================================================================
-  // SEARCH BAR
-  // ============================================================================
-
   Widget _buildSearchBar(
     BuildContext context,
     double screenWidth,
     double screenHeight,
   ) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-
     return Container(
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF2C3E50) : AppColors.white,
-        border: Border.all(
-          color: isDark ? Colors.grey[700]! : AppColors.grey[200]!,
-          width: 2,
-        ),
+        color: theme.colorScheme.surface,
+        border: Border.all(color: theme.dividerColor, width: 2),
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
@@ -102,19 +88,19 @@ class _SearchpageState extends State<Searchpage> {
         decoration: InputDecoration(
           hintText: 'rechercher un médecin',
           hintStyle: TextStyle(
-            color: AppColors.grey[600],
+            color: theme.hintColor,
             fontSize: screenWidth * 0.04,
           ),
           prefixIcon: Icon(
             Icons.search,
-            color: AppColors.grey,
+            color: theme.iconTheme.color?.withOpacity(0.6),
             size: screenWidth * 0.06,
           ),
           suffixIcon: _searchController.text.isNotEmpty
               ? IconButton(
                   icon: Icon(
                     Icons.clear,
-                    color: AppColors.grey[400],
+                    color: theme.iconTheme.color?.withOpacity(0.4),
                     size: screenWidth * 0.05,
                   ),
                   onPressed: () {
@@ -130,62 +116,53 @@ class _SearchpageState extends State<Searchpage> {
             vertical: screenHeight * 0.015,
           ),
         ),
-        onChanged: (value) {
-          setState(() {});
-        },
+        onChanged: (value) => setState(() {}),
       ),
     );
   }
-
-  // ============================================================================
-  // FILTERS
-  // ============================================================================
 
   Widget _buildFilters(
     BuildContext context,
     double screenWidth,
     double screenHeight,
   ) {
+    final theme = Theme.of(context);
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          // Location Filter
           _buildFilterChip(
             context: context,
             icon: Icons.location_on,
             label: _selectedLocation,
-            color: AppColors.blue,
+            color: theme.colorScheme.primary,
             screenWidth: screenWidth,
             onTap: () => _showLocationPicker(context),
           ),
           SizedBox(width: screenWidth * 0.02),
-          // Date Filter
           _buildFilterChip(
             context: context,
             icon: null,
             label: _selectedDate,
-            color: AppColors.grey[700]!,
+            color: theme.colorScheme.primary,
             screenWidth: screenWidth,
             onTap: () => _showDatePicker(context),
           ),
           SizedBox(width: screenWidth * 0.02),
-          // Price Filter
           _buildFilterChip(
             context: context,
             icon: null,
             label: _selectedPrice,
-            color: AppColors.grey[700]!,
+            color: theme.colorScheme.primary,
             screenWidth: screenWidth,
             onTap: () => _showPricePicker(context),
           ),
           SizedBox(width: screenWidth * 0.02),
-          // Rating Filter
           _buildFilterChip(
             context: context,
             icon: null,
             label: _selectedRating,
-            color: AppColors.grey[700]!,
+            color: theme.colorScheme.primary,
             screenWidth: screenWidth,
             onTap: () => _showRatingPicker(context),
           ),
@@ -203,7 +180,6 @@ class _SearchpageState extends State<Searchpage> {
     required VoidCallback onTap,
   }) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -214,21 +190,25 @@ class _SearchpageState extends State<Searchpage> {
         decoration: BoxDecoration(
           color: icon != null
               ? color
-              : (isDark ? const Color(0xFF2C3E50) : AppColors.grey[200]),
+              : theme.colorScheme.primary.withOpacity(0.1),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             if (icon != null) ...[
-              Icon(icon, color: AppColors.white, size: screenWidth * 0.04),
+              Icon(
+                icon,
+                color: theme.colorScheme.onPrimary,
+                size: screenWidth * 0.04,
+              ),
               SizedBox(width: screenWidth * 0.01),
             ],
             Text(
               label,
               style: TextStyle(
                 color: icon != null
-                    ? AppColors.white
+                    ? theme.colorScheme.onPrimary
                     : theme.textTheme.bodyLarge?.color,
                 fontSize: screenWidth * 0.034,
                 fontWeight: FontWeight.w500,
@@ -237,7 +217,9 @@ class _SearchpageState extends State<Searchpage> {
             SizedBox(width: screenWidth * 0.01),
             Icon(
               Icons.keyboard_arrow_down,
-              color: icon != null ? AppColors.white : theme.iconTheme.color,
+              color: icon != null
+                  ? theme.colorScheme.onPrimary
+                  : theme.iconTheme.color,
               size: screenWidth * 0.045,
             ),
           ],
@@ -246,15 +228,12 @@ class _SearchpageState extends State<Searchpage> {
     );
   }
 
-  // ============================================================================
-  // DOCTORS LIST
-  // ============================================================================
-
   Widget _buildDoctorsList(
     BuildContext context,
     double screenWidth,
     double screenHeight,
   ) {
+    final theme = Theme.of(context);
     final doctors = [
       {
         'name': 'Dr. Jean Dupont',
@@ -264,7 +243,7 @@ class _SearchpageState extends State<Searchpage> {
         'reviews': 120,
         'distance': '1.2 km',
         'availability': 'Disponible demain',
-        'availabilityColor': AppColors.teal,
+        'availabilityColor': theme.colorScheme.secondary,
       },
       {
         'name': 'Dr. Sarah Mansour',
@@ -274,7 +253,7 @@ class _SearchpageState extends State<Searchpage> {
         'reviews': 84,
         'distance': '0.8 km',
         'availability': 'Disponible aujourd\'hui',
-        'availabilityColor': AppColors.teal,
+        'availabilityColor': theme.colorScheme.secondary,
       },
       {
         'name': 'Dr. Marc Lefebvre',
@@ -284,7 +263,7 @@ class _SearchpageState extends State<Searchpage> {
         'reviews': 210,
         'distance': '2.5 km',
         'availability': 'Dispo le 24 Mai',
-        'availabilityColor': AppColors.grey[500]!,
+        'availabilityColor': Colors.grey,
       },
       {
         'name': 'Dr. Emma Wilson',
@@ -294,7 +273,7 @@ class _SearchpageState extends State<Searchpage> {
         'reviews': 95,
         'distance': '1.8 km',
         'availability': 'Disponible demain',
-        'availabilityColor': AppColors.teal,
+        'availabilityColor': theme.colorScheme.secondary,
       },
     ];
 
@@ -302,20 +281,15 @@ class _SearchpageState extends State<Searchpage> {
       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
       itemCount: doctors.length,
       itemBuilder: (context, index) {
-        final doctor = doctors[index];
         return _buildDoctorCard(
           context,
-          doctor as Map<String, dynamic>,
+          doctors[index] as Map<String, dynamic>,
           screenWidth,
           screenHeight,
         );
       },
     );
   }
-
-  // ============================================================================
-  // DOCTOR CARD
-  // ============================================================================
 
   Widget _buildDoctorCard(
     BuildContext context,
@@ -350,28 +324,23 @@ class _SearchpageState extends State<Searchpage> {
         ),
         child: Column(
           children: [
-            // Doctor Info Row
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Doctor Avatar
                 Container(
                   width: screenWidth * 0.18,
                   height: screenWidth * 0.18,
                   decoration: BoxDecoration(
-                    color: AppColors.teal,
+                    color: theme.colorScheme.secondary,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(
                     Icons.person,
-                    color: AppColors.white,
+                    color: theme.colorScheme.onSecondary,
                     size: screenWidth * 0.1,
                   ),
                 ),
-
                 SizedBox(width: screenWidth * 0.03),
-
-                // Doctor Details
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -393,7 +362,8 @@ class _SearchpageState extends State<Searchpage> {
                             doctor['distance'] as String,
                             style: TextStyle(
                               fontSize: screenWidth * 0.032,
-                              color: AppColors.grey[500],
+                              color: theme.textTheme.bodySmall?.color
+                                  ?.withOpacity(0.6),
                             ),
                           ),
                         ],
@@ -403,7 +373,9 @@ class _SearchpageState extends State<Searchpage> {
                         '${doctor['specialty']} • ${doctor['location']}',
                         style: TextStyle(
                           fontSize: screenWidth * 0.034,
-                          color: AppColors.grey[600],
+                          color: theme.textTheme.bodySmall?.color?.withOpacity(
+                            0.7,
+                          ),
                         ),
                       ),
                       SizedBox(height: screenHeight * 0.006),
@@ -418,7 +390,7 @@ class _SearchpageState extends State<Searchpage> {
                           Text(
                             '${doctor['rating']}',
                             style: TextStyle(
-                              fontSize: screenWidth * 0.034,
+                              fontSize: screenWidth * 0.04,
                               fontWeight: FontWeight.w600,
                               color: theme.textTheme.bodyLarge?.color,
                             ),
@@ -428,7 +400,8 @@ class _SearchpageState extends State<Searchpage> {
                             '(${doctor['reviews']} avis)',
                             style: TextStyle(
                               fontSize: screenWidth * 0.032,
-                              color: AppColors.grey[600],
+                              color: theme.textTheme.bodySmall?.color
+                                  ?.withOpacity(0.6),
                             ),
                           ),
                         ],
@@ -438,13 +411,9 @@ class _SearchpageState extends State<Searchpage> {
                 ),
               ],
             ),
-
             SizedBox(height: screenHeight * 0.015),
-
-            // Availability and Button Row
             Row(
               children: [
-                // Availability Badge
                 Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: screenWidth * 0.025,
@@ -476,17 +445,13 @@ class _SearchpageState extends State<Searchpage> {
                     ],
                   ),
                 ),
-
                 const Spacer(),
-
-                // Book Appointment Button
                 ElevatedButton(
-                  onPressed: () {
-                    _showBookingDialog(context, doctor['name'] as String);
-                  },
+                  onPressed: () =>
+                      _showBookingDialog(context, doctor['name'] as String),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.blue,
-                    foregroundColor: AppColors.white,
+                    backgroundColor: theme.colorScheme.primary,
+                    foregroundColor: theme.colorScheme.onPrimary,
                     padding: EdgeInsets.symmetric(
                       horizontal: screenWidth * 0.06,
                       vertical: screenHeight * 0.012,
@@ -512,10 +477,6 @@ class _SearchpageState extends State<Searchpage> {
     );
   }
 
-  // ============================================================================
-  // FILTER DIALOGS
-  // ============================================================================
-
   void _showLocationPicker(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -532,13 +493,11 @@ class _SearchpageState extends State<Searchpage> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            ...['Tlemcen ', 'Sba', 'Oran', 'Alger', 'Moughnia'].map(
+            ...['Tlemcen', 'Sba', 'Oran', 'Alger', 'Moughnia'].map(
               (location) => ListTile(
                 title: Text(location),
                 onTap: () {
-                  setState(() {
-                    _selectedLocation = location;
-                  });
+                  setState(() => _selectedLocation = location);
                   Navigator.pop(context);
                 },
               ),
@@ -569,9 +528,7 @@ class _SearchpageState extends State<Searchpage> {
               (date) => ListTile(
                 title: Text(date),
                 onTap: () {
-                  setState(() {
-                    _selectedDate = date;
-                  });
+                  setState(() => _selectedDate = date);
                   Navigator.pop(context);
                 },
               ),
@@ -602,9 +559,9 @@ class _SearchpageState extends State<Searchpage> {
               (price) => ListTile(
                 title: Text(price),
                 onTap: () {
-                  setState(() {
-                    _selectedPrice = price == 'Tous' ? 'Prix' : price;
-                  });
+                  setState(
+                    () => _selectedPrice = price == 'Tous' ? 'Prix' : price,
+                  );
                   Navigator.pop(context);
                 },
               ),
@@ -635,9 +592,9 @@ class _SearchpageState extends State<Searchpage> {
               (rating) => ListTile(
                 title: Text(rating),
                 onTap: () {
-                  setState(() {
-                    _selectedRating = rating == 'Tous' ? 'Avis' : rating;
-                  });
+                  setState(
+                    () => _selectedRating = rating == 'Tous' ? 'Avis' : rating,
+                  );
                   Navigator.pop(context);
                 },
               ),
@@ -648,11 +605,8 @@ class _SearchpageState extends State<Searchpage> {
     );
   }
 
-  // ============================================================================
-  // BOOKING DIALOG
-  // ============================================================================
-
   void _showBookingDialog(BuildContext context, String doctorName) {
+    final theme = Theme.of(context);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -664,16 +618,18 @@ class _SearchpageState extends State<Searchpage> {
             onPressed: () => Navigator.pop(context),
             child: Text(
               'Annuler',
-              style: TextStyle(color: AppColors.grey[600]),
+              style: TextStyle(
+                color: theme.textTheme.bodySmall?.color?.withOpacity(0.6),
+              ),
             ),
           ),
           TextButton(
             onPressed: () {
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Rendez-vous réservé avec succès !'),
-                  backgroundColor: AppColors.teal,
+                SnackBar(
+                  content: const Text('Rendez-vous réservé avec succès !'),
+                  backgroundColor: theme.colorScheme.secondary,
                 ),
               );
             },

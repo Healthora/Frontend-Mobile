@@ -27,43 +27,77 @@ class ThemeProvider with ChangeNotifier {
 
   // Define Light Theme
   ThemeData get lightTheme => ThemeData(
+    useMaterial3: true,
     brightness: Brightness.light,
-    scaffoldBackgroundColor: AppColors.grey[100], // Background
-    primaryColor: AppColors.blue,
+    primaryColor: AppColors.lightPrimary,
+    scaffoldBackgroundColor: AppColors.lightBackground,
     colorScheme: const ColorScheme.light(
-      primary: AppColors.blue,
-      secondary: AppColors.blue,
-      surface: Colors.white, // Card background
+      primary: AppColors.lightPrimary,
+      secondary: AppColors.lightSecondary,
+      surface: AppColors.lightSurface,
+      onPrimary: Colors.white,
+      onSecondary: Colors.white,
+      onSurface: AppColors.lightText,
+      background: AppColors.lightBackground,
+      onBackground: AppColors.lightText,
     ),
-    appBarTheme: AppBarTheme(
-      backgroundColor: AppColors.blue,
+    appBarTheme: const AppBarTheme(
+      backgroundColor: AppColors.lightPrimary,
       foregroundColor: Colors.white,
+      elevation: 0,
+      centerTitle: true,
     ),
     textTheme: const TextTheme(
-      bodyLarge: TextStyle(color: Colors.black87),
-      bodyMedium: TextStyle(color: Colors.black87),
+      bodyLarge: TextStyle(color: AppColors.lightText),
+      bodyMedium: TextStyle(color: AppColors.lightText),
+      titleLarge: TextStyle(
+        color: AppColors.lightText,
+        fontWeight: FontWeight.bold,
+      ),
     ),
-    iconTheme: const IconThemeData(color: Colors.black87),
+    iconTheme: const IconThemeData(color: AppColors.lightText),
+    cardTheme: CardThemeData(
+      color: AppColors.lightSurface,
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    ),
   );
 
   // Define Dark Theme
   ThemeData get darkTheme => ThemeData(
+    useMaterial3: true,
     brightness: Brightness.dark,
-    scaffoldBackgroundColor: const Color(0xFF121212), // Dark Background
-    primaryColor: Colors.blue[300],
-    colorScheme: ColorScheme.dark(
-      primary: Colors.blue[300]!,
-      secondary: Colors.blue[300]!,
-      surface: const Color(0xFF1E1E1E), // Darker card background
+    primaryColor: AppColors.darkPrimary,
+    scaffoldBackgroundColor: AppColors.darkBackground,
+    colorScheme: const ColorScheme.dark(
+      primary: AppColors.darkPrimary,
+      secondary: AppColors.darkSecondary,
+      surface: AppColors.darkSurface,
+      onPrimary: Colors.white,
+      onSecondary: Colors.white,
+      onSurface: AppColors.darkText,
+      background: AppColors.darkBackground,
+      onBackground: AppColors.darkText,
     ),
     appBarTheme: const AppBarTheme(
-      backgroundColor: Color(0xFF1E1E1E),
-      foregroundColor: Colors.white,
+      backgroundColor: AppColors.darkSurface,
+      foregroundColor: AppColors.darkText,
+      elevation: 0,
+      centerTitle: true,
     ),
-    textTheme: TextTheme(
-      bodyLarge: TextStyle(color: Colors.grey[300]),
-      bodyMedium: TextStyle(color: Colors.grey[300]),
+    textTheme: const TextTheme(
+      bodyLarge: TextStyle(color: AppColors.darkText),
+      bodyMedium: TextStyle(color: AppColors.darkText),
+      titleLarge: TextStyle(
+        color: AppColors.darkText,
+        fontWeight: FontWeight.bold,
+      ),
     ),
-    iconTheme: IconThemeData(color: Colors.grey[300]),
+    iconTheme: const IconThemeData(color: AppColors.darkText),
+    cardTheme: CardThemeData(
+      color: AppColors.darkSurface,
+      elevation: 0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    ),
   );
 }

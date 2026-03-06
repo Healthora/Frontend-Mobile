@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:medical/Static/AppColors.dart';
 import 'package:medical/screen/auth/ForgotPasswordPage.dart';
 import 'package:medical/screen/auth/OtpPage.dart';
 import 'package:medical/screen/navigation/Navigation_Bar.dart';
@@ -34,7 +33,6 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
   void togglePage() {
     setState(() {
       isLoginPage = !isLoginPage;
-      // Clear fields when switching
       emailController.clear();
       passwordController.clear();
       confirmPasswordController.clear();
@@ -57,7 +55,6 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
           builder: (context, constraints) {
             return Stack(
               children: [
-                // Main Content Card
                 Positioned(
                   top: size.height * 0.03,
                   left: size.width * 0.05,
@@ -69,9 +66,7 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                       borderRadius: BorderRadius.circular(30),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.black.withOpacity(
-                            isDark ? 0.3 : 0.1,
-                          ),
+                          color: Colors.black.withOpacity(isDark ? 0.3 : 0.1),
                           blurRadius: 20,
                           offset: const Offset(0, 10),
                         ),
@@ -79,28 +74,19 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                     ),
                     child: Column(
                       children: [
-                        // Back button and title
                         Padding(
                           padding: EdgeInsets.all(size.width * 0.05),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Center(
-                                  child: Text(
-                                    isLoginPage ? 'Connexion' : 'Inscription',
-                                    style: TextStyle(
-                                      fontSize: size.width * 0.05,
-                                      fontWeight: FontWeight.w600,
-                                      color: theme.textTheme.bodyLarge?.color,
-                                    ),
-                                  ),
-                                ),
+                          child: Center(
+                            child: Text(
+                              isLoginPage ? 'Connexion' : 'Inscription',
+                              style: TextStyle(
+                                fontSize: size.width * 0.05,
+                                fontWeight: FontWeight.w600,
+                                color: theme.textTheme.bodyLarge?.color,
                               ),
-                            ],
+                            ),
                           ),
                         ),
-
-                        // Scrollable content area
                         Expanded(
                           child: SingleChildScrollView(
                             physics: const ClampingScrollPhysics(),
@@ -111,8 +97,6 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                               child: Column(
                                 children: [
                                   SizedBox(height: size.height * 0.01),
-
-                                  // Shield Icon with dots
                                   Stack(
                                     alignment: Alignment.center,
                                     children: [
@@ -120,7 +104,8 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                         width: size.width * 0.3,
                                         height: size.width * 0.3,
                                         decoration: BoxDecoration(
-                                          color: AppColors.blue[50],
+                                          color: theme.colorScheme.primary
+                                              .withOpacity(0.1),
                                           shape: BoxShape.circle,
                                         ),
                                       ),
@@ -128,21 +113,19 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                         padding: EdgeInsets.all(
                                           size.width * 0.04,
                                         ),
-                                        decoration: const BoxDecoration(
-                                          color: AppColors.blue,
+                                        decoration: BoxDecoration(
+                                          color: theme.colorScheme.primary,
                                           shape: BoxShape.circle,
                                         ),
                                         child: Icon(
                                           Icons.medical_services,
-                                          color: AppColors.white,
+                                          color: theme.colorScheme.onPrimary,
                                           size: size.width * 0.12,
                                         ),
                                       ),
                                     ],
                                   ),
-
                                   SizedBox(height: size.height * 0.02),
-                                  // Welcome text
                                   Text(
                                     isLoginPage
                                         ? 'Bon retour'
@@ -153,230 +136,114 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                       color: theme.textTheme.bodyLarge?.color,
                                     ),
                                   ),
-
                                   SizedBox(height: size.height * 0.008),
-
                                   Text(
                                     isLoginPage
                                         ? 'Votre santé, simplifiée et sécurisée.'
                                         : 'Rejoignez-nous pour une vie plus saine.',
                                     style: TextStyle(
                                       fontSize: size.width * 0.032,
-                                      color: isDark
-                                          ? AppColors.grey[400]
-                                          : AppColors.grey[600],
+                                      color: theme.textTheme.bodySmall?.color
+                                          ?.withOpacity(0.6),
                                     ),
                                   ),
-
                                   SizedBox(height: size.height * 0.03),
-
-                                  // Toggle buttons
                                   Container(
                                     height: size.height * 0.05,
                                     decoration: BoxDecoration(
                                       color: isDark
                                           ? Colors.grey[800]
-                                          : AppColors.grey[100],
+                                          : Colors.grey[100],
                                       borderRadius: BorderRadius.circular(25),
                                     ),
                                     child: Row(
                                       children: [
-                                        Expanded(
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              if (!isLoginPage) togglePage();
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: isLoginPage
-                                                    ? (isDark
-                                                          ? const Color(
-                                                              0xFF2C3E50,
-                                                            )
-                                                          : AppColors.white)
-                                                    : Colors.transparent,
-                                                borderRadius:
-                                                    BorderRadius.circular(25),
-                                                boxShadow: isLoginPage
-                                                    ? [
-                                                        BoxShadow(
-                                                          color: AppColors.black
-                                                              .withOpacity(
-                                                                isDark
-                                                                    ? 0.3
-                                                                    : 0.1,
-                                                              ),
-                                                          blurRadius: 8,
-                                                          offset: const Offset(
-                                                            0,
-                                                            2,
-                                                          ),
-                                                        ),
-                                                      ]
-                                                    : null,
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  'Connexion',
-                                                  style: TextStyle(
-                                                    fontSize: size.width * 0.04,
-                                                    fontWeight: isLoginPage
-                                                        ? FontWeight.w600
-                                                        : FontWeight.w500,
-                                                    color: isLoginPage
-                                                        ? (isDark
-                                                              ? AppColors.white
-                                                              : AppColors.blue)
-                                                        : (isDark
-                                                              ? AppColors
-                                                                    .grey[400]
-                                                              : AppColors
-                                                                    .grey[600]),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+                                        _buildToggleItem(
+                                          'Connexion',
+                                          isLoginPage,
+                                          () {
+                                            if (!isLoginPage) togglePage();
+                                          },
+                                          size,
+                                          theme,
                                         ),
-
-                                        Expanded(
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              if (isLoginPage) togglePage();
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: !isLoginPage
-                                                    ? (isDark
-                                                          ? const Color(
-                                                              0xFF2C3E50,
-                                                            )
-                                                          : AppColors.white)
-                                                    : Colors.transparent,
-                                                borderRadius:
-                                                    BorderRadius.circular(25),
-                                                boxShadow: !isLoginPage
-                                                    ? [
-                                                        BoxShadow(
-                                                          color: AppColors.black
-                                                              .withOpacity(
-                                                                isDark
-                                                                    ? 0.3
-                                                                    : 0.1,
-                                                              ),
-                                                          blurRadius: 8,
-                                                          offset: const Offset(
-                                                            0,
-                                                            2,
-                                                          ),
-                                                        ),
-                                                      ]
-                                                    : null,
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  'Inscription',
-                                                  style: TextStyle(
-                                                    fontSize: size.width * 0.04,
-                                                    fontWeight: !isLoginPage
-                                                        ? FontWeight.w600
-                                                        : FontWeight.w500,
-                                                    color: !isLoginPage
-                                                        ? (isDark
-                                                              ? AppColors.white
-                                                              : AppColors.blue)
-                                                        : (isDark
-                                                              ? AppColors
-                                                                    .grey[400]
-                                                              : AppColors
-                                                                    .grey[600]),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+                                        _buildToggleItem(
+                                          'Inscription',
+                                          !isLoginPage,
+                                          () {
+                                            if (isLoginPage) togglePage();
+                                          },
+                                          size,
+                                          theme,
                                         ),
                                       ],
                                     ),
                                   ),
-
                                   SizedBox(height: size.height * 0.03),
-
-                                  // Input fields
                                   if (!isLoginPage) ...[
                                     _buildTextField(
-                                      context: context,
-                                      controller: nameController,
-                                      hintText: 'Nom complet',
-                                      icon: Icons.person_outline,
-                                      size: size,
+                                      context,
+                                      nameController,
+                                      'Nom complet',
+                                      Icons.person_outline,
+                                      size,
                                     ),
                                     SizedBox(height: size.height * 0.02),
                                   ],
-
                                   _buildTextField(
-                                    context: context,
-                                    controller: emailController,
-                                    hintText: 'Email ou numéro de téléphone',
-                                    icon: Icons.alternate_email,
-                                    size: size,
+                                    context,
+                                    emailController,
+                                    'Email ou numéro de téléphone',
+                                    Icons.alternate_email,
+                                    size,
                                   ),
-
                                   SizedBox(height: size.height * 0.02),
-
                                   _buildTextField(
-                                    context: context,
-                                    controller: passwordController,
-                                    hintText: 'Mot de passe',
-                                    icon: Icons.lock_outline,
+                                    context,
+                                    passwordController,
+                                    'Mot de passe',
+                                    Icons.lock_outline,
+                                    size,
                                     isPassword: true,
                                     isPasswordVisible: isPasswordVisible,
-                                    onTogglePassword: () {
-                                      setState(() {
-                                        isPasswordVisible = !isPasswordVisible;
-                                      });
-                                    },
-                                    size: size,
+                                    onTogglePassword: () => setState(
+                                      () => isPasswordVisible =
+                                          !isPasswordVisible,
+                                    ),
                                   ),
-
                                   if (!isLoginPage) ...[
                                     SizedBox(height: size.height * 0.02),
                                     _buildTextField(
-                                      context: context,
-                                      controller: confirmPasswordController,
-                                      hintText: 'Confirmer le mot de passe',
-                                      icon: Icons.lock_outline,
+                                      context,
+                                      confirmPasswordController,
+                                      'Confirmer le mot de passe',
+                                      Icons.lock_outline,
+                                      size,
                                       isPassword: true,
                                       isPasswordVisible:
                                           isConfirmPasswordVisible,
-                                      onTogglePassword: () {
-                                        setState(() {
-                                          isConfirmPasswordVisible =
-                                              !isConfirmPasswordVisible;
-                                        });
-                                      },
-                                      size: size,
+                                      onTogglePassword: () => setState(
+                                        () => isConfirmPasswordVisible =
+                                            !isConfirmPasswordVisible,
+                                      ),
                                     ),
                                   ],
-
                                   if (isLoginPage) ...[
                                     SizedBox(height: size.height * 0.015),
                                     Align(
                                       alignment: Alignment.centerRight,
                                       child: TextButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const Forgotpasswordpage(),
-                                            ),
-                                          );
-                                        },
+                                        onPressed: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Forgotpasswordpage(),
+                                          ),
+                                        ),
                                         child: Text(
                                           'Mot de passe oublié ?',
                                           style: TextStyle(
-                                            color: AppColors.blue,
+                                            color: theme.colorScheme.primary,
                                             fontSize: size.width * 0.035,
                                             fontWeight: FontWeight.w500,
                                           ),
@@ -385,26 +252,24 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                     ),
                                   ] else
                                     SizedBox(height: size.height * 0.02),
-
                                   SizedBox(height: size.height * 0.01),
-
-                                  // Login/Register Button
                                   SizedBox(
                                     width: double.infinity,
                                     height: size.height * 0.065,
                                     child: ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const Navigation_Bar(),
+                                      onPressed: () =>
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const Navigation_Bar(),
+                                            ),
                                           ),
-                                        );
-                                      },
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: AppColors.blue,
-                                        foregroundColor: AppColors.white,
+                                        backgroundColor:
+                                            theme.colorScheme.primary,
+                                        foregroundColor:
+                                            theme.colorScheme.onPrimary,
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(
                                             30,
@@ -423,24 +288,19 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                       ),
                                     ),
                                   ),
-
                                   if (isLoginPage) ...[
                                     SizedBox(height: size.height * 0.02),
-
-                                    // Login with OTP
                                     SizedBox(
                                       width: double.infinity,
                                       height: size.height * 0.065,
                                       child: OutlinedButton.icon(
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const OtpPage(),
-                                            ),
-                                          );
-                                        },
+                                        onPressed: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const OtpPage(),
+                                          ),
+                                        ),
                                         icon: Icon(
                                           Icons.message_outlined,
                                           size: size.width * 0.05,
@@ -453,9 +313,10 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                                           ),
                                         ),
                                         style: OutlinedButton.styleFrom(
-                                          foregroundColor: AppColors.blue,
-                                          side: const BorderSide(
-                                            color: AppColors.blue,
+                                          foregroundColor:
+                                              theme.colorScheme.primary,
+                                          side: BorderSide(
+                                            color: theme.colorScheme.primary,
                                           ),
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(
@@ -483,12 +344,56 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
     );
   }
 
-  Widget _buildTextField({
-    required BuildContext context,
-    required TextEditingController controller,
-    required String hintText,
-    required IconData icon,
-    required Size size,
+  Widget _buildToggleItem(
+    String title,
+    bool isSelected,
+    VoidCallback onTap,
+    Size size,
+    ThemeData theme,
+  ) {
+    final isDark = theme.brightness == Brightness.dark;
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          decoration: BoxDecoration(
+            color: isSelected
+                ? (isDark ? const Color(0xFF2C3E50) : Colors.white)
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(25),
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(isDark ? 0.3 : 0.1),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ]
+                : null,
+          ),
+          child: Center(
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: size.width * 0.04,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                color: isSelected
+                    ? (isDark ? Colors.white : theme.colorScheme.primary)
+                    : theme.textTheme.bodySmall?.color?.withOpacity(0.6),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField(
+    BuildContext context,
+    TextEditingController controller,
+    String hintText,
+    IconData icon,
+    Size size, {
     bool isPassword = false,
     bool isPasswordVisible = false,
     VoidCallback? onTogglePassword,
@@ -499,11 +404,9 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
     return Container(
       height: size.height * 0.065,
       decoration: BoxDecoration(
-        color: isDark ? Colors.grey[800] : AppColors.grey[50],
+        color: isDark ? Colors.grey[800] : Colors.grey[50],
         borderRadius: BorderRadius.circular(15),
-        border: Border.all(
-          color: isDark ? Colors.grey[700]! : AppColors.grey[200]!,
-        ),
+        border: Border.all(color: theme.dividerColor),
       ),
       child: TextField(
         controller: controller,
@@ -515,12 +418,12 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
         decoration: InputDecoration(
           hintText: hintText,
           hintStyle: TextStyle(
-            color: AppColors.grey[400],
+            color: theme.textTheme.bodySmall?.color?.withOpacity(0.4),
             fontSize: size.width * 0.04,
           ),
           prefixIcon: Icon(
             icon,
-            color: AppColors.grey[400],
+            color: theme.iconTheme.color?.withOpacity(0.4),
             size: size.width * 0.055,
           ),
           suffixIcon: isPassword
@@ -529,7 +432,7 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
                     isPasswordVisible
                         ? Icons.visibility_outlined
                         : Icons.visibility_off_outlined,
-                    color: AppColors.grey[400],
+                    color: theme.iconTheme.color?.withOpacity(0.4),
                     size: size.width * 0.055,
                   ),
                   onPressed: onTogglePassword,
@@ -538,7 +441,7 @@ class _LoginRegistrationPageState extends State<LoginRegistrationPage> {
           border: InputBorder.none,
           contentPadding: EdgeInsets.symmetric(
             horizontal: size.width * 0.04,
-            vertical: size.height * 0.02,
+            vertical: size.height * 0.015,
           ),
         ),
       ),

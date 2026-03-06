@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:medical/Static/AppColors.dart';
 import 'package:medical/screen/navigation/Navigation_Bar.dart';
 
 class BookingConfirmationPage extends StatelessWidget {
@@ -29,7 +28,7 @@ class BookingConfirmationPage extends StatelessWidget {
     final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor, // Couleur de fond légère
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
@@ -40,7 +39,6 @@ class BookingConfirmationPage extends StatelessWidget {
             size: screenWidth * 0.06,
           ),
           onPressed: () {
-            // Retour à la page d'accueil par défaut
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => const Navigation_Bar()),
@@ -65,35 +63,26 @@ class BookingConfirmationPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: screenHeight * 0.02),
-
-              // =====================================
-              // ICÔNE DE SUCCÈS VERTE
-              // =====================================
               Container(
                 padding: EdgeInsets.all(screenWidth * 0.04),
                 decoration: BoxDecoration(
-                  color: AppColors.teal.withOpacity(0.15),
+                  color: Colors.teal.withOpacity(0.15),
                   shape: BoxShape.circle,
                 ),
                 child: Container(
                   padding: EdgeInsets.all(screenWidth * 0.03),
                   decoration: const BoxDecoration(
-                    color: AppColors.teal,
+                    color: Colors.teal,
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     Icons.check,
-                    color: AppColors.white,
+                    color: Colors.white,
                     size: screenWidth * 0.08,
                   ),
                 ),
               ),
-
               SizedBox(height: screenHeight * 0.025),
-
-              // =====================================
-              // TITRE DE SUCCÈS
-              // =====================================
               Text(
                 'Rendez-vous confirmé !',
                 style: TextStyle(
@@ -108,16 +97,11 @@ class BookingConfirmationPage extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: screenWidth * 0.035,
-                  color: AppColors.grey[600],
+                  color: theme.textTheme.bodySmall?.color?.withOpacity(0.7),
                   height: 1.5,
                 ),
               ),
-
               SizedBox(height: screenHeight * 0.04),
-
-              // =====================================
-              // CARTE DÉTAILS DU RENDEZ-VOUS
-              // =====================================
               Container(
                 decoration: BoxDecoration(
                   color: theme.colorScheme.surface,
@@ -132,7 +116,6 @@ class BookingConfirmationPage extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    // --- PARTIE HAUT : INFO MEDECIN ---
                     Padding(
                       padding: EdgeInsets.all(screenWidth * 0.05),
                       child: Row(
@@ -142,11 +125,11 @@ class BookingConfirmationPage extends StatelessWidget {
                             height: screenWidth * 0.15,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: AppColors.blue[100],
+                              color: theme.colorScheme.primary.withOpacity(0.1),
                             ),
                             child: Icon(
                               Icons.person,
-                              color: AppColors.blue,
+                              color: theme.colorScheme.primary,
                               size: screenWidth * 0.08,
                             ),
                           ),
@@ -169,7 +152,7 @@ class BookingConfirmationPage extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: screenWidth * 0.03,
                                     fontWeight: FontWeight.bold,
-                                    color: AppColors.blue,
+                                    color: theme.colorScheme.primary,
                                     letterSpacing: 1,
                                   ),
                                 ),
@@ -179,14 +162,7 @@ class BookingConfirmationPage extends StatelessWidget {
                         ],
                       ),
                     ),
-
-                    Divider(
-                      height: 1,
-                      thickness: 1,
-                      color: isDark ? Colors.grey[800] : AppColors.grey[100],
-                    ),
-
-                    // --- PARTIE MILIEU : DATE, LIEU, TYPE ---
+                    Divider(height: 1, thickness: 1, color: theme.dividerColor),
                     Padding(
                       padding: EdgeInsets.all(screenWidth * 0.05),
                       child: Column(
@@ -197,7 +173,6 @@ class BookingConfirmationPage extends StatelessWidget {
                             '$date • $time',
                             screenWidth,
                             screenHeight,
-                            isDark,
                             theme,
                           ),
                           SizedBox(height: screenHeight * 0.025),
@@ -207,7 +182,6 @@ class BookingConfirmationPage extends StatelessWidget {
                             docLocation,
                             screenWidth,
                             screenHeight,
-                            isDark,
                             theme,
                           ),
                           SizedBox(height: screenHeight * 0.025),
@@ -217,23 +191,18 @@ class BookingConfirmationPage extends StatelessWidget {
                             'En cabinet',
                             screenWidth,
                             screenHeight,
-                            isDark,
                             theme,
                           ),
                         ],
                       ),
                     ),
-
-                    // --- PARTIE BAS : CARTE GEOGRAPHIQUE ---
                     Container(
                       width: double.infinity,
                       height: screenHeight * 0.15,
                       decoration: BoxDecoration(
                         color: isDark
                             ? const Color(0xFF2C3E50)
-                            : const Color(
-                                0xFFE5E5E5,
-                              ), // Fond gris clair pour la map
+                            : const Color(0xFFE5E5E5),
                         borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(20),
                           bottomRight: Radius.circular(20),
@@ -242,7 +211,6 @@ class BookingConfirmationPage extends StatelessWidget {
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
-                          // Quadrillage Map Placeholder
                           ClipRRect(
                             borderRadius: const BorderRadius.only(
                               bottomLeft: Radius.circular(20),
@@ -250,12 +218,16 @@ class BookingConfirmationPage extends StatelessWidget {
                             ),
                             child: CustomPaint(
                               size: Size.infinite,
-                              painter: _ConfirmationMapPainter(),
+                              painter: _ConfirmationMapPainter(
+                                color: isDark
+                                    ? Colors.white.withOpacity(0.05)
+                                    : Colors.blue.withOpacity(0.05),
+                              ),
                             ),
                           ),
                           Icon(
                             Icons.location_on,
-                            color: AppColors.blue,
+                            color: theme.colorScheme.primary,
                             size: screenWidth * 0.08,
                           ),
                         ],
@@ -264,28 +236,18 @@ class BookingConfirmationPage extends StatelessWidget {
                   ],
                 ),
               ),
-
               SizedBox(height: screenHeight * 0.04),
-
-              // =====================================
-              // BOUTONS D'ACTION
-              // =====================================
-
-              // Bouton Ajouter au calendrier
-              SizedBox(height: screenHeight * 0.015),
-
-              // Bouton Voir mes rendez-vous
               SizedBox(
                 width: double.infinity,
                 height: screenHeight * 0.065,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Navigate to Appointments Tab
+                    // Navigate to Appointments Tab logic here if needed
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: isDark
                         ? Colors.grey[800]
-                        : AppColors.grey[200],
+                        : Colors.grey[200],
                     foregroundColor: theme.textTheme.bodyLarge?.color,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
@@ -301,9 +263,7 @@ class BookingConfirmationPage extends StatelessWidget {
                   ),
                 ),
               ),
-
               SizedBox(height: screenHeight * 0.02),
-
               TextButton.icon(
                 onPressed: () {
                   Navigator.pushAndRemoveUntil(
@@ -316,19 +276,18 @@ class BookingConfirmationPage extends StatelessWidget {
                 },
                 icon: Icon(
                   Icons.home,
-                  color: AppColors.blue,
+                  color: theme.colorScheme.primary,
                   size: screenWidth * 0.05,
                 ),
                 label: Text(
                   'Retour à l\'accueil',
                   style: TextStyle(
-                    color: AppColors.blue,
+                    color: theme.colorScheme.primary,
                     fontSize: screenWidth * 0.038,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-
               SizedBox(height: screenHeight * 0.04),
             ],
           ),
@@ -343,7 +302,6 @@ class BookingConfirmationPage extends StatelessWidget {
     String value,
     double screenWidth,
     double screenHeight,
-    bool isDark,
     ThemeData theme,
   ) {
     return Row(
@@ -352,12 +310,12 @@ class BookingConfirmationPage extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(screenWidth * 0.025),
           decoration: BoxDecoration(
-            color: isDark ? Colors.grey[800] : AppColors.grey[100],
+            color: theme.colorScheme.primary.withOpacity(0.1),
             shape: BoxShape.circle,
           ),
           child: Icon(
             icon,
-            color: isDark ? AppColors.grey[300] : AppColors.grey[700],
+            color: theme.colorScheme.primary,
             size: screenWidth * 0.045,
           ),
         ),
@@ -371,7 +329,7 @@ class BookingConfirmationPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: screenWidth * 0.028,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.grey[500],
+                  color: theme.textTheme.bodySmall?.color,
                   letterSpacing: 0.5,
                 ),
               ),
@@ -393,10 +351,13 @@ class BookingConfirmationPage extends StatelessWidget {
 }
 
 class _ConfirmationMapPainter extends CustomPainter {
+  final Color color;
+  _ConfirmationMapPainter({required this.color});
+
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.blue.withOpacity(0.05)
+      ..color = color
       ..strokeWidth = 2.0;
 
     for (var i = 0.0; i < size.width; i += 30) {

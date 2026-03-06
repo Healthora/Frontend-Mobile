@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:medical/Static/AppColors.dart';
 
 class Appointmentspage extends StatefulWidget {
   const Appointmentspage({super.key});
@@ -18,9 +17,7 @@ class _AppointmentspageState extends State<Appointmentspage>
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(() {
-      setState(() {
-        _selectedTab = _tabController.index;
-      });
+      setState(() => _selectedTab = _tabController.index);
     });
   }
 
@@ -34,7 +31,6 @@ class _AppointmentspageState extends State<Appointmentspage>
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
@@ -44,11 +40,10 @@ class _AppointmentspageState extends State<Appointmentspage>
         backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
-
         title: Text(
           'Mes Rendez-vous',
           style: TextStyle(
-            color: isDark ? AppColors.white : AppColors.black,
+            color: theme.textTheme.bodyLarge?.color,
             fontSize: screenWidth * 0.048,
             fontWeight: FontWeight.w600,
           ),
@@ -56,7 +51,6 @@ class _AppointmentspageState extends State<Appointmentspage>
       ),
       body: Column(
         children: [
-          // Tabs
           Container(
             color: theme.colorScheme.surface,
             padding: EdgeInsets.symmetric(
@@ -65,16 +59,14 @@ class _AppointmentspageState extends State<Appointmentspage>
             ),
             child: Row(
               children: [
-                _buildTab('À venir', 0, screenWidth, isDark),
+                _buildTab('À venir', 0, screenWidth, theme),
                 SizedBox(width: screenWidth * 0.03),
-                _buildTab('Passés', 1, screenWidth, isDark),
+                _buildTab('Passés', 1, screenWidth, theme),
                 SizedBox(width: screenWidth * 0.03),
-                _buildTab('Annulés', 2, screenWidth, isDark),
+                _buildTab('Annulés', 2, screenWidth, theme),
               ],
             ),
           ),
-
-          // Content
           Expanded(
             child: TabBarView(
               controller: _tabController,
@@ -90,22 +82,22 @@ class _AppointmentspageState extends State<Appointmentspage>
     );
   }
 
-  // ============================================================================
-  // TAB BUTTON
-  // ============================================================================
-
-  Widget _buildTab(String title, int index, double screenWidth, bool isDark) {
+  Widget _buildTab(
+    String title,
+    int index,
+    double screenWidth,
+    ThemeData theme,
+  ) {
     final isSelected = _selectedTab == index;
-
     return Expanded(
       child: GestureDetector(
-        onTap: () {
-          _tabController.animateTo(index);
-        },
+        onTap: () => _tabController.animateTo(index),
         child: Container(
           padding: EdgeInsets.symmetric(vertical: screenWidth * 0.025),
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.blue[50] : Colors.transparent,
+            color: isSelected
+                ? theme.colorScheme.primary.withOpacity(0.1)
+                : Colors.transparent,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
@@ -115,8 +107,8 @@ class _AppointmentspageState extends State<Appointmentspage>
               fontSize: screenWidth * 0.036,
               fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
               color: isSelected
-                  ? AppColors.blue
-                  : (isDark ? AppColors.grey[400] : AppColors.grey[600]),
+                  ? theme.colorScheme.primary
+                  : theme.textTheme.bodySmall?.color?.withOpacity(0.6),
             ),
           ),
         ),
@@ -124,38 +116,22 @@ class _AppointmentspageState extends State<Appointmentspage>
     );
   }
 
-  // ============================================================================
-  // UPCOMING APPOINTMENTS
-  // ============================================================================
-
   Widget _buildUpcomingAppointments(
     BuildContext context,
     double screenWidth,
     double screenHeight,
   ) {
+    final theme = Theme.of(context);
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // CETTE SEMAINE
-          Padding(
-            padding: EdgeInsets.fromLTRB(
-              screenWidth * 0.05,
-              screenHeight * 0.02,
-              screenWidth * 0.05,
-              screenHeight * 0.015,
-            ),
-            child: Text(
-              'CETTE SEMAINE',
-              style: TextStyle(
-                fontSize: screenWidth * 0.032,
-                fontWeight: FontWeight.w600,
-                color: AppColors.grey[400],
-                letterSpacing: 0.5,
-              ),
-            ),
+          _buildSectionHeader(
+            'CETTE SEMAINE',
+            screenWidth,
+            screenHeight,
+            theme,
           ),
-
           _buildAppointmentCard(
             context: context,
             doctorName: 'Dr. Jean Dupont',
@@ -163,11 +139,10 @@ class _AppointmentspageState extends State<Appointmentspage>
             date: '12 Oct. 2023',
             time: '14:30',
             badge: 'AUJOURD\'HUI',
-            badgeColor: AppColors.blue,
+            badgeColor: theme.colorScheme.primary,
             screenWidth: screenWidth,
             screenHeight: screenHeight,
           ),
-
           _buildAppointmentCard(
             context: context,
             doctorName: 'Dr. Sarah Lavoie',
@@ -175,30 +150,16 @@ class _AppointmentspageState extends State<Appointmentspage>
             date: '13 Oct. 2023',
             time: '09:00',
             badge: 'DEMAIN',
-            badgeColor: AppColors.grey[400]!,
+            badgeColor: theme.textTheme.bodySmall?.color?.withOpacity(0.5),
             screenWidth: screenWidth,
             screenHeight: screenHeight,
           ),
-
-          // LA SEMAINE PROCHAINE
-          Padding(
-            padding: EdgeInsets.fromLTRB(
-              screenWidth * 0.05,
-              screenHeight * 0.025,
-              screenWidth * 0.05,
-              screenHeight * 0.015,
-            ),
-            child: Text(
-              'LA SEMAINE PROCHAINE',
-              style: TextStyle(
-                fontSize: screenWidth * 0.032,
-                fontWeight: FontWeight.w600,
-                color: AppColors.grey[400],
-                letterSpacing: 0.5,
-              ),
-            ),
+          _buildSectionHeader(
+            'LA SEMAINE PROCHAINE',
+            screenWidth,
+            screenHeight,
+            theme,
           ),
-
           _buildAppointmentCard(
             context: context,
             doctorName: 'Dr. Marc Morel',
@@ -210,44 +171,23 @@ class _AppointmentspageState extends State<Appointmentspage>
             screenWidth: screenWidth,
             screenHeight: screenHeight,
           ),
-
           SizedBox(height: screenHeight * 0.02),
         ],
       ),
     );
   }
 
-  // ============================================================================
-  // PAST APPOINTMENTS
-  // ============================================================================
-
   Widget _buildPastAppointments(
     BuildContext context,
     double screenWidth,
     double screenHeight,
   ) {
+    final theme = Theme.of(context);
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(
-              screenWidth * 0.05,
-              screenHeight * 0.02,
-              screenWidth * 0.05,
-              screenHeight * 0.015,
-            ),
-            child: Text(
-              'OCTOBRE 2023',
-              style: TextStyle(
-                fontSize: screenWidth * 0.032,
-                fontWeight: FontWeight.w600,
-                color: AppColors.grey[400],
-                letterSpacing: 0.5,
-              ),
-            ),
-          ),
-
+          _buildSectionHeader('OCTOBRE 2023', screenWidth, screenHeight, theme),
           _buildAppointmentCard(
             context: context,
             doctorName: 'Dr. Ahmed Benali',
@@ -260,7 +200,6 @@ class _AppointmentspageState extends State<Appointmentspage>
             screenHeight: screenHeight,
             isPast: true,
           ),
-
           _buildAppointmentCard(
             context: context,
             doctorName: 'Dr. Emma Wilson',
@@ -273,16 +212,36 @@ class _AppointmentspageState extends State<Appointmentspage>
             screenHeight: screenHeight,
             isPast: true,
           ),
-
           SizedBox(height: screenHeight * 0.02),
         ],
       ),
     );
   }
 
-  // ============================================================================
-  // CANCELLED APPOINTMENTS
-  // ============================================================================
+  Widget _buildSectionHeader(
+    String title,
+    double screenWidth,
+    double screenHeight,
+    ThemeData theme,
+  ) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+        screenWidth * 0.05,
+        screenHeight * 0.02,
+        screenWidth * 0.05,
+        screenHeight * 0.015,
+      ),
+      child: Text(
+        title,
+        style: TextStyle(
+          fontSize: screenWidth * 0.032,
+          fontWeight: FontWeight.w600,
+          color: theme.textTheme.bodySmall?.color?.withOpacity(0.5),
+          letterSpacing: 0.5,
+        ),
+      ),
+    );
+  }
 
   Widget _buildCancelledAppointments(
     BuildContext context,
@@ -290,8 +249,6 @@ class _AppointmentspageState extends State<Appointmentspage>
     double screenHeight,
   ) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-
     return Center(
       child: Padding(
         padding: EdgeInsets.all(screenWidth * 0.1),
@@ -301,7 +258,7 @@ class _AppointmentspageState extends State<Appointmentspage>
             Icon(
               Icons.event_busy,
               size: screenWidth * 0.2,
-              color: AppColors.grey[300],
+              color: theme.iconTheme.color?.withOpacity(0.2),
             ),
             SizedBox(height: screenHeight * 0.02),
             Text(
@@ -317,7 +274,7 @@ class _AppointmentspageState extends State<Appointmentspage>
               'Vos rendez-vous annulés apparaîtront ici',
               style: TextStyle(
                 fontSize: screenWidth * 0.035,
-                color: isDark ? AppColors.grey[400] : AppColors.grey[500],
+                color: theme.textTheme.bodySmall?.color?.withOpacity(0.6),
               ),
               textAlign: TextAlign.center,
             ),
@@ -326,10 +283,6 @@ class _AppointmentspageState extends State<Appointmentspage>
       ),
     );
   }
-
-  // ============================================================================
-  // APPOINTMENT CARD
-  // ============================================================================
 
   Widget _buildAppointmentCard({
     required BuildContext context,
@@ -365,29 +318,24 @@ class _AppointmentspageState extends State<Appointmentspage>
       ),
       child: Column(
         children: [
-          // Doctor Info Row
           Row(
             children: [
-              // Doctor Avatar
               Container(
                 width: screenWidth * 0.12,
                 height: screenWidth * 0.12,
                 decoration: BoxDecoration(
-                  color: isDark ? Colors.grey[800] : AppColors.grey[200],
+                  color: theme.colorScheme.primary.withOpacity(0.1),
                   shape: BoxShape.circle,
                 ),
                 child: ClipOval(
                   child: Icon(
                     Icons.person,
                     size: screenWidth * 0.06,
-                    color: isDark ? AppColors.grey[300] : AppColors.grey[400],
+                    color: theme.colorScheme.primary.withOpacity(0.5),
                   ),
                 ),
               ),
-
               SizedBox(width: screenWidth * 0.03),
-
-              // Doctor Name and Specialty
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -405,16 +353,14 @@ class _AppointmentspageState extends State<Appointmentspage>
                       specialty,
                       style: TextStyle(
                         fontSize: screenWidth * 0.035,
-                        color: isDark
-                            ? AppColors.grey[400]
-                            : AppColors.grey[600],
+                        color: theme.textTheme.bodySmall?.color?.withOpacity(
+                          0.7,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-
-              // Badge (AUJOURD'HUI, DEMAIN)
               if (badge != null)
                 Container(
                   padding: EdgeInsets.symmetric(
@@ -436,61 +382,49 @@ class _AppointmentspageState extends State<Appointmentspage>
                 ),
             ],
           ),
-
           SizedBox(height: screenHeight * 0.015),
-
-          // Date and Time Row
           Row(
             children: [
               Icon(
                 Icons.calendar_today_outlined,
                 size: screenWidth * 0.04,
-                color: AppColors.blue,
+                color: theme.colorScheme.primary,
               ),
               SizedBox(width: screenWidth * 0.015),
               Text(
                 date,
                 style: TextStyle(
                   fontSize: screenWidth * 0.035,
-                  color: isDark ? AppColors.grey[300] : AppColors.grey[700],
+                  color: theme.textTheme.bodySmall?.color?.withOpacity(0.8),
                 ),
               ),
               SizedBox(width: screenWidth * 0.04),
               Icon(
                 Icons.access_time,
                 size: screenWidth * 0.04,
-                color: AppColors.blue,
+                color: theme.colorScheme.primary,
               ),
               SizedBox(width: screenWidth * 0.015),
               Text(
                 time,
                 style: TextStyle(
                   fontSize: screenWidth * 0.035,
-                  color: isDark ? AppColors.grey[300] : AppColors.grey[700],
+                  color: theme.textTheme.bodySmall?.color?.withOpacity(0.8),
                 ),
               ),
             ],
           ),
-
           SizedBox(height: screenHeight * 0.015),
-
-          // Action Buttons
           Row(
             children: [
-              // Cancel Button
               Expanded(
                 child: OutlinedButton(
-                  onPressed: () {
-                    _showCancelDialog(context, doctorName);
-                  },
+                  onPressed: () =>
+                      _showCancelDialog(context, doctorName, theme),
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: isDark
-                        ? AppColors.grey[300]
-                        : AppColors.grey[700],
-                    side: BorderSide(
-                      color: isDark ? Colors.grey[700]! : AppColors.grey[300]!,
-                      width: 1.5,
-                    ),
+                    foregroundColor: theme.textTheme.bodySmall?.color
+                        ?.withOpacity(0.8),
+                    side: BorderSide(color: theme.dividerColor, width: 1.5),
                     padding: EdgeInsets.symmetric(
                       vertical: screenHeight * 0.014,
                     ),
@@ -507,25 +441,21 @@ class _AppointmentspageState extends State<Appointmentspage>
                   ),
                 ),
               ),
-
               SizedBox(width: screenWidth * 0.03),
-
-              // View Details Button
               Expanded(
                 flex: 2,
                 child: ElevatedButton(
-                  onPressed: () {
-                    _showDetailsDialog(
-                      context,
-                      doctorName,
-                      specialty,
-                      date,
-                      time,
-                    );
-                  },
+                  onPressed: () => _showDetailsDialog(
+                    context,
+                    doctorName,
+                    specialty,
+                    date,
+                    time,
+                    theme,
+                  ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.blue,
-                    foregroundColor: AppColors.white,
+                    backgroundColor: theme.colorScheme.primary,
+                    foregroundColor: theme.colorScheme.onPrimary,
                     padding: EdgeInsets.symmetric(
                       vertical: screenHeight * 0.014,
                     ),
@@ -550,11 +480,11 @@ class _AppointmentspageState extends State<Appointmentspage>
     );
   }
 
-  // ============================================================================
-  // DIALOGS
-  // ============================================================================
-
-  void _showCancelDialog(BuildContext context, String doctorName) {
+  void _showCancelDialog(
+    BuildContext context,
+    String doctorName,
+    ThemeData theme,
+  ) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -566,21 +496,26 @@ class _AppointmentspageState extends State<Appointmentspage>
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Non', style: TextStyle(color: AppColors.grey[600])),
+            child: Text(
+              'Non',
+              style: TextStyle(
+                color: theme.textTheme.bodySmall?.color?.withOpacity(0.6),
+              ),
+            ),
           ),
           TextButton(
             onPressed: () {
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Rendez-vous annulé'),
-                  backgroundColor: AppColors.red,
+                SnackBar(
+                  content: const Text('Rendez-vous annulé'),
+                  backgroundColor: Colors.red[400],
                 ),
               );
             },
-            child: const Text(
+            child: Text(
               'Oui, annuler',
-              style: TextStyle(color: AppColors.red),
+              style: TextStyle(color: Colors.red[400]),
             ),
           ),
         ],
@@ -594,6 +529,7 @@ class _AppointmentspageState extends State<Appointmentspage>
     String specialty,
     String date,
     String time,
+    ThemeData theme,
   ) {
     showDialog(
       context: context,

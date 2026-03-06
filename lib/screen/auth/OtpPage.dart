@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:medical/Static/AppColors.dart';
 
 class OtpPage extends StatefulWidget {
   const OtpPage({super.key});
@@ -16,6 +15,14 @@ class _OtpPageState extends State<OtpPage> {
     (_) => TextEditingController(),
   );
   final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
+
+  @override
+  void initState() {
+    super.initState();
+    for (int i = 0; i < 6; i++) {
+      _focusNodes[i].addListener(() => setState(() {}));
+    }
+  }
 
   @override
   void dispose() {
@@ -60,9 +67,7 @@ class _OtpPageState extends State<OtpPage> {
                       borderRadius: BorderRadius.circular(30),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.black.withOpacity(
-                            isDark ? 0.3 : 0.1,
-                          ),
+                          color: Colors.black.withOpacity(isDark ? 0.3 : 0.1),
                           blurRadius: 20,
                           offset: const Offset(0, 10),
                         ),
@@ -72,7 +77,6 @@ class _OtpPageState extends State<OtpPage> {
                       physics: const ClampingScrollPhysics(),
                       child: Column(
                         children: [
-                          // Back button and title
                           Padding(
                             padding: EdgeInsets.only(
                               top: size.height * 0.08,
@@ -90,8 +94,6 @@ class _OtpPageState extends State<OtpPage> {
                             ),
                           ),
                           SizedBox(height: size.height * 0.01),
-
-                          // Subtitle
                           Padding(
                             padding: EdgeInsets.symmetric(
                               horizontal: size.width * 0.1,
@@ -103,15 +105,13 @@ class _OtpPageState extends State<OtpPage> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: size.width * 0.035,
-                                color: isDark
-                                    ? AppColors.grey[400]
-                                    : AppColors.grey[600],
-                                height: size.height * 0.0015,
+                                color: theme.textTheme.bodySmall?.color
+                                    ?.withOpacity(0.6),
+                                height: 1.5,
                               ),
                             ),
                           ),
                           SizedBox(height: size.height * 0.04),
-
                           if (!isOtpSent)
                             Container(
                               margin: EdgeInsets.all(size.width * 0.05),
@@ -119,13 +119,9 @@ class _OtpPageState extends State<OtpPage> {
                               decoration: BoxDecoration(
                                 color: isDark
                                     ? Colors.grey[800]
-                                    : AppColors.grey[50],
+                                    : Colors.grey[50],
                                 borderRadius: BorderRadius.circular(15),
-                                border: Border.all(
-                                  color: isDark
-                                      ? Colors.grey[700]!
-                                      : Colors.grey[200]!,
-                                ),
+                                border: Border.all(color: theme.dividerColor),
                               ),
                               child: TextField(
                                 keyboardType: TextInputType.phone,
@@ -136,18 +132,21 @@ class _OtpPageState extends State<OtpPage> {
                                 decoration: InputDecoration(
                                   hintText: "Numéro de téléphone",
                                   hintStyle: TextStyle(
-                                    color: AppColors.grey[400],
+                                    color: theme.textTheme.bodySmall?.color
+                                        ?.withOpacity(0.4),
                                     fontSize: size.width * 0.04,
                                   ),
                                   prefixIcon: Icon(
                                     Icons.phone_outlined,
-                                    color: AppColors.grey[400],
+                                    color: theme.iconTheme.color?.withOpacity(
+                                      0.4,
+                                    ),
                                     size: size.width * 0.055,
                                   ),
                                   border: InputBorder.none,
                                   contentPadding: EdgeInsets.symmetric(
                                     horizontal: size.width * 0.04,
-                                    vertical: size.height * 0.02,
+                                    vertical: size.height * 0.015,
                                   ),
                                 ),
                               ),
@@ -166,26 +165,21 @@ class _OtpPageState extends State<OtpPage> {
                                 ),
                               ),
                             ),
-
                           SizedBox(height: size.height * 0.04),
-
                           SizedBox(
                             width: size.width * 0.7,
                             height: size.height * 0.065,
                             child: ElevatedButton(
                               onPressed: () {
                                 if (!isOtpSent) {
-                                  setState(() {
-                                    isOtpSent = true;
-                                  });
+                                  setState(() => isOtpSent = true);
                                 } else {
                                   // Verify OTP Action
-                                  // Example: Navigator.pushReplacement(...)
                                 }
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.blue,
-                                foregroundColor: AppColors.white,
+                                backgroundColor: theme.colorScheme.primary,
+                                foregroundColor: theme.colorScheme.onPrimary,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
                                 ),
@@ -208,7 +202,6 @@ class _OtpPageState extends State<OtpPage> {
                               if (isOtpSent) {
                                 setState(() {
                                   isOtpSent = false;
-                                  // Clear OTP fields when going back
                                   for (var controller in _otpControllers) {
                                     controller.clear();
                                   }
@@ -222,21 +215,14 @@ class _OtpPageState extends State<OtpPage> {
                                   ? "<-- Changer de numéro"
                                   : "<-- Retour à la connexion",
                               style: TextStyle(
-                                color: isDark
-                                    ? AppColors.blue[200]
-                                    : AppColors.blue[300],
+                                color: theme.colorScheme.primary,
                                 decoration: TextDecoration.underline,
-                                decorationColor: isDark
-                                    ? AppColors.blue[200]
-                                    : AppColors.blue,
-                                decorationThickness: 1,
+                                decorationColor: theme.colorScheme.primary,
                                 fontSize: size.width * 0.04,
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: size.height * 0.05,
-                          ), // Extra padding for scroll
+                          SizedBox(height: size.height * 0.05),
                         ],
                       ),
                     ),
@@ -253,22 +239,25 @@ class _OtpPageState extends State<OtpPage> {
   Widget _buildOtpBox(BuildContext context, int index, Size size) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final isFocused = _focusNodes[index].hasFocus;
 
     return Container(
       width: size.width * 0.12,
       height: size.width * 0.14,
       decoration: BoxDecoration(
-        color: isDark ? Colors.grey[800] : AppColors.grey[50],
+        color: isDark ? Colors.grey[800] : Colors.grey[50],
         borderRadius: BorderRadius.circular(15),
         border: Border.all(
-          color: isDark ? Colors.grey[700]! : AppColors.blue.withOpacity(0.3),
+          color: isFocused ? theme.colorScheme.primary : theme.dividerColor,
+          width: isFocused ? 2 : 1,
         ),
         boxShadow: [
-          BoxShadow(
-            color: AppColors.blue.withOpacity(isDark ? 0.0 : 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
+          if (isFocused)
+            BoxShadow(
+              color: theme.colorScheme.primary.withOpacity(0.1),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
         ],
       ),
       child: Center(
@@ -284,7 +273,7 @@ class _OtpPageState extends State<OtpPage> {
           style: TextStyle(
             fontSize: size.width * 0.06,
             fontWeight: FontWeight.bold,
-            color: isDark ? AppColors.white : AppColors.blue,
+            color: theme.colorScheme.primary,
           ),
           decoration: const InputDecoration(
             counterText: "",

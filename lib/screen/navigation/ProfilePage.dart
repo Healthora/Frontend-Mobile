@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:medical/Static/AppColors.dart';
 import 'package:provider/provider.dart';
 import 'package:medical/Providers/ThemeProvider.dart';
 
@@ -27,17 +26,18 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           children: [
             // Profile Header Section
-            _buildProfileHeader(screenWidth, screenHeight),
+            _buildProfileHeader(screenWidth, screenHeight, theme),
 
             SizedBox(height: screenHeight * 0.02),
 
             // Mon Compte Section
-            _buildSectionTitle('MON COMPTE', screenWidth),
+            _buildSectionTitle('MON COMPTE', screenWidth, theme),
             _buildMenuItem(
               icon: Icons.person_outline,
               title: 'Informations personnelles',
               screenWidth: screenWidth,
               screenHeight: screenHeight,
+              theme: theme,
               onTap: () {},
             ),
             _buildMenuItem(
@@ -45,43 +45,44 @@ class _ProfilePageState extends State<ProfilePage> {
               title: 'Historique médical',
               screenWidth: screenWidth,
               screenHeight: screenHeight,
+              theme: theme,
               onTap: () {},
             ),
 
             SizedBox(height: screenHeight * 0.02),
 
             // Mes Données Section
-            _buildSectionTitle('MES DONNÉES', screenWidth),
+            _buildSectionTitle('MES DONNÉES', screenWidth, theme),
             _buildMenuItem(
               icon: Icons.description_outlined,
               title: 'Documents & Ordonnances',
               screenWidth: screenWidth,
               screenHeight: screenHeight,
+              theme: theme,
               onTap: () {},
             ),
             _buildMenuItem(
-              icon: Icons.credit_card,
-              title: 'Moyens de paiement',
+              icon: Icons.message,
+              title: 'Messages et mails ',
               screenWidth: screenWidth,
               screenHeight: screenHeight,
+              theme: theme,
               onTap: () {},
             ),
 
             SizedBox(height: screenHeight * 0.02),
 
             // Préférences Section
-            _buildSectionTitle('PRÉFÉRENCES', screenWidth),
+            _buildSectionTitle('PRÉFÉRENCES', screenWidth, theme),
             _buildMenuItemWithSwitch(
               icon: Icons.notifications_outlined,
               title: 'Notifications',
               value: notificationsEnabled,
               screenWidth: screenWidth,
               screenHeight: screenHeight,
-              onChanged: (value) {
-                setState(() {
-                  notificationsEnabled = value;
-                });
-              },
+              theme: theme,
+              onChanged: (value) =>
+                  setState(() => notificationsEnabled = value),
             ),
             _buildMenuItemWithSwitch(
               icon: Icons.dark_mode_outlined,
@@ -90,22 +91,21 @@ class _ProfilePageState extends State<ProfilePage> {
               screenWidth: screenWidth,
               screenHeight: screenHeight,
               theme: theme,
-              onChanged: (value) {
-                themeProvider.toggleTheme(value);
-              },
+              onChanged: (value) => themeProvider.toggleTheme(value),
             ),
             _buildMenuItem(
               icon: Icons.help_outline,
               title: "Centre d'aide",
               screenWidth: screenWidth,
               screenHeight: screenHeight,
+              theme: theme,
               onTap: () {},
             ),
 
             SizedBox(height: screenHeight * 0.03),
 
             // Logout Button
-            _buildLogoutButton(screenWidth, screenHeight),
+            _buildLogoutButton(screenWidth, screenHeight, theme),
 
             SizedBox(height: screenHeight * 0.02),
 
@@ -114,7 +114,7 @@ class _ProfilePageState extends State<ProfilePage> {
               'Version 2.4.0 (922)',
               style: TextStyle(
                 fontSize: screenWidth * 0.032,
-                color: Colors.grey[400],
+                color: theme.textTheme.bodySmall?.color?.withOpacity(0.5),
               ),
             ),
 
@@ -125,23 +125,15 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _buildProfileHeader(double screenWidth, double screenHeight) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-
+  Widget _buildProfileHeader(
+    double screenWidth,
+    double screenHeight,
+    ThemeData theme,
+  ) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: isDark
-              ? [
-                  const Color(0xFF1E3A8A),
-                  const Color(0xFF1E40AF),
-                ] // Dark mode blue gradient
-              : [Colors.blue[600]!, Colors.blue[400]!],
-        ),
+        color: theme.colorScheme.primary,
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(30),
           bottomRight: Radius.circular(30),
@@ -155,65 +147,54 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           child: Column(
             children: [
-              // Profile Title
               Text(
                 'Profile',
                 style: TextStyle(
                   fontSize: screenWidth * 0.05,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.white,
+                  color: theme.colorScheme.onPrimary,
                 ),
               ),
-
               SizedBox(height: screenHeight * 0.025),
-
-              // Name
               Text(
-                'Medelci Aymen ',
+                'Medelci Aymen',
                 style: TextStyle(
                   fontSize: screenWidth * 0.055,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: theme.colorScheme.onPrimary,
                 ),
               ),
-
               SizedBox(height: screenHeight * 0.005),
-
-              // Email
               Text(
                 'aymenmedelci@email.com',
                 style: TextStyle(
                   fontSize: screenWidth * 0.038,
-                  color: Colors.white.withOpacity(0.9),
+                  color: theme.colorScheme.onPrimary.withOpacity(0.9),
                 ),
               ),
-
               SizedBox(height: screenHeight * 0.025),
-
-              // Stats Row
               Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: screenWidth * 0.05,
                   vertical: screenHeight * 0.02,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: theme.colorScheme.onPrimary.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _buildStatItem('12', 'RENDEZ-VOUS', screenWidth),
+                    _buildStatItem('12', 'RENDEZ-VOUS', screenWidth, theme),
                     Container(
                       width: 1,
                       height: screenHeight * 0.05,
-                      color: Colors.white.withOpacity(0.3),
+                      color: theme.colorScheme.onPrimary.withOpacity(0.2),
                     ),
-                    _buildStatItem('5', 'MÉDECINS', screenWidth),
+                    _buildStatItem('5', 'MÉDECINS', screenWidth, theme),
                   ],
                 ),
               ),
-
               SizedBox(height: screenHeight * 0.015),
             ],
           ),
@@ -222,7 +203,12 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _buildStatItem(String value, String label, double screenWidth) {
+  Widget _buildStatItem(
+    String value,
+    String label,
+    double screenWidth,
+    ThemeData theme,
+  ) {
     return Column(
       children: [
         Text(
@@ -230,14 +216,14 @@ class _ProfilePageState extends State<ProfilePage> {
           style: TextStyle(
             fontSize: screenWidth * 0.065,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: theme.colorScheme.onPrimary,
           ),
         ),
         Text(
           label,
           style: TextStyle(
             fontSize: screenWidth * 0.028,
-            color: Colors.white.withOpacity(0.9),
+            color: theme.colorScheme.onPrimary.withOpacity(0.9),
             fontWeight: FontWeight.w500,
             letterSpacing: 0.5,
           ),
@@ -246,7 +232,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _buildSectionTitle(String title, double screenWidth) {
+  Widget _buildSectionTitle(String title, double screenWidth, ThemeData theme) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(
@@ -258,7 +244,7 @@ class _ProfilePageState extends State<ProfilePage> {
         style: TextStyle(
           fontSize: screenWidth * 0.032,
           fontWeight: FontWeight.w600,
-          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+          color: theme.textTheme.bodySmall?.color?.withOpacity(0.6),
           letterSpacing: 0.5,
         ),
       ),
@@ -270,11 +256,10 @@ class _ProfilePageState extends State<ProfilePage> {
     required String title,
     required double screenWidth,
     required double screenHeight,
+    required ThemeData theme,
     required VoidCallback onTap,
   }) {
-    final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-
     return Container(
       margin: EdgeInsets.symmetric(
         horizontal: screenWidth * 0.05,
@@ -306,16 +291,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(
                   padding: EdgeInsets.all(screenWidth * 0.025),
                   decoration: BoxDecoration(
-                    color: isDark
-                        ? const Color(0xFF2C3E50)
-                        : Colors.blue[50], // Icon background adaptive
+                    color: theme.colorScheme.primary.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(
                     icon,
-                    color: isDark
-                        ? theme.primaryColor
-                        : Colors.blue[600], // Icon color
+                    color: theme.colorScheme.primary,
                     size: screenWidth * 0.055,
                   ),
                 ),
@@ -332,7 +313,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 Icon(
                   Icons.chevron_right,
-                  color: isDark ? Colors.grey[600] : Colors.grey[400],
+                  color: theme.iconTheme.color?.withOpacity(0.4),
                   size: screenWidth * 0.06,
                 ),
               ],
@@ -349,13 +330,10 @@ class _ProfilePageState extends State<ProfilePage> {
     required bool value,
     required double screenWidth,
     required double screenHeight,
-    ThemeData?
-    theme, // Added theme as parameter slightly optionally or forced in this use case
+    required ThemeData theme,
     required ValueChanged<bool> onChanged,
   }) {
-    theme ??= Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-
     return Container(
       margin: EdgeInsets.symmetric(
         horizontal: screenWidth * 0.05,
@@ -382,14 +360,12 @@ class _ProfilePageState extends State<ProfilePage> {
             Container(
               padding: EdgeInsets.all(screenWidth * 0.025),
               decoration: BoxDecoration(
-                color: isDark
-                    ? const Color(0xFF2C3E50)
-                    : Colors.blue[50], // Fix background
+                color: theme.colorScheme.primary.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
                 icon,
-                color: isDark ? theme.primaryColor : Colors.blue[600],
+                color: theme.colorScheme.primary,
                 size: screenWidth * 0.055,
               ),
             ),
@@ -407,8 +383,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Switch(
               value: value,
               onChanged: onChanged,
-              activeThumbColor: Colors.white,
-              activeTrackColor: theme.primaryColor,
+              activeTrackColor: theme.colorScheme.primary,
             ),
           ],
         ),
@@ -416,40 +391,17 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _buildLogoutButton(double screenWidth, double screenHeight) {
+  Widget _buildLogoutButton(
+    double screenWidth,
+    double screenHeight,
+    ThemeData theme,
+  ) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {
-            // Show logout confirmation dialog
-            showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: const Text('Se déconnecter'),
-                content: const Text(
-                  'Êtes-vous sûr de vouloir vous déconnecter ?',
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text('Annuler'),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      // Handle logout
-                    },
-                    child: Text(
-                      'Déconnecter',
-                      style: TextStyle(color: Colors.red[600]),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
+          onTap: () => _showLogoutDialog(context, theme),
           borderRadius: BorderRadius.circular(12),
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: screenHeight * 0.015),
@@ -458,7 +410,7 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 Icon(
                   Icons.logout,
-                  color: Colors.red[600],
+                  color: Colors.red[400],
                   size: screenWidth * 0.05,
                 ),
                 SizedBox(width: screenWidth * 0.02),
@@ -467,13 +419,39 @@ class _ProfilePageState extends State<ProfilePage> {
                   style: TextStyle(
                     fontSize: screenWidth * 0.04,
                     fontWeight: FontWeight.w600,
-                    color: Colors.red[600],
+                    color: Colors.red[400],
                   ),
                 ),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context, ThemeData theme) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Se déconnecter'),
+        content: const Text('Êtes-vous sûr de vouloir vous déconnecter ?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Annuler'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              // Handle logout
+            },
+            child: Text(
+              'Déconnecter',
+              style: TextStyle(color: Colors.red[400]),
+            ),
+          ),
+        ],
       ),
     );
   }
