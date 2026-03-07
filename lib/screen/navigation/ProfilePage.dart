@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medical/screen/details/PatientInfoPage.dart';
 import 'package:provider/provider.dart';
 import 'package:medical/Providers/ThemeProvider.dart';
 
@@ -38,7 +39,14 @@ class _ProfilePageState extends State<ProfilePage> {
               screenWidth: screenWidth,
               screenHeight: screenHeight,
               theme: theme,
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PatientInfoPage(),
+                  ),
+                );
+              },
             ),
             _buildMenuItem(
               icon: Icons.history,

@@ -96,27 +96,27 @@ class _SearchpageState extends State<Searchpage> {
             color: theme.iconTheme.color?.withOpacity(0.6),
             size: screenWidth * 0.06,
           ),
-          suffixIcon: _searchController.text.isNotEmpty
-              ? IconButton(
-                  icon: Icon(
-                    Icons.clear,
-                    color: theme.iconTheme.color?.withOpacity(0.4),
-                    size: screenWidth * 0.05,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _searchController.clear();
-                    });
-                  },
-                )
-              : null,
+          suffixIcon: ValueListenableBuilder<TextEditingValue>(
+            valueListenable: _searchController,
+            builder: (context, value, child) {
+              return value.text.isNotEmpty
+                  ? IconButton(
+                      icon: Icon(
+                        Icons.clear,
+                        color: theme.iconTheme.color?.withOpacity(0.4),
+                        size: screenWidth * 0.05,
+                      ),
+                      onPressed: () => _searchController.clear(),
+                    )
+                  : const SizedBox.shrink();
+            },
+          ),
           border: InputBorder.none,
           contentPadding: EdgeInsets.symmetric(
             horizontal: screenWidth * 0.04,
             vertical: screenHeight * 0.015,
           ),
         ),
-        onChanged: (value) => setState(() {}),
       ),
     );
   }
@@ -462,9 +462,9 @@ class _SearchpageState extends State<Searchpage> {
                     elevation: 0,
                   ),
                   child: Text(
-                    'Prendre RDV',
+                    'Consulter le profil',
                     style: TextStyle(
-                      fontSize: screenWidth * 0.036,
+                      fontSize: screenWidth * 0.03,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
